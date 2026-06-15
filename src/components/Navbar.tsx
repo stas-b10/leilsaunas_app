@@ -27,7 +27,6 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 relative flex items-center justify-between">
   
-  {/* LOGO */}
   <a href="/" className="relative top-3 -left-2">
     <img
       src={navLogo}
@@ -36,7 +35,6 @@ export default function Navbar() {
     />
   </a>
 
-  {/* MENU BUTTON */}
   <div className="relative top-3 -left-2">
     <MenuButton />
   </div>
