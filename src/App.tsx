@@ -6,7 +6,7 @@ import LeafCursor from "./components/LeafCursor";
 
 function App() {
   return (
-    <div className="flex-1 flex flex-col">
+    <div className="animate-fade-in min-h-screen bg-[#223300] flex-1 flex flex-col">
       <Navbar />
       <LeafCursor />
       <Routes>

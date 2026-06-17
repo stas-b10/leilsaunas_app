@@ -18,15 +18,24 @@ export default function Navbar() {
     <nav
       className={`
         fixed top-0 left-0 w-full z-50
-        transition-all duration-300
+        transition-all duration-300 ease-in-out 
         ${scrolled
-          ? "backdrop-blur-md bg-black/40 shadow-md h-20"
-          : "backdrop-blur-0 bg-transparent h-28"
+      ? "h-26 bg-gray/10 backdrop-blur-md border-white/50"
+      : "h-26 bg-transparent backdrop-blur-0"
         }
       `}
     >
+      <div
+        className={`
+          absolute bottom-0 left-0 w-full h-[1px]
+          transition-opacity duration-300 ease-in-out
+          ${scrolled ? "opacity-100 delay-150 bg-white/20" : "opacity-0"}
+        `}
+      />
+
       <div className="container mx-auto px-4 relative flex items-center justify-between">
   
+
   <a href="/" className="relative top-3 -left-2">
     <img
       src={navLogo}

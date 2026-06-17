@@ -3,3 +3,50 @@
 body {
   cursor: none;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+
+@font-face {
+  font-family: "noah-regular";
+  src: url("./assets/fonts/noah-regular.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.noah-regular {
+  font-family: "noah-regular", sans-serif;
+}
+
+@font-face {
+  font-family: "noah-bold";
+  src: url("./assets/fonts/noah-bold.otf");
+  font-weight: 700;
+  font-style: normal;
+}
+
+.noah-bold {
+  font-family: "noah-bold", sans-serif;
+}
+
+@font-face {
+  font-family: "sogo-light";
+  src: url("./assets/fonts/sogo-light.otf");
+  font-weight: 300;
+  font-style: normal;
+}
+
+.sogo-light {
+  font-family: "sogo-light", sans-serif;
+}

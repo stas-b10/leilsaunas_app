@@ -15,8 +15,8 @@ export default function MenuButton() {
         bg-[#223300]
         border
         border-[#223300]
-        h-15
-        w-[150px]
+        h-14
+        w-[160px]
         px-5
       "
       style={{
@@ -55,7 +55,10 @@ export default function MenuButton() {
           duration: 0.95,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="relative z-10 text-lg font-medium"
+        className="relative z-10 text-xl ml-1"
+        style={{
+          fontFamily: "noah-bold, sans-serif",
+        }}
       >
         Menu
       </motion.span>
