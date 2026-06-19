@@ -185,8 +185,34 @@ const Home = () => {
   </div>
 </section>
 <div>
-  <AmbasadorsSlider />
+<AmbasadorsSlider />
 </div>
+  <section className="bg-[#F7F5F0] py-[265px] px-[280px]">
+        <div className="flex justify-between items-start mb-[80px] -translate-y-40">
+          <div className="flex items-center gap-2 text-[#313C2B] text-[17px] -ml-[50px]"
+            style={{ fontFamily: "noah-bold, sans-serif" }}>
+            <LeafIcon className="w-[12px] h-[12px]" />
+            something for everyone.
+          </div>
+
+          <div className="max-w-[600px] mr-[80px]">
+            <h2
+              className="text-[44px] leading-[1.1] font-light text-[#313C2B]"
+              style={{ fontFamily: "sogo-light, sans-serif" }}
+              
+            >
+              Crafted with quality and character in mind
+            </h2>
+
+            <p
+              className="mt-6 text-[20px] text-[#313C2B] leading-[1.6]"
+              style={{ fontFamily: "noah-regular, sans-serif" }}
+            >
+              We've categorized our products into <span style={{ fontFamily: "noah-bold, sans-serif" }}>Pure, Elegant, and Premium</span> collections - based on design, size, features, and more. Explore our full range there.
+            </p>
+          </div>
+        </div>
+  </section>
     </>
   );
 };
