@@ -11,11 +11,17 @@ import Worldmap from "../components/WorldmapButton"
 import aboutImage from "../assets/images/about_sauna.png";
 import AboutUsButton from "../components/AboutUsButton";
 import AmbasadorsSlider from "../components/AmbasadorsSlider"
+import CollectionCards from "../components/CollectionCards";
+import Staff from "../assets/images/staff.jpg"
+import ReadMoreButton from "../components/ReadMoreButton"
+import { GoArrowUpRight } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <section className="relative h-screen overflow-hidden">
+      <section className="relative h-screen overflow-hidden bg-white">
         <video
           autoPlay
           loop
@@ -84,7 +90,6 @@ const Home = () => {
 
         <SaunaCard
           title="Outdoor Saunas"
-          slug="Outdoor saunas"
           outside={outdoor_outside}
           inside={outdoor_inside}
           outsideClass="mr-[47px] mb-[3px]"
@@ -93,7 +98,6 @@ const Home = () => {
 
         <SaunaCard
           title="Indoor Saunas"
-          slug="Indoor saunas"
           outside={indoor_outside}
           inside={indoor_inside}
           outsideClass="ml-[42px]"
@@ -213,6 +217,116 @@ const Home = () => {
           </div>
         </div>
   </section>
+  <section className="relative px-[230px] pb-[120px] -mt-[400px]">
+  <div className="absolute inset-0">
+    <div className="h-1/2 bg-[#F7F5F0]" />
+    <div className="h-1/2 bg-[#4f5f42]" />
+  </div>
+  <CollectionCards />
+</section>
+
+<section className="bg-[#4f5f42] px-[240px] py-[80px] -mt-24">
+  <div className="max-w-[1460px] text-white">
+    
+    <div 
+      className="flex items-center gap-2 mb-12 opacity-90 text-[16px]" 
+      style={{ fontFamily: "noah-bold, sans-serif" }}
+    >
+      <LeafIcon className="w-[12px] h-[12px]" />
+      <span>read what we're up to.</span>
+    </div>
+
+    <div className="grid grid-cols-2 gap-16 items-start">
+      <div className="relative group rounded-[15px] overflow-hidden h-[640px]">
+        <img 
+          src={Staff} 
+          alt="Leil Saunas Staff" 
+          className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+        <span 
+          className="absolute right-5 top-[30px] rounded-full bg-white/10 px-[27px] py-[12px] text-[19px] text-white backdrop-blur-sm border border-white/20"
+          style={{ fontFamily: "noah-bold, sans-serif" }}
+        >
+          Featured
+        </span>
+
+        <div className="absolute bottom-8 left-8 right-8">
+          <h3 
+            className="text-[36px] leading-[1.1] mb-6 font-light max-w-[445px]"
+            style={{ fontFamily: "noah-regular, sans-serif" }}
+          >
+            Come meet us at upcoming expos & sauna events in 2026
+          </h3>
+          
+          <ReadMoreButton />
+        </div>
+      </div>
+      <div className="flex flex-col justify-between h-[540px] py-1 max-w-[630px] ml-[20px] -mt-6">
+
+        <div onClick={() => navigate("/about")}
+             className="border-b border-white/20 pb-4 pt-4 cursor-pointer">
+          <div className="flex justify-between items-start gap-6">
+            <div>
+              <p
+                className="text-[26px] leading-[1.25] font-light"
+                style={{ fontFamily: "noah-regular, sans-serif" }}
+              >
+                Cold first, then heat. A calmer way to do contrast, with science behind it
+              </p>
+              <p style={{fontFamily: "noah-regular, sans-serif"}} 
+                 className="text-[20px] opacity-60 mt-4">03.03.2026</p>
+            </div>
+            <button className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#4f5f42] flex-shrink-0 hover:opacity-90 transition text-[25px] mt-[100px]">
+              <GoArrowUpRight className="text-black" />
+            </button>
+          </div>
+        </div>
+        <div onClick={() => navigate("/contacts")} 
+             className="border-b border-white/20 py-8 cursor-pointer">
+          <div className="flex justify-between items-start gap-6">
+            <div>
+              <p
+                className="text-[26px] leading-[1.25] font-light"
+                style={{ fontFamily: "noah-regular, sans-serif" }}
+              >
+                Sauna culture begins in Estonia
+              </p>
+              <p style={{fontFamily: "noah-regular, sans-serif"}}
+                 className="text-[20px] opacity-60 mt-4">15.10.2025</p>
+            </div>
+            <button className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#4f5f42] flex-shrink-0 hover:opacity-90 transition text-[25px] mt-12">
+              <GoArrowUpRight className="text-black" />
+            </button>
+          </div>
+        </div>
+        <div onClick={() => navigate("/about")}
+             className="pt-6 cursor-pointer">
+          <div className="flex justify-between items-start gap-6">
+            <div>
+              <p 
+                className="text-[26px] leading-[1.25] font-light"
+                style={{ fontFamily: "noah-regular, sans-serif" }}
+              >
+                We’re packing up our saunas and exhibiting this autumn!
+              </p>
+              <p style={{fontFamily: "noah-regular, sans-serif"}}
+                 className="text-[20px] opacity-60 mt-4">09.10.2025</p>
+            </div>
+            <button className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#4f5f42] flex-shrink-0 hover:opacity-90 transition text-[25px] mt-[100px]">
+              <GoArrowUpRight className="text-black" />
+            </button>
+            
+          </div>
+        </div>
+        <div className="border-t border-white/20 mt-6"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
     </>
   );
 };

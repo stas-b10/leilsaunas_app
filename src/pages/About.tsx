@@ -11,14 +11,6 @@ export default function About() {
 
       </section>
 
-      <section
-        id="map"
-        className="h-[500px] w-full bg-gray-300 flex items-center justify-center"
-      >
-        <p className="text-xl font-semibold opacity-70">
-          Map goes here
-        </p>
-      </section>
 
     </div>
   );
