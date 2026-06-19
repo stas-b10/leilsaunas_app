@@ -4,6 +4,11 @@ body {
   cursor: none;
 }
 
+.swiper-no-cursor,
+.swiper-no-cursor * {
+  cursor: none !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
