@@ -1,7 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Contacts from "./pages/Contacts"
 import LeafCursor from "./components/LeafCursor";
+import About from "./pages/About";
 
 
 function App() {
@@ -11,6 +13,8 @@ function App() {
       <LeafCursor />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );

@@ -8,8 +8,8 @@ export default function LeafCursor() {
     if (!cursor) return;
 
     const moveCursor = (e) => {
-      cursor.style.setProperty("--cursor-x", `${e.clientX - 14}px`);
-      cursor.style.setProperty("--cursor-y", `${e.clientY - 14}px`);
+      cursor.style.setProperty("--cursor-x", `${e.clientX - 8}px`);
+      cursor.style.setProperty("--cursor-y", `${e.clientY - 8}px`);
     };
 
     window.addEventListener("mousemove", moveCursor);

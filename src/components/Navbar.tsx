@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 import navLogo from "../assets/navLogo.png";
 import MenuButton from "./MenuButton";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
-    };
+  if (!isHome) {
+    setScrolled(true);
+    return;
+  }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleScroll = () => {
+    setScrolled(window.scrollY > 80);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, [isHome]);
+
+  
 
   return (
     <nav

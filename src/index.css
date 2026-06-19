@@ -50,3 +50,12 @@ body {
 .sogo-light {
   font-family: "sogo-light", sans-serif;
 }
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
