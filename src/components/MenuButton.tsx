@@ -101,13 +101,13 @@ export default function MenuButton() {
         />
 
         <motion.svg
-  viewBox="0 0 24 24"
-  fill="none"
-  strokeWidth="2.5"
-  stroke="currentColor"
-  className="relative z-30 h-6 w-6"
-  variants={{
-    rest: {
+        viewBox="0 0 24 24"
+        fill="none"
+        strokeWidth="2.5"
+        stroke="currentColor"
+        className="relative z-30 h-6 w-6"
+        variants={{
+        rest: {
       color: "#223300",
       x: 1,   
       y: -1,  
