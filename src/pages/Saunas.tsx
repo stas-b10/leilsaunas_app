@@ -4,27 +4,31 @@ import { supabase } from "../utils/supabase";
 
 export default function Saunas() {
   const [searchParams] = useSearchParams();
-  const categoryName = searchParams.get("category");
+  const categorySlug = searchParams.get("category");
 
   const [saunas, setSaunas] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchSaunas = async () => {
-      if (!categoryName) return;
+      if (!categorySlug) return;
 
-      // 1. get category id from category_name
+      setLoading(true);
+
       const { data: category, error: catError } = await supabase
         .from("categories")
         .select("id")
-        .eq("category_name", categoryName)
-        .single();
+        .eq("slug", categorySlug)
+        .maybeSingle();
+
+        console.log(category);
 
       if (catError || !category) {
         console.error(catError);
+        setLoading(false);
         return;
       }
 
-      // 2. get series by category_id
       const { data, error } = await supabase
         .from("series")
         .select("*")
@@ -32,18 +36,21 @@ export default function Saunas() {
 
       if (error) {
         console.error(error);
-        return;
+      } else {
+        setSaunas(data || []);
       }
 
-      setSaunas(data || []);
+      setLoading(false);
     };
 
     fetchSaunas();
-  }, [categoryName]);
+  }, [categorySlug]);
 
   return (
     <div className="p-10">
-      <h1 className="text-3xl mb-6">{categoryName}</h1>
+      <h1 className="text-3xl mb-6">{categorySlug}</h1>
+
+      {loading && <p>Loading...</p>}
 
       <div className="grid grid-cols-3 gap-6">
         {saunas.map((item) => (

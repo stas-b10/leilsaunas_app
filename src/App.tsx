@@ -6,13 +6,15 @@ import LeafCursor from "./components/LeafCursor";
 import About from "./pages/About";
 import SaunaCollection from "./pages/SaunaCollection"
 import Saunas from "./pages/Saunas"
+import Footer from "./components/Footer";
 
 
 function App() {
   return (
-    <div className="animate-fade-in min-h-screen  flex-1 flex flex-col">
+    <div className="animate-fade-in min-h-screen flex flex-col">
       <Navbar />
       <LeafCursor />
+       <main className="flex-1">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/contacts" element={<Contacts />} />
@@ -20,6 +22,8 @@ function App() {
         <Route path="/sauna-collection/:collection" element={<SaunaCollection />} />
         <Route path="/saunas" element={<Saunas />} />
       </Routes>
+      </main>
+      <Footer />
     </div>
   );
 }

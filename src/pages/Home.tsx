@@ -118,7 +118,7 @@ const Home = () => {
       <div className="-mt-[90px]">
         <ValueSlider />
       </div>
-    <section className="bg-[#F7F5F0] pt-[150px] pb-[220px] overflow-hidden">
+    <section className="bg-[#F7F5F0] pt-[150px] pb-[270px] overflow-hidden">
     <div className="max-w-[1400px] mx-auto px-[80px] relative">
 
     <img
@@ -149,7 +149,7 @@ const Home = () => {
 </section>
 
 <section className="bg-[#F7F5F0] pb-[160px] ">
-  <div className="max-w-[1360px] mx-auto mt-[65px]">
+  <div className="max-w-[1360px] mx-auto ">
 
       <div className="relative overflow-hidden rounded-tr-[220px] rounded-[12px]">
       <img
@@ -356,14 +356,12 @@ const Home = () => {
               <ArrowMove />
             </div>
           </div>
-        </motion.div>
         <div className="border-t border-white/20 mt-6"></div>
+        </motion.div>
       </div>
     </div>
   </div>
 </section>
-
-
     </>
   );
 };
