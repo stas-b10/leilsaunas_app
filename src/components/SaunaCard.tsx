@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import type { SaunaCardProps } from "../utils/types/sauna";
 
-const SaunaCard = ({ title, outside, inside, outsideClass = "", insideClass = "", }) => {
+const SaunaCard = ({ title,slug, outside, inside, outsideClass = "", insideClass = "", }: SaunaCardProps) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -42,7 +43,7 @@ const SaunaCard = ({ title, outside, inside, outsideClass = "", insideClass = ""
 
   return (
     <Link 
-      to={`/saunas?category=${encodeURIComponent(title)}`}
+      to={`/sauna-category/${slug}`}
       className="block cursor-none group relative select-none"
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}

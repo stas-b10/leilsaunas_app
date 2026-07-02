@@ -93,6 +93,7 @@ const Home = () => {
 
         <SaunaCard
           title="Outdoor Saunas"
+          slug="outdoor"
           outside={outdoor_outside}
           inside={outdoor_inside}
           outsideClass="mr-[47px] mb-[3px]"
@@ -101,6 +102,7 @@ const Home = () => {
 
         <SaunaCard
           title="Indoor Saunas"
+          slug="indoor"
           outside={indoor_outside}
           inside={indoor_inside}
           outsideClass="ml-[42px]"

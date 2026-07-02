@@ -3,24 +3,24 @@ export interface SaunaModel {
   series_id: string;
 
   model_name: string;
-  model_description: string;
+  model_description: string | null;
 
-  people: number;
+  people: number | null;
 
-  area_m2: string;
+  area_m2: number | null;
 
-  rooms: number;
+  rooms: number | null;
 
-  exterior_mm: string;
-  exterior_in: string;
+  exterior_mm: string | null;
+  exterior_in: string | null;
 
-  interior_mm: string;
-  interior_in: string;
+  interior_mm: string | null;
+  interior_in: string | null;
 
-  weight_kg: string;
-  weight_lbs: string;
+  weight_kg: number | null;
+  weight_lbs: number | null;
 
-  product_sheet_url: string;
+  product_sheet_url: string | null;
 
   created_at: string;
 }

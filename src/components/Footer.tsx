@@ -5,8 +5,33 @@ import {
   FaInstagram,
 } from "react-icons/fa";
 import { HiArrowRight } from "react-icons/hi";
+import type { Category } from "../utils/types/categories";
+import type { Collection } from "../utils/types/collection";
+import { useEffect, useState } from "react";
+import { supabase } from "../utils/supabase";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
+
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+
+useEffect(() => {
+  const load = async () => {
+    const [{ data: categoriesData }, { data: collectionsData }] =
+      await Promise.all([
+        supabase.from("categories").select("*"),
+        supabase.from("collections").select("*"),
+      ]);
+
+    setCategories(categoriesData || []);
+    setCollections(collectionsData || []);
+  };
+
+  load();
+}, []);
+
+
   return (
     <footer className="bg-[#171D12] text-white">
       <div className="max-w-[1440px] mx-auto px-4 lg:px-12 pt-12 pb-6">
@@ -34,21 +59,16 @@ export default function Footer() {
             </h3>
 
             <div className="space-y-1 text-[#C6C0AF] text-[16px]">
-              <a
-                href="#"
-                className="block hover:text-white transition"
-                style={{ fontFamily: "noah-regular, sans-serif" }}
-              >
-                Outdoor saunas
-              </a>
-
-              <a
-                href="#"
-                className="block hover:text-white transition"
-                style={{ fontFamily: "noah-regular, sans-serif" }}
-              >
-                Indoor saunas
-              </a>
+              {categories.map((category) => (
+                <Link
+                  key={category.id}
+                  to={`/sauna-category/${category.slug}`}
+                  className="block hover:text-white transition"
+                  style={{ fontFamily: "noah-regular, sans-serif" }}
+                >
+                  {category.category_name}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -58,17 +78,16 @@ export default function Footer() {
             </h3>
 
             <div className="space-y-1 text-[#C6C0AF] text-[16px]">
-              <a href="#" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
-                Pure
-              </a>
-
-              <a href="#" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
-                Elegant
-              </a>
-
-              <a href="#" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
-                Premium
-              </a>
+              {collections.map((collection) => (
+                <Link
+                  key={collection.id}
+                  to={`/sauna-collection/${collection.slug}`}
+                  className="block hover:text-white transition"
+                  style={{ fontFamily: "noah-regular, sans-serif" }}
+                >
+                  {collection.collection_name}
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -78,11 +97,11 @@ export default function Footer() {
             </h3>
 
             <div className="space-y-1 text-[#C6C0AF] text-[16px]">
-              <a href="#" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
+              <a href="/about" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
                 About us
               </a>
 
-              <a href="#" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
+              <a href="/contacts" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
                 Contact
               </a>
             </div>
@@ -94,7 +113,7 @@ export default function Footer() {
             </h3>
 
             <div className="space-y-1 text-[#C6C0AF] text-[16px]">
-              <a href="#" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
+              <a href="/news" className="block hover:text-white" style={{ fontFamily: "noah-regular, sans-serif" }}>
                 News
               </a>
 

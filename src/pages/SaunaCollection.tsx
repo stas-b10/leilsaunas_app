@@ -1,49 +1,56 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabase";
 
 import type { Collection } from "../utils/types/collection";
-import type { SaunaModel } from "../utils/types/saunaModel";
+import type { Series } from "../utils/types/series";
 
 export default function SaunaCollection() {
-  const { collection } = useParams();
+  const { slug } = useParams<{ slug: string }>();
 
-  const [saunas, setSaunas] = useState<SaunaModel[]>([]);
-  const [collectionInfo, setCollectionInfo] =
-    useState<Collection | null>(null);
+  const [collectionInfo, setCollectionInfo] = useState<Collection | null>(null);
+  const [series, setSeries] = useState<Series[]>([]);
 
   useEffect(() => {
-    if (!collection) return;
-
-    const collectionName =
-      collection.charAt(0).toUpperCase() +
-      collection.slice(1).toLowerCase();
+    if (!slug) return;
 
     const fetchData = async () => {
-      const { data: collectionData } = await supabase
+      // Get collection
+      const { data: collectionData, error: collectionError } = await supabase
         .from("collections")
         .select("*")
-        .eq("collection_name", collectionName)
+        .eq("slug", slug)
         .single();
 
-      if (collectionData) {
-        setCollectionInfo(collectionData);
+      if (collectionError || !collectionData) {
+        console.error(collectionError);
+        return;
       }
 
-      const { data: saunasData } = await supabase
-        .from("sauna_models")
-        .select("*")
-        .eq("series_id", collectionData?.id); 
+      setCollectionInfo(collectionData);
 
-      setSaunas(saunasData || []);
+      // Get series for this collection
+      const { data: seriesData, error: seriesError } = await supabase
+        .from("series")
+        .select("*")
+        .eq("collection_id", collectionData.id)
+        .order("series_name");
+
+      if (seriesError) {
+        console.error(seriesError);
+        return;
+      }
+
+      setSeries(seriesData || []);
     };
 
     fetchData();
-  }, [collection]);
+  }, [slug]);
 
   return (
     <section className="bg-[#F7F5F0] min-h-screen py-[140px]">
       <div className="max-w-[1400px] mx-auto px-[80px]">
+
         <h1
           className="text-[64px] text-[#313C2B]"
           style={{ fontFamily: "sogo-light, sans-serif" }}
@@ -59,30 +66,26 @@ export default function SaunaCollection() {
         </p>
 
         <div className="mt-20 grid grid-cols-3 gap-6">
-          {saunas.map((sauna) => (
-            <div
-              key={sauna.id}
-              className="overflow-hidden rounded-[12px] bg-white"
+          {series.map((item) => (
+            <Link
+              key={item.id}
+              to={`/series/${item.slug}`}
+              className="rounded-xl bg-white p-8 hover:shadow-lg transition duration-300"
             >
-              <img
-                src={sauna.image_url || "/placeholder.jpg"}
-                alt={sauna.model_name}
-                className="h-[420px] w-full object-cover"
-              />
+              <h2
+                className="text-[34px] text-[#313C2B]"
+                style={{ fontFamily: "sogo-light, sans-serif" }}
+              >
+                {item.series_name}
+              </h2>
 
-              <div className="p-6">
-                <h3
-                  className="text-[24px] text-[#313C2B]"
-                  style={{ fontFamily: "sogo-light, sans-serif" }}
-                >
-                  {sauna.model_name}
-                </h3>
-
-                <p className="text-[14px] text-[#666] mt-2">
-                  {sauna.people} people • {sauna.area_m2} m²
-                </p>
-              </div>
-            </div>
+              <p
+                className="mt-4 text-[#666]"
+                style={{ fontFamily: "noah-regular, sans-serif" }}
+              >
+                {item.series_description}
+              </p>
+            </Link>
           ))}
         </div>
       </div>

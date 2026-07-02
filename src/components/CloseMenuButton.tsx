@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 
-interface MenuButtonProps {
-  menuOpen: boolean;
+interface CloseMenuButtonProps {
   onClick: () => void;
 }
 
-export default function MenuButton({
+export default function CloseMenuButton({
   onClick,
-}: MenuButtonProps) {
+}: CloseMenuButtonProps) {
+    
   return (
     <motion.button
     onClick={onClick}
@@ -20,12 +20,12 @@ export default function MenuButton({
         items-center
         justify-between
         overflow-hidden
-        bg-[#223300]
+        bg-[#313b2a]
         border
-        border-[#223300]
+        border-[#313b2a]
         border-[2px]
         h-14
-        w-[160px]
+        w-[154px]
         px-5
         cursor-pointer
       "
@@ -65,12 +65,12 @@ export default function MenuButton({
           duration: 0.95,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className="relative z-10 text-xl ml-1"
+        className="relative z-10 text-[18px] ml-2"
         style={{
           fontFamily: "noah-bold, sans-serif",
         }}
       >
-        Menu
+        Close
       </motion.span>
 
       <motion.div
@@ -116,24 +116,22 @@ export default function MenuButton({
         stroke="currentColor"
         className="relative z-30 h-6 w-6"
         variants={{
-        rest: {
-      color: "#223300",
-      x: 1,   
-      y: -1,  
-    },
-    hover: {
-      rotate: 75,
-      
-    },
-  }}
-  transition={{
-    duration: 0.95,
-    ease: [0.22, 1, 0.36, 1],
-  }}
->
-  <line x1="18" y1="6" x2="6" y2="18" />
-  <polyline points="18 18 6 18 6 6" />
-</motion.svg>
+            rest: {
+            color: "#223300",
+            rotate: 0,
+        },
+        hover: {
+            rotate: 90,
+        },
+        }}
+        transition={{
+            duration: 0.95,
+            ease: [0.22, 1, 0.36, 1],
+        }}
+        >
+            <line x1="6" y1="6" x2="18" y2="18" />
+            <line x1="18" y1="6" x2="6" y2="18" />
+            </motion.svg>
         </motion.div>
     </motion.button>
   );
