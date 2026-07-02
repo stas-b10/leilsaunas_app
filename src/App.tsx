@@ -5,11 +5,13 @@ import Contacts from "./pages/Contacts"
 import LeafCursor from "./components/LeafCursor";
 import About from "./pages/About";
 import SaunaCollection from "./pages/SaunaCollection"
-import Saunas from "./pages/Saunas"
+import SaunasCategory from "./pages/SaunasCategory"
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import News from "./pages/News";
 import SeriesPage from "./pages/SeriesPage";
+import AllSeriesPage from "./pages/AllSeriesPage";
+import Faq from "./pages/Faq";
 
 
 function App() {
@@ -25,8 +27,10 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/news" element={<News/>} />
         <Route path="/sauna-collection/:slug" element={<SaunaCollection />} />
-        <Route path="/sauna-category/:categorySlug" element={<Saunas />} />
+        <Route path="/sauna-category/:categorySlug" element={<SaunasCategory />} />
         <Route path="/series/:slug" element={<SeriesPage />} />
+        <Route path="/series" element={<AllSeriesPage />} />
+        <Route path="/faq" element={<Faq />} />
       </Routes>
       </main>
       <Footer />

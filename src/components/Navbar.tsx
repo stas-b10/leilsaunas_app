@@ -17,6 +17,8 @@ export default function Navbar() {
     return;
   }
 
+  setScrolled(false);
+
   const handleScroll = () => {
     setScrolled(window.scrollY > 80);
   };
@@ -50,13 +52,13 @@ export default function Navbar() {
       <div className="container mx-auto px-4 relative flex items-center justify-between">
   
 
-  <Link to="/" className="relative top-3 -left-2">
+  <a href="/" className="relative top-3 -left-2">
             <img
               src={navLogo}
               alt="Leil Saunas"
               className="w-auto h-12 lg:h-auto"
             />
-          </Link>
+          </a>
 
   <div className="relative top-3 -left-2">
             <MenuButton

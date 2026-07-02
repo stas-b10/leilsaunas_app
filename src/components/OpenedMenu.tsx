@@ -7,6 +7,7 @@ import type { Category } from "../utils/types/categories";
 import type { Collection } from "../utils/types/collection";
 import type { Series } from "../utils/types/series";
 import { supabase } from "../utils/supabase";
+import { useLocation } from "react-router-dom";
 
 interface OpenedMenuProps {
   isOpen: boolean;
@@ -21,6 +22,12 @@ export default function OpenedMenu({
     const [categories, setCategories] = useState<Category[]>([]);
     const [collections, setCollections] = useState<Collection[]>([]);
     const [series, setSeries] = useState<Series[]>([]);
+    const location = useLocation();
+
+    useEffect(() => {
+      onClose();
+    }, [location.pathname]);
+
     useEffect(() => {
       const load = async () => {
         const [{ data: categoriesData }, { data: collectionsData }, { data: seriesData }] =
@@ -72,10 +79,10 @@ export default function OpenedMenu({
   <CloseMenuButton onClick={onClose} />
 </div>
 
-        <div className="px-8 pb-12 pt-4">
+        <div className="px-8 pb-12 ">
           <div className="grid grid-cols-[0.5fr_0.5fr_2fr]">
             <div className="border-r border-[#C6C0AF] pr-8">
-            <h3 className="mb-4 text-[26px] text-white" style={{ fontFamily: "sogo-light, sans-serif" }}>
+            <h3 className="mb-2 text-[26px] text-white" style={{ fontFamily: "sogo-light, sans-serif" }}>
               Categories
             </h3>
 
@@ -95,7 +102,7 @@ export default function OpenedMenu({
 
           
             <div className="border-r border-[#C6C0AF] px-8">
-            <h3 className="mb-4 text-[26px] text-white" style={{ fontFamily: "sogo-light, sans-serif" }}>
+            <h3 className="mb-2 text-[26px] text-white" style={{ fontFamily: "sogo-light, sans-serif" }}>
               Collections
             </h3>
 
@@ -114,7 +121,7 @@ export default function OpenedMenu({
           </div>
 
           <div className="pl-8">
-            <h3 className="mb-4 text-[26px] text-white" style={{ fontFamily: "sogo-light, sans-serif" }}>
+            <h3 className="mb-2 text-[26px] text-white" style={{ fontFamily: "sogo-light, sans-serif" }}>
               Series
             </h3>
 
@@ -122,7 +129,7 @@ export default function OpenedMenu({
               {series.map((series) => (
                 <Link
                   key={series.id}
-                  to={`/sauna-series/${series.slug}`}
+                  to={`/series/${series.slug}`}
                   className="block whitespace-nowrap hover:text-white transition"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
                 >
@@ -130,7 +137,7 @@ export default function OpenedMenu({
                 </Link>
               ))}
               <Link
-                to="/sauna-series"
+                to="/series"
                 className="block text-[#C6C0AF] hover:text-white transition"
                 style={{ fontFamily: "noah-regular, sans-serif" }}
               >
@@ -138,6 +145,30 @@ export default function OpenedMenu({
               </Link>
             </div>
           </div>
+          </div>
+          <div className="grid grid-cols-[0.5fr_2fr]">
+            <ul>
+              <li className="mt-16">
+                <a href="/about" className="text-white text-[42px] whitespace-nowrap" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  About Us
+                </a>
+              </li>
+              <li className="">
+                <a href="/news" className="text-white text-[42px] whitespace-nowrap" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  News
+                </a>
+              </li>
+              <li className="">
+                <a href="/faq" className="text-white text-[42px] whitespace-nowrap" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  FAQ
+                </a>
+              </li>
+              <li className="">
+                <a href="/contacts" className="text-white text-[42px] whitespace-nowrap" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  Contact
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </motion.div>

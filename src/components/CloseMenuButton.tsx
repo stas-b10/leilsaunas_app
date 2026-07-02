@@ -24,9 +24,9 @@ export default function CloseMenuButton({
         border
         border-[#313b2a]
         border-[2px]
-        h-14
-        w-[154px]
-        px-5
+        h-[57px]
+        w-[144px]
+        px-4
         cursor-pointer
       "
       style={{
