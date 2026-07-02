@@ -12,6 +12,11 @@ import News from "./pages/News";
 import SeriesPage from "./pages/SeriesPage";
 import AllSeriesPage from "./pages/AllSeriesPage";
 import Faq from "./pages/Faq";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsConditions from "./pages/TermsConditions";
+import SaunaCulture from "./pages/SaunaCulture";
+import ColdFirst from "./pages/ColdFirst";
+import PackingUp from "./pages/PackingUp";
 
 
 function App() {
@@ -31,6 +36,11 @@ function App() {
         <Route path="/series/:slug" element={<SeriesPage />} />
         <Route path="/series" element={<AllSeriesPage />} />
         <Route path="/faq" element={<Faq />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-conditions" element={<TermsConditions />} />
+        <Route path="/cold-first-then-heat" element={<ColdFirst />} />
+        <Route path="/sauna-culture" element={<SaunaCulture />} />
+        <Route path="/were-packing-up-our-saunas" element={<PackingUp />} />
       </Routes>
       </main>
       <Footer />

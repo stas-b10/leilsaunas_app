@@ -275,7 +275,7 @@ const Home = () => {
           initial="rest"
           animate="rest"
           whileHover="hover"
-          onClick={() => navigate("/about")}
+          onClick={() => navigate("/cold-first-then-heat")}
           className="border-b border-white/20 pb-4 pt-4 cursor-pointer"
         >
           <div className="flex justify-between items-start gap-6">
@@ -304,7 +304,7 @@ const Home = () => {
           initial="rest"
           animate="rest"
           whileHover="hover"
-          onClick={() => navigate("/contacts")}
+          onClick={() => navigate("/sauna-culture")}
           className="border-b border-white/20 py-8 cursor-pointer"
         >
           <div className="flex justify-between items-start gap-6">
@@ -334,7 +334,7 @@ const Home = () => {
           initial="rest"
           animate="rest"
           whileHover="hover"
-          onClick={() => navigate("/about")}
+          onClick={() => navigate("/were-packing-up-our-saunas")}
           className="pt-6 cursor-pointer"
         >
           <div className="flex justify-between items-start gap-6">

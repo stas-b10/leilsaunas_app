@@ -15,6 +15,7 @@ export default function Footer() {
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
+  const [email, setEmail] = useState("");
 
 useEffect(() => {
   const load = async () => {
@@ -30,6 +31,21 @@ useEffect(() => {
 
   load();
 }, []);
+
+const handleSubscribe = async () => {
+  if (!email) return;
+
+  const { error } = await supabase
+    .from("newsletter_subscribers")
+    .insert([{ email }]);
+
+  if (!error) {
+    alert("Subscribed!");
+    setEmail("");
+  } else {
+    console.log(error);
+  }
+};
 
 
   return (
@@ -132,11 +148,13 @@ useEffect(() => {
               <input
                 type="email"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="h-[52px] flex-1 rounded-[8px] bg-[#313b2a] px-4 text-white placeholder:text-[#8D9487] outline-none text-[20px]"
                 style={{ fontFamily: "noah-regular, sans-serif" }}
               />
 
-              <button className="w-[50px] h-13 bg-white rounded-md flex items-center justify-center text-[#171D12] hover:bg-gray-200 transition">
+              <button onClick={handleSubscribe} className="w-[50px] h-13 bg-white rounded-md flex items-center justify-center text-[#171D12] hover:bg-gray-200 transition">
                 <HiArrowRight size={21} />
               </button>
             </div>
@@ -148,11 +166,11 @@ useEffect(() => {
             <div className="flex flex-wrap gap-4 text-[#C6C0AF] text-[16px]" style={{ fontFamily: "noah-regular, sans-serif" }}>
               <span>©2026 LEIL</span>
 
-              <a href="#" className="hover:text-white transition" >
+              <a href="/privacy-policy" className="hover:text-white transition" >
                 Privacy Policy
               </a>
 
-              <a href="#" className="hover:text-white transition">
+              <a href="/terms-conditions" className="hover:text-white transition">
                 Terms & Conditions
               </a>
             </div>

@@ -8,6 +8,7 @@ import type { Collection } from "../utils/types/collection";
 import type { Series } from "../utils/types/series";
 import { supabase } from "../utils/supabase";
 import { useLocation } from "react-router-dom";
+import { GoArrowUpRight } from "react-icons/go";
 
 interface OpenedMenuProps {
   isOpen: boolean;
@@ -23,6 +24,7 @@ export default function OpenedMenu({
     const [collections, setCollections] = useState<Collection[]>([]);
     const [series, setSeries] = useState<Series[]>([]);
     const location = useLocation();
+    const [activeImage, setActiveImage] = useState("");
 
     useEffect(() => {
       onClose();
@@ -44,6 +46,8 @@ export default function OpenedMenu({
     
       load();
     }, []);
+
+
 
   return (
     <AnimatePresence>
@@ -93,6 +97,7 @@ export default function OpenedMenu({
                   to={`/sauna-category/${category.slug}`}
                   className="block hover:text-white transition"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
+                  onMouseEnter={() => setActiveImage(category.image_url)}
                 >
                   {category.category_name}
                 </Link>
@@ -113,6 +118,7 @@ export default function OpenedMenu({
                   to={`/sauna-collection/${collection.slug}`}
                   className="block hover:text-white transition"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
+                  onMouseEnter={() => setActiveImage(collection.menu_image_url)}
                 >
                   {collection.collection_name}
                 </Link>
@@ -132,6 +138,7 @@ export default function OpenedMenu({
                   to={`/series/${series.slug}`}
                   className="block whitespace-nowrap hover:text-white transition"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
+                  onMouseEnter={() => setActiveImage(series.image_url)}
                 >
                   {series.series_name}
                 </Link>
@@ -168,7 +175,18 @@ export default function OpenedMenu({
                   Contact
                 </a>
               </li>
+              <li className="mt-16">
+                <a href="/" className="text-white text-[26px] whitespace-nowrap" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  What is Leil? <GoArrowUpRight className="inline-block -ml-1 mb-3 text-[15px] text-white" />
+                </a>
+              </li>
             </ul>
+            {activeImage && (
+              <img
+                src={activeImage}
+                className="absolute bottom-8 right-8 w-[640px] aspect-[16/9] object-cover rounded-tl-[200px]"
+              />
+            )}
           </div>
         </div>
       </motion.div>
