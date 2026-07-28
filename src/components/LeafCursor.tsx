@@ -27,7 +27,7 @@ export default function LeafCursor() {
         fixed 
         left-0 
         top-0 
-        z-[9999] 
+        z-[999999]
         h-4 
         w-4 
         bg-[#707F4F]
