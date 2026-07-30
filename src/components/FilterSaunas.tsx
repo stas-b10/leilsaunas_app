@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../utils/supabase";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface FilterSaunasProps {
   isOpen: boolean;
@@ -121,7 +121,9 @@ export default function FilterSaunas({
                       to={`/sauna-category/${category.slug}`}
                       onClick={() => {
                         setSelectedCategory(category);
-                        onClose();
+                        if (window.location.pathname !== `/sauna-category/${category.slug}`) {
+                          onClose();
+                        }
                       }}
                       style={{ fontFamily: "noah-bold, sans-serif" }}
                       className={`flex items-center justify-center text-center px-5 py-2 rounded-md border border-[#c6c0af] text-[20px]  ${
