@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../utils/supabase";
+import { Link} from "react-router-dom";
 
 interface FilterSaunasProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ export default function FilterSaunas({
 
   const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
   const [selectedCollection, setSelectedCollection] = useState<any | null>(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,96 +102,117 @@ export default function FilterSaunas({
             </button>
           </div>
 
-          <div className="px-8 py-8 space-y-8">
+          <div className="px-5 py-4 space-y-4">
             <div>
               <h3
-                className="text-lg mb-3 text-[#313C2B]"
+                className="text-[20px] mb-5 text-[#313C2B]"
                 style={{ fontFamily: "noah-bold, sans-serif" }}
               >
                 Category
               </h3>
 
-              <div className="flex gap-3 flex-wrap">
+              <div className="flex gap-3 flex-wrap grid grid-cols-2 h-[65px]">
                 {categories.map((category) => {
                   const active = selectedCategory?.id === category.id;
 
                   return (
-                    <button
+                    <Link
                       key={category.id}
-                      onClick={() =>
-                        setSelectedCategory(active ? null : category)
-                      }
-                      className={`px-5 py-2 rounded-md border border-[#4A523F] ${
+                      to={`/sauna-category/${category.slug}`}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        onClose();
+                      }}
+                      style={{ fontFamily: "noah-bold, sans-serif" }}
+                      className={`flex items-center justify-center text-center px-5 py-2 rounded-md border border-[#c6c0af] text-[20px]  ${
                         active
                           ? "bg-[#3D4733] text-white"
                           : "text-[#313C2B]"
                       }`}
                     >
                       {category.category_name}
-                    </button>
+                    </Link>
                   );
                 })}
               </div>
+              <div className="border-b border-[#D8D2C2] mt-6 -mx-5"/>
             </div>
 
             <div>
               <h3
-                className="text-lg mb-3 text-[#313C2B]"
+                className="text-[20px] mb-3 text-[#313C2B]"
                 style={{ fontFamily: "noah-bold, sans-serif" }}
               >
                 Collection
               </h3>
 
-              <div className="flex gap-3 flex-wrap">
+              <div className="flex gap-3 flex-wrap grid grid-cols-3 h-[60px] ">
                 {collections.map((collection) => {
                   const active = selectedCollection?.id === collection.id;
 
                   return (
-                    <button
+                    <Link
                       key={collection.id}
-                      onClick={() =>
-                        setSelectedCollection(active ? null : collection)
-                      }
-                      className={`px-5 py-2 rounded-md border border-[#4A523F] ${
+                      to={`/sauna-collection/${collection.slug}`}
+                      onClick={() => {
+                        setSelectedCollection(collection);
+                        onClose();
+                      }}
+                      style={{ fontFamily: "noah-bold, sans-serif" }}
+                      className={`flex items-center justify-center text-center px-5 py-2 rounded-md border border-[#c6c0af] text-[20px] ${
                         active
                           ? "bg-[#3D4733] text-white"
                           : "text-[#313C2B]"
                       }`}
                     >
                       {collection.collection_name}
-                    </button>
+                    </Link>
                   );
                 })}
               </div>
+              <div className="border-b border-[#D8D2C2] mt-6 -mx-5"/>
             </div>
 
             <div>
               <h3
-                className="text-lg mb-4 text-[#313C2B]"
+                className="text-[20px] mb-3 text-[#313C2B]"
                 style={{ fontFamily: "noah-bold, sans-serif" }}
               >
                 Series
               </h3>
 
-              <div className="grid grid-cols-6 gap-3">
+              <div className="grid grid-cols-6 gap-3 mt-4">
                 {filteredResults.map((item) => (
-                  <div
+                  <Link
                     key={item.id}
-                    className="rounded-lg border border-[#D8D2C2] p-2 bg-[#FBF9F3]"
+                    to={`/series/${item.slug}`}
+                    className="rounded-lg border border-[#D8D2C2] p-2 bg-[#FBF9F3] flex flex-col  cursor-pointer"
                   >
                     <img
                       src={item.image_url}
                       alt={item.series_name}
-                      className="w-full aspect-square object-cover rounded-md"
+                      className="w-[90%] aspect-[4/3] object-cover rounded-md mx-auto mt-2"
                     />
 
                     <p
-                      className="text-center mt-2 text-[#313C2B] text-sm"
-                      style={{ fontFamily: "noah-bold, sans-serif" }}
+                      className="text-center mt-4 text-[#313C2B] text-[20px]"
+                      style={{ fontFamily: "noah-regular, sans-serif" }}
                     >
                       {item.series_name}
                     </p>
-                  </div>
+                    <p
+                      className="text-center text-[#313C2B] text-[14px]"
+                      style={{ fontFamily: "noah-regular, sans-serif" }}
+                    >
+                      {item.category?.category_name}
+                    </p>
+                    <p
+                      className="text-center text-[#313C2B] text-[14px]"
+                      style={{ fontFamily: "noah-regular, sans-serif" }}
+                    >
+                      {item.collection?.collection_name}
+                    </p>
+                  </Link>
                 ))}
               </div>
             </div>
