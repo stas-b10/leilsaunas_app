@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import LeafIcon from "../components/LeafIcon";
 import FilterSaunas from "../components/FilterSaunas";
 import { LuSettings2 } from "react-icons/lu";
@@ -38,7 +38,7 @@ export default function Saunas() {
 
       const { data: seriesData, error: seriesError } = await supabase
         .from("series")
-        .select("*")
+        .select(`*, collection:collection_id ( collection_name )`)
         .eq("category_id", categoryData.id)
         .order("series_name");
 
@@ -98,7 +98,7 @@ export default function Saunas() {
             {category.category_name}
           </h1>
           <p
-            className="text-[20px] text-[#4B5646] max-w-[1000px] leading-relaxed"
+            className="text-[20px] text-[#313C2B] max-w-[1000px]"
             style={{ fontFamily: "noah-regular, sans-serif" }}
             >
             {category.description}
@@ -106,13 +106,13 @@ export default function Saunas() {
         </section>
       )}
 
-      <section className="pl-6 md:pl-64 pr-6 mb-16 mt-[120px]">
+      <section className="pl-6 md:pl-64 pr-6 mb-10 mt-[120px]">
         <div className="flex items-center gap-2 text-[#313C2B] text-[16px]" style={{ fontFamily: "noah-bold, sans-serif" }}>
          <LeafIcon className="w-[12px] h-[12px]" />
            explore our saunas.
         </div>
         <button onClick={() => setIsFilterOpen((prev) => !prev)} 
-          className="mt-6 flex items-stretch border border-[#313C2B] rounded-md overflow-hidden text-[#313C2B] cursor-pointer"
+          className="mt-12 flex items-stretch border border-[#313C2B] rounded-md overflow-hidden text-[#313C2B] cursor-pointer"
           style={{ fontFamily: "noah-bold, sans-serif" }}>
             <span className="flex items-center justify-center bg-[#313C2B] text-[#F3F2E7] px-3 py-1.5">
               <LuSettings2 className="w-4 h-4" />
@@ -127,7 +127,7 @@ export default function Saunas() {
 
 
       {loading && (
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           {[...Array(6)].map((_, i) => (
             <div
               key={i}
@@ -138,53 +138,62 @@ export default function Saunas() {
       )}
 
       {!loading && (
-        <section className="max-w-7xl mx-auto px-6 pb-20">
+        <section className="w-full max-w-[1440px] mx-auto px-6 pb-20">
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-16">
 
-            {saunas.map((item) => (
-              <div
-                key={item.id}
-                className="rounded-2xl border border-[#D8D8D8] bg-white overflow-hidden transition duration-300 hover:shadow-xl"
-              >
+          {saunas.map((item) => (
+            <div key={item.id}>
 
-                {item.image_url && (
-                  <img
-                    src={item.image_url}
-                    alt={item.series_name}
-                    className="w-full h-64 object-cover"
-                  />
-                )}
+              <Link to={`/series/${item.slug}`}>
+              <div className="relative overflow-hidden rounded-lg cursor-pointer">
+              <img src={item.image_url} alt={item.series_name} className="w-full h-[380px] object-cover" />
+                
+                <div className="absolute top-5 right-5 flex gap-3">
 
-                <div className="p-6">
+          <span className="px-[25px] py-[12px] rounded-full bg-white/10 text-[19px] text-white backdrop-blur-sm border border-white/20" style={{ fontFamily: "noah-bold, sans-serif" }} >
+            {item.collection?.collection_name}
+          </span>
 
-                  <h3
-                    className="text-[28px] text-[#313C2B]"
-                    style={{ fontFamily: "sogo-light, sans-serif" }}
-                  >
-                    {item.series_name}
-                  </h3>
+          <span className="px-[27px] py-[12px] rounded-full bg-white/10 text-[19px] text-white backdrop-blur-sm border border-white/20" style={{ fontFamily: "noah-bold, sans-serif" }}>
+            {category.category_name}
+          </span>
 
-                  <p
-                    className="mt-4 text-[18px] text-[#4B5646] line-clamp-3"
-                    style={{ fontFamily: "noah-regular, sans-serif" }}
-                  >
-                    {item.series_description}
-                  </p>
+        </div>
+      </div>
+      </Link>
 
-                  <button
-                    className="mt-8 w-full rounded-md border border-[#313C2B] py-3 text-[#313C2B] transition hover:bg-[#313C2B] hover:text-white"
-                    style={{ fontFamily: "noah-bold, sans-serif" }}
-                  >
-                    View Models
-                  </button>
+      <div className="mt-8">
 
-                </div>
+        <h2
+          className="text-[36px] text-[#313C2B]"
+          style={{ fontFamily: "sogo-light, sans-serif" }}
+        >
+          {item.series_name}
+        </h2>
 
-              </div>
-            ))}
+        <p
+          className="mt-2 text-[16px] text-[#313C2B] max-w-[500px]"
+          style={{ fontFamily: "noah-regular, sans-serif" }}
+        >
+          {item.series_description}
+        </p>
 
-          </div>
+        <Link to={`/series/${item.slug}`}>
+        <button
+          className="mt-10 px-4 py-2 rounded-md border border-[#C7BEAB] hover:border-[#313C2B] hover:bg-[#313C2B] hover:text-white transition cursor-pointer"
+          style={{ fontFamily: "noah-bold, sans-serif" }}
+        >
+          More info
+        </button>
+        </Link>
+
+      </div>
+
+    </div>
+  ))}
+
+</div>
 
         </section>
       )}
