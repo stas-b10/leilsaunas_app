@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import LeafIcon from "../components/LeafIcon";
 import FilterSaunas from "../components/FilterSaunas";
 import { LuSettings2 } from "react-icons/lu";
+import FooterSlide from "../components/FooterSlide";
 
 export default function Saunas() {
   const { categorySlug } = useParams();
@@ -207,6 +208,7 @@ export default function Saunas() {
         </div>
       )}
 
+    <FooterSlide />
     </div>
   );
 }
