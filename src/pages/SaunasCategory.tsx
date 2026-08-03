@@ -16,11 +16,11 @@ export default function Saunas() {
   const [filteredResults, setFilteredResults] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchSaunas = async () => {
-      if (!categorySlug) return;
+  const fetchSaunas = async () => {
+    if (!categorySlug) return;
+    setLoading(true);
 
-      setLoading(true);
-
+    try {
       const { data: categoryData, error: categoryError } = await supabase
         .from("categories")
         .select("*")
@@ -28,7 +28,6 @@ export default function Saunas() {
         .maybeSingle();
 
       if (categoryError || !categoryData) {
-        console.error(categoryError);
         setCategory(null);
         setSaunas([]);
         setLoading(false);
@@ -37,24 +36,22 @@ export default function Saunas() {
 
       setCategory(categoryData);
 
-      const { data: seriesData, error: seriesError } = await supabase
+      const { data: seriesData } = await supabase
         .from("series")
         .select(`*, collection:collection_id ( collection_name )`)
         .eq("category_id", categoryData.id)
         .order("series_name");
 
-      if (seriesError) {
-        console.error(seriesError);
-        setSaunas([]);
-      } else {
-        setSaunas(seriesData || []);
-      }
-
+      setSaunas(seriesData || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
       setLoading(false);
-    };
+    }
+  };
 
-    fetchSaunas();
-  }, [categorySlug]);
+  fetchSaunas();
+}, [categorySlug]);
 
   return (
     <div className="min-h-screen bg-[#EDE9DF]">

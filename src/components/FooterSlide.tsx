@@ -122,7 +122,7 @@ export default function FooterSlide() {
         <GoArrowSwitch className="text-xl" />
       </motion.div>
 
-      <div className="max-w-7xl ml-[250px] mb-8 flex items-center gap-2 text-white text-[16px] font-medium tracking-wide">
+      <div className="max-w-7xl ml-[240px] mb-8 flex items-center gap-2 text-white text-[16px] font-medium tracking-wide">
         <LeafIcon className="w-[12px] h-[12px]" />
         <p style={{ fontFamily: "noah-bold, sans-serif" }}>
           they chose Leil® Saunas.
@@ -172,7 +172,7 @@ export default function FooterSlide() {
                   </div>
                 </div>
 
-                <div className="w-1/2 absolute right-0 top-0 bottom-0 overflow-hidden rounded-tl-[220px]">
+                <div className="w-1/2 absolute right-0 top-0 bottom-0 overflow-hidden rounded-tl-[240px]">
                   {slide.image_sauna && (
                     <img
                       src={slide.image_sauna}
