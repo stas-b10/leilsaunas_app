@@ -19,7 +19,7 @@ export default function ScrollToTop() {
           left: 0,
           behavior: "auto",
         });
-      }, 1200);
+      }, 1250);
 
       return () => clearTimeout(timer);
     }

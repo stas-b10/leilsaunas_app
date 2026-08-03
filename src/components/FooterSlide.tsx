@@ -18,15 +18,11 @@ export default function FooterSlide() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-
-    setMousePos({
-      x: e.clientX - rect.left - 24,
-      y: e.clientY - rect.top - 24,
-    });
-  };
+  setMousePos({
+    x: e.clientX - 24,
+    y: e.clientY - 24,
+  });
+};
 
   const toggleGlobalLeafCursor = (show: boolean) => {
     const leafCursor =
@@ -80,11 +76,7 @@ export default function FooterSlide() {
 
   return (
     <section
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="bg-[#2b3527] text-[#f7f5f0] py-26 px-8 relative overflow-hidden cursor-none select-none"
+      className="bg-[#2b3527] text-[#f7f5f0] py-26 px-8 relative overflow-hidden select-none"
     >
       <motion.div
         animate={isHovering ? "hover" : "rest"}
@@ -104,9 +96,9 @@ export default function FooterSlide() {
           mass: 0.1,
         }}
         className="
-          absolute
-          left-0
+          fixed
           top-0
+          left-0
           z-50
           w-12
           h-12
@@ -140,14 +132,11 @@ export default function FooterSlide() {
             handleProgress(swiper);
             setActiveIndex(swiper.realIndex);
           }}
-          breakpoints={{
-            640: { slidesPerView: 1.2 },
-            1024: { slidesPerView: 1.35 },
-          }}
+          breakpoints={{ 0: { slidesPerView: 1.5, }, 640: { slidesPerView: 1.5, }, 1024: { slidesPerView: 1.5, }, }}
         >
           {slides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="bg-[#4f5f42] rounded-lg h-[340px] flex overflow-hidden relative p-8">
+              <div ref={containerRef} onMouseMove={handleMouseMove} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="bg-[#4f5f42] rounded-lg h-[340px] flex overflow-hidden relative p-8 cursor-none">
                 <div className="w-1/2 flex flex-col justify-start z-10 pr-6">
                   <div className="flex items-center gap-4">
                     {slide.image_url ? (
