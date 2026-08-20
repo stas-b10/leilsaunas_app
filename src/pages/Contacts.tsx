@@ -1,20 +1,38 @@
+import ContactMain from "../assets/images/contact_main.png"
+
 export default function Contacts() {
   return (
     <div className="min-h-screen bg-[#F7F5F0] text-black">
       
-      <section className="px-6 py-20 max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold mb-6">Contact Us</h1>
 
-        <p className="text-lg opacity-80 leading-relaxed">
-          If you have any questions, feel free to reach out. We usually respond within 24 hours.
-        </p>
+        <section className="w-full mb-16">
 
-        <div className="mt-10 space-y-2 text-lg">
-          <p>Email: contact@yourwebsite.com</p>
-          <p>Phone: +373 00 000 000</p>
-          <p>Location: Chișinău, Moldova</p>
-        </div>
-      </section>
+          <div className="relative w-full h-[530px] overflow-hidden">
+
+            <img
+              src={ContactMain}
+              alt={"main "}
+              className="w-full h-full object-cover"
+            />
+
+            <div className="absolute inset-0 bg-black/20" />
+
+            <div className="absolute bottom-10 left-6 md:left-64 text-white">
+              <div className="flex items-end gap-16 max-w-[1400px]">
+                <p className="w-[650px] text-[44px] leading-[0.95]" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  Reach out.
+                </p>
+
+                <p className="w-[450px] text-[20px] leading-relaxed ">
+                  <strong style={{ fontFamily: "noah-bold, sans-serif" }}>Become a reseller or contact us directly.</strong>
+                  <span className="block text-[#c6c0af]" style={{ fontFamily: "noah-regular, sans-serif" }}>Scroll to view our resellers.</span>
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </section>
 
       <section
         id="map"
