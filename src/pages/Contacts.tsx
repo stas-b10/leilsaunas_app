@@ -1,4 +1,6 @@
 import ContactMain from "../assets/images/contact_main.png"
+import ContactUsButton from "../components/ContactUsButton";
+import LeafIcon from "../components/LeafIcon";
 
 export default function Contacts() {
   return (
@@ -29,9 +31,24 @@ export default function Contacts() {
                 </p>
               </div>
             </div>
-
           </div>
+        </section>
 
+        <section className="pb-[100px]">
+           <div className="px-[250px] mt-[100px] ">
+            <div className="flex items-center gap-3 text-[#313C2B] text-[16px]">
+              <LeafIcon className="w-[12px] h-[12px]" />
+                  <p style={{ fontFamily: "noah-bold, sans-serif" }}>
+                     bringing wellness everywhere.
+                  </p>
+            </div>
+
+                  <div className="ml-[730px] -mt-[40px] flex flex-col gap-6">
+                    <h2 style={{ fontFamily: "sogo-light, sans-serif" }} className="text-[44px]">Find a reseller near you</h2>
+                    <p className="text-[19px] mb-2 -mt-4 text-[#313C2B]">No resellers in your country? Contact us directly!</p>
+                    <ContactUsButton/>
+                  </div>
+            </div>
         </section>
 
       <section
