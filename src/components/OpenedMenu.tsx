@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import CloseMenuButton from "./CloseMenuButton";
-import navLogo from "../assets/navLogo.png";
+import defaultMenu from "../assets/images/default_menu.png";
 import { useEffect, useState } from "react";
 import type { Category } from "../utils/types/categories";
 import type { Collection } from "../utils/types/collection";
@@ -24,7 +24,7 @@ export default function OpenedMenu({
     const [collections, setCollections] = useState<Collection[]>([]);
     const [series, setSeries] = useState<Series[]>([]);
     const location = useLocation();
-    const [activeImage, setActiveImage] = useState("");
+    const [activeImage, setActiveImage] = useState(defaultMenu);
 
     useEffect(() => {
       onClose();

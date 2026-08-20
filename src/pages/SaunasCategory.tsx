@@ -5,6 +5,7 @@ import LeafIcon from "../components/LeafIcon";
 import FilterSaunas from "../components/FilterSaunas";
 import { LuSettings2 } from "react-icons/lu";
 import FooterSlide from "../components/FooterSlide";
+import FaqFooter from "../components/FaqFooter";
 
 export default function Saunas() {
   const { categorySlug } = useParams();
@@ -206,6 +207,7 @@ export default function Saunas() {
       )}
 
     <FooterSlide />
+    <FaqFooter />
     </div>
   );
 }

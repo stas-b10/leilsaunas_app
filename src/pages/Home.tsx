@@ -14,7 +14,6 @@ import AmbasadorsSlider from "../components/AmbasadorsSlider"
 import CollectionCards from "../components/CollectionCards";
 import Staff from "../assets/images/staff.jpg"
 import ReadMoreButton from "../components/ReadMoreButton"
-import { GoArrowUpRight } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
 import ArrowMove from "../components/arrowMove"
 import { motion } from "framer-motion";
