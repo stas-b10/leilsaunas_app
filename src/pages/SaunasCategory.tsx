@@ -14,7 +14,6 @@ export default function Saunas() {
   const [saunas, setSaunas] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [filteredResults, setFilteredResults] = useState<any[]>([]);
 
   useEffect(() => {
   const fetchSaunas = async () => {

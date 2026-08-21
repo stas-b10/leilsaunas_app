@@ -77,3 +77,105 @@ body {
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+
+.map-wrapper { cursor: move; } .map-wrapper svg { cursor: move; }
+
+.France {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.France:hover {
+  fill: #BAB6A7 !important;
+}
+
+.Canada {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Canada:hover {
+  fill: #BAB6A7 !important;
+}
+
+.Mexico {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Mexico:hover {
+  fill: #BAB6A7 !important;
+}
+
+[class="United States"] {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+[class="United States"]:hover {
+  fill: #BAB6A7 !important;
+}
+
+[class="Costa Rica"] {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+[class="Costa Rica"]:hover {
+  fill: #BAB6A7 !important;
+}
+
+.Brazil {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Brazil:hover {
+  fill: #BAB6A7 !important;
+}
+
+[class="South Africa"] {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+[class="South Africa"]:hover {
+  fill: #BAB6A7 !important;
+}
+
+.Australia {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Australia:hover {
+  fill: #BAB6A7 !important;
+}
+
+.Indonesia {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Indonesia:hover {
+  fill: #BAB6A7 !important;
+}
+
+.Japan {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Japan:hover {
+  fill: #BAB6A7 !important;
+}

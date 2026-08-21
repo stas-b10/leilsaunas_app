@@ -1,6 +1,7 @@
 import ContactMain from "../assets/images/contact_main.png"
 import ContactUsButton from "../components/ContactUsButton";
 import LeafIcon from "../components/LeafIcon";
+import WorldMap from "../components/WorldMap";
 
 export default function Contacts() {
   return (
@@ -53,11 +54,9 @@ export default function Contacts() {
 
       <section
         id="map"
-        className="h-[500px] w-full bg-gray-300 flex items-center justify-center"
+        className="h-[700px] w-full bg-gray-300 flex items-center justify-center"
       >
-        <p className="text-xl font-semibold opacity-70">
-          Map goes here
-        </p>
+        <WorldMap />
       </section>
 
     </div>
