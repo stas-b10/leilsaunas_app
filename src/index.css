@@ -110,6 +110,16 @@ body {
   fill: #BAB6A7 !important;
 }
 
+.Iceland {
+  fill: #D1CCBC !important;
+  cursor: pointer;
+  transition: fill 0.2s ease;
+}
+
+.Iceland:hover {
+  fill: #BAB6A7 !important;
+}
+
 [class="United States"] {
   fill: #D1CCBC !important;
   cursor: pointer;
