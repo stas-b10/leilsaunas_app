@@ -10,11 +10,13 @@ import { FiPlus } from "react-icons/fi";
 import OpenedReseller from "./OpenedReseller";
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase";
-
+import type { Country } from "../utils/types/country";
+import Alert from "./Alert";
 
 export default function WorldMap() {
   const [countries, setCountries] = useState<Country[]>([]);
-  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
   
   useEffect(() => {
     const fetchCountries = async () => {
@@ -216,8 +218,13 @@ export default function WorldMap() {
           )}
         </TransformWrapper>
         {selectedCountry && (
-          <OpenedReseller country={selectedCountry} onClose={() => setSelectedCountry(null)} />
+          <OpenedReseller country={selectedCountry} onClose={() => setSelectedCountry(null)} onSuccess={() => {setSelectedCountry(null); setShowSuccess(true); }} />
         )}
+        {showSuccess && (
+         <Alert
+           onClose={() => setShowSuccess(false)}
+          />
+          )}
 
       </div>
     </section>
