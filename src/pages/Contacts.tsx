@@ -59,6 +59,19 @@ export default function Contacts() {
         <WorldMap />
       </section>
 
+      <section id="team" className="bg-[#313b2a] px-[240px] py-[730px] pt-10 ">
+        <div className="grid grid-cols-2 ">
+        <div className="flex items-center gap-3">
+          <LeafIcon className="w-[12px] h-[12px]" />
+          <span style={{ fontFamily: "noah-bold, sans-serif" }} className="text-white text-[16px]">our team.</span>
+        </div>
+        <div>
+          <h2 style={{ fontFamily: "sogo-light, sans-serif" }} className="text-[44px] text-white pt-[40px]">Our Team</h2>
+          <p style={{ fontFamily: "noah-regular, sans-serif" }} className="text-white text-[20px] mt-4">Discover our exceptional range of high-quality, premium class saunas crafted by a team of experienced manufacturers.</p>
+        </div>
+      </div>
+      </section>
+
     </div>
   );
 }
