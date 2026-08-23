@@ -7,9 +7,50 @@ import WorldMapSvg from "../assets/world.svg?react";
 
 import { FiMinus } from "react-icons/fi";
 import { FiPlus } from "react-icons/fi";
+import OpenedReseller from "./OpenedReseller";
+import { useEffect, useState } from "react";
+import { supabase } from "../utils/supabase";
 
 
 export default function WorldMap() {
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
+  
+  useEffect(() => {
+    const fetchCountries = async () => {
+      const { data, error } = await supabase
+        .from("countries")
+        .select("id, name, slug, created_at")
+        .order("name");
+
+      if (error) {
+        console.error("Error fetching countries:", error);
+        return;
+      }
+
+      setCountries(data ?? []);
+    };
+
+    fetchCountries();
+  }, []);
+
+  const handleCountryClick = (
+    event: React.MouseEvent<SVGSVGElement>
+  ) => {
+    const target = event.target as SVGElement;
+
+    const className = target.getAttribute("class");
+
+    if (!className) return;
+
+    const country = countries.find(
+      (country) => country.name === className
+    );
+
+    if (country) {
+      setSelectedCountry(country);
+    }
+  };
 
   return (
     <section className="w-full bg-white">
@@ -71,20 +112,7 @@ export default function WorldMap() {
 
                   <WorldMapSvg
                     className="world-map w-[1250px] max-w-none h-auto select-none"
-                    onMouseOver={(event) => {
-                      const target = event.target as SVGElement;
-
-                      if (target.classList.contains("France")) {
-                        setHoveredCountry("France");
-                      }
-                    }}
-                    onMouseOut={(event) => {
-                      const target = event.target as SVGElement;
-
-                      if (target.classList.contains("France")) {
-                        setHoveredCountry(null);
-                      }
-                    }}
+                    onClick={handleCountryClick}
                   />
                     <span className=" absolute left-[623px] top-[132px] -translate-x-1/2 -translate-y-full pointer-events-none whitespace-nowrap text-[4px] font-bold text-[#313C2B]">
                       France
@@ -187,6 +215,9 @@ export default function WorldMap() {
             </>
           )}
         </TransformWrapper>
+        {selectedCountry && (
+          <OpenedReseller country={selectedCountry} onClose={() => setSelectedCountry(null)} />
+        )}
 
       </div>
     </section>
