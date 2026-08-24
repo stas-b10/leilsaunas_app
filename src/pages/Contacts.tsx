@@ -132,7 +132,7 @@ export default function Contacts() {
         <WorldMap />
       </section>
 
-      <section id="team" className="bg-[#313b2a] px-[240px] py-[730px] pt-10 ">
+      <section id="team" className="bg-[#313b2a] px-[240px] py-[80px] pt-10 ">
         <div className="grid grid-cols-2 ">
         <div className="flex items-center gap-3">
           <LeafIcon className="w-[12px] h-[12px]" />
@@ -255,18 +255,30 @@ export default function Contacts() {
         </div>
         <div className=" bg-[#1B2017] rounded-[14px] overflow-hidden">
           <p className="text-white text-[26px] mb-4 px-6 py-6 mt-2" style={{ fontFamily: "noah-bold, sans-serif" }}>Business info</p>
-          <div className="grid grid-cols-2 gap-2 px-8">
+          <div className="grid grid-cols-[180px_180px_180px] gap-x-2 px-8">
           <p className="mb-6">
             <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>Legal Name</span>
-            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Karja tee 6, Võnnu, Kastre Parish, Tartu County, 62401 Estonia</span>          
+            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Leil Saunas OÜ</span>          
           </p>
-          <p className="ml-[60px]">
-            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>Email</span>
-            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>info@leilsaunas.com</span>          
+          <p className="mb-6">
+            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>Reg Info</span>
+            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>17195841</span>          
           </p>
-          <p>
-            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>Showroom opening hours</span>
-            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>M-F 08:00 – 16:30</span>          
+          <p className="mb-6">
+            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>VAT ID</span>
+            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>EE102839182s</span>          
+          </p>
+          <p className="mb-6">
+            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>Legal Name</span>
+            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Saunasell OÜ</span>          
+          </p>
+          <p className="mb-6">
+            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>Reg Info</span>
+            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>11889519</span>          
+          </p>
+          <p className="mb-6">
+            <span className="block text-white text-[20px]" style={{ fontFamily: "noah-bold, sans-serif" }}>VAT ID</span>
+            <span className="block text-[#C6C0AF] text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>EE101347167</span>          
           </p>
           </div>
           <div className="px-6 pb-6 pt-8">
