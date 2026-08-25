@@ -1,4 +1,4 @@
-export type BecomeReseller = {
+export interface BecomeReseller {
   id: string;
   country_id: string;
   name: string;
@@ -9,4 +9,4 @@ export type BecomeReseller = {
   privacy_policy_accepted: boolean;
   newsletter_consent: boolean;
   created_at: string;
-};
+}

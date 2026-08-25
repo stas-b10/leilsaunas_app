@@ -2,7 +2,7 @@ import ContactMain from "../assets/images/contact_main.png"
 import ContactUsButton from "../components/ContactUsButton";
 import LeafIcon from "../components/LeafIcon";
 import WorldMap from "../components/WorldMap";
-import {use, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import type { team_members } from "../utils/types/team_members";
 import type { team_category } from "../utils/types/team_category";
 import { supabase } from "../utils/supabase";
@@ -13,8 +13,6 @@ import { GoArrowSwitch } from "react-icons/go";
 import first_card from "../assets/images/first_card.png"
 import second_card from "../assets/images/second_card.png"
 import type { contact_categories } from "../utils/types/contact_categories";
-import type { contact_us } from "../utils/types/contact_us";
-import type { BecomeReseller } from "../utils/types/become_reseller";
 import { TiLocation } from "react-icons/ti";
 import type { countries } from "../utils/types/all_countries";
 import { FaCheck } from "react-icons/fa";
@@ -30,6 +28,25 @@ export default function Contacts() {
 
     const [contactCategories, setContactCategories] = useState<contact_categories[]>([]);
     const [activeContactCategory, setActiveContactCategory] = useState<string | null>(null);
+
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+    privacy_policy_accepted: false,
+    newsletter_consent: false,
+  });
+
+  const [resellerForm, setResellerForm] = useState({
+    country_id: "",
+    name: "",
+    company_name: "",
+    phone_number: "",
+    email: "",
+    message: "",
+    privacy_policy_accepted: false,
+    newsletter_consent: false,
+  });
 
     const handleMouseMove = (e: React.MouseEvent) => {setMousePos({x: e.clientX - 24,y: e.clientY - 24,});};
     const toggleGlobalLeafCursor = (show: boolean) => {
@@ -110,24 +127,6 @@ export default function Contacts() {
       fetchCountries();
     }, []);
 
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    message: "",
-    privacy_policy_accepted: false,
-    newsletter_consent: false,
-  });
-
-  const [resellerForm, setResellerForm] = useState({
-    country_id: "",
-    name: "",
-    company_name: "",
-    phone_number: "",
-    email: "",
-    message: "",
-    privacy_policy_accepted: false,
-    newsletter_consent: false,
-  });
 
   const [errors, setErrors] = useState({name: false,email: false, message: false,privacy: false,company_name: false,});
 
@@ -181,6 +180,51 @@ export default function Contacts() {
         name: "",
         company_name: "",
         phone_number: "",
+        email: "",
+        message: "",
+        privacy_policy_accepted: false,
+        newsletter_consent: false,
+      });
+    };
+
+    const handleContactSubmit = async () => {
+      const newErrors = {
+        name: !contactForm.name.trim(),
+        email: !contactForm.email.trim(),
+        message: !contactForm.message.trim(),
+        privacy: !contactForm.privacy_policy_accepted,
+      };
+
+      setErrors(newErrors);
+
+      if (Object.values(newErrors).some(Boolean)) {
+        return;
+      }
+
+      setIsSubmitting(true);
+
+      const { error } = await supabase
+        .from("contact_us")
+        .insert({
+          name: contactForm.name.trim(),
+          email: contactForm.email.trim(),
+          message: contactForm.message.trim(),
+          privacy_policy_accepted: contactForm.privacy_policy_accepted,
+          newsletter_consent: contactForm.newsletter_consent,
+        });
+
+      setIsSubmitting(false);
+
+      if (error) {
+        console.error(error);
+        alert("Something went wrong. Please try again.");
+        return;
+      }
+
+      alert("Your request has been sent successfully!");
+
+      setContactForm({
+        name: "",
         email: "",
         message: "",
         privacy_policy_accepted: false,
@@ -477,7 +521,7 @@ export default function Contacts() {
             </div>
 
             <div className="mt-4 flex flex-col pl-[15px]">
-              <label className="flex items-start gap-3 cursor-pointer">
+              <label className="flex items-start gap-2 cursor-pointer">
                 <div className="relative">
                 <input type="checkbox" checked={resellerForm.newsletter_consent} onChange={(e) => { setResellerForm((prev) => ({...prev,newsletter_consent: e.target.checked, })); }} className="peer appearance-none w-6 h-6 rounded-[6px] border border-[#C6C0AF] bg-transparent cursor-pointer checked:bg-[#BAB6A7] checked:border-[#C6C0AF] transition-all duration-200" />
                 <FaCheck className="absolute top-[13px] left-1/2 -translate-x-1/2 -translate-y-1/2 text-black text-[12px] pointer-events-none opacity-0 peer-checked:opacity-100" />
@@ -487,7 +531,7 @@ export default function Contacts() {
             </div>
 
             <div className="mt-4 flex flex-col pl-[15px]">
-              <label className="flex items-start gap-3 cursor-pointer">
+              <label className="flex items-start gap-2 cursor-pointer">
                 <div className="relative">
                 <input type="checkbox" checked={resellerForm.privacy_policy_accepted} onChange={(e) => { setResellerForm((prev) => ({...prev,privacy_policy_accepted: e.target.checked, })); }} className="peer appearance-none w-6 h-6 rounded-[6px] border border-[#C6C0AF] bg-transparent cursor-pointer checked:bg-[#BAB6A7] checked:border-[#C6C0AF] transition-all duration-200" />
                 <FaCheck className="absolute top-[13px] left-1/2 -translate-x-1/2 -translate-y-1/2 text-black text-[12px] pointer-events-none opacity-0 peer-checked:opacity-100" />
@@ -496,6 +540,7 @@ export default function Contacts() {
               </label>
               {errors.privacy && (<span className="text-red-500 text-[11px]">This field is required</span>)}
             </div>
+
             <div className="mt-4 flex flex-col pl-[15px]">
               <button type="button" onClick={handleSubmit} disabled={isSubmitting} style={{ fontFamily: "noah-bold, sans-serif" }} className="w-full h-[42px] rounded-[6px] border border-[#C6C0AF] bg-[#313B2A] cursor-pointer px-4 outline-none text-white focus:border-gray-500 focus:bg-white transition-all duration-200">
                 {isSubmitting ? "Sending..." : "Submit"}
@@ -519,6 +564,51 @@ export default function Contacts() {
                 <span className="text-[20px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>Contact Us</span>
              </p>
               
+              <div className="col-span-2 flex flex-col pl-[8px] pt-2">
+               <label htmlFor="contact-name" className="text-[22px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>Name <span className="text-red-500 w-2 h-2 ml-[1px]">*</span></label>
+               <input id="contact-name" type="text" value={contactForm.name} onChange={(e) => { setContactForm((prev) => ({...prev,name: e.target.value, })); setErrors((prev) => ({...prev,name: false,}));}} className={`w-full rounded-[6px] border ${errors.name ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200`}/>
+               {errors.name && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+              </div>
+
+              <div className="col-span-2 flex flex-col pl-[8px] pt-5">
+               <label htmlFor="contact-email" className="text-[22px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>Email <span className="text-red-500 w-2 h-2 ml-[1px]">*</span></label>
+               <input id="contact-email" type="text" value={contactForm.email} onChange={(e) => { setContactForm((prev) => ({...prev,email: e.target.value, })); setErrors((prev) => ({...prev,email: false,}));}} className={`w-full rounded-[6px] border ${errors.email ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200`}/>
+               {errors.email && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+              </div>
+
+              <div className="col-span-2 flex flex-col pl-[8px] pt-5">
+              <label htmlFor="message" className="text-[20px] text-[#313C2B] mb-1" style={{ fontFamily: "noah-bold, sans-serif" }}>Your message <span className="text-red-500 w-2 h-2 ml-[1px]">*</span></label>
+              <textarea id="message" rows={4} value={contactForm.message} onChange={(e) => { setContactForm((prev) => ({...prev,message: e.target.value, })); setErrors((prev) => ({...prev,message: false,}));}} className={`w-full rounded-[6px] border ${errors.message ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:border-gray-500 focus:bg-white transition-all duration-200`}/>
+              {errors.message && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+            </div>
+
+            <div className="mt-4 flex flex-col pl-[15px]">
+              <label className="flex items-start gap-2 cursor-pointer">
+                <div className="relative">
+                <input type="checkbox" checked={contactForm.newsletter_consent} onChange={(e) => { setContactForm((prev) => ({...prev,newsletter_consent: e.target.checked, })); }} className="peer appearance-none w-6 h-6 rounded-[6px] border border-[#C6C0AF] bg-transparent cursor-pointer checked:bg-[#BAB6A7] checked:border-[#C6C0AF] transition-all duration-200" />
+                <FaCheck className="absolute top-[13px] left-1/2 -translate-x-1/2 -translate-y-1/2 text-black text-[12px] pointer-events-none opacity-0 peer-checked:opacity-100" />
+                </div>
+                <span style={{ fontFamily: "noah-regular, sans-serif" }} className="text-[16px] text-[#313C2B]">I would like to receive the newsletter, product updates  & offers </span>
+              </label>
+            </div>
+
+            <div className="mt-4 flex flex-col pl-[15px]">
+              <label className="flex items-start gap-2 cursor-pointer">
+                <div className="relative">
+                <input type="checkbox" checked={contactForm.privacy_policy_accepted} onChange={(e) => { setContactForm((prev) => ({...prev,privacy_policy_accepted: e.target.checked, })); }} className="peer appearance-none w-6 h-6 rounded-[6px] border border-[#C6C0AF] bg-transparent cursor-pointer checked:bg-[#BAB6A7] checked:border-[#C6C0AF] transition-all duration-200" />
+                <FaCheck className="absolute top-[13px] left-1/2 -translate-x-1/2 -translate-y-1/2 text-black text-[12px] pointer-events-none opacity-0 peer-checked:opacity-100" />
+                </div>
+                <span style={{ fontFamily: "noah-regular, sans-serif" }} className={`text-[16px] ${errors.privacy ? "text-red-500" : "text-[#313C2B]"}`}>I have read and agree with <a href="/privacy-policy" className={`underline ${errors.privacy ? "text-red-500" : "text-[#707F4F]"}`} >Privacy Policy *</a></span>
+              </label>
+              {errors.privacy && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+            </div>
+
+            <div className="mt-8 flex flex-col pl-[15px]">
+              <button type="button" onClick={handleContactSubmit} disabled={isSubmitting} style={{ fontFamily: "noah-bold, sans-serif" }} className="w-full h-[42px] rounded-[6px] border border-[#C6C0AF] bg-[#313B2A] cursor-pointer px-4 outline-none text-white focus:border-gray-500 focus:bg-white transition-all duration-200">
+                {isSubmitting ? "Sending..." : "Send"}
+              </button>
+            </div>
+
           </div>
           <div className="relative min-h-[650px] min-w-[650px]">
                 {selectedContactCategory?.image_url && (
