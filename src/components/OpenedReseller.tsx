@@ -192,7 +192,7 @@ export default function OpenedReseller({
                 </div>
                 <span style={{ fontFamily: "noah-regular, sans-serif" }} className={`text-[17px] ${errors.privacy ? "text-red-500" : "text-[#313C2B]"}`}>I have read and agree with <a href="/privacy-policy" className={`underline ${errors.privacy ? "text-red-500" : "text-[#707F4F]"}`} >Privacy Policy *</a></span>
               </label>
-              {errors.privacy && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+               
             </div>
             
             {/* //button */}
