@@ -5,7 +5,6 @@ import type { Country } from "../utils/types/country";
 import { TiLocation } from "react-icons/ti";
 import { IoClose } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa6";
-import Alert from "./Alert";
 
 
 interface OpenedResellerProps {
@@ -193,7 +192,7 @@ export default function OpenedReseller({
                 </div>
                 <span style={{ fontFamily: "noah-regular, sans-serif" }} className={`text-[17px] ${errors.privacy ? "text-red-500" : "text-[#313C2B]"}`}>I have read and agree with <a href="/privacy-policy" className={`underline ${errors.privacy ? "text-red-500" : "text-[#707F4F]"}`} >Privacy Policy *</a></span>
               </label>
-              {errors.message && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+              {errors.privacy && (<span className="text-red-500 text-[11px]">This field is required</span>)}
             </div>
             
             {/* //button */}

@@ -132,7 +132,7 @@ export default function Contacts() {
         <WorldMap />
       </section>
 
-      <section id="team" className="bg-[#313b2a] px-[240px] py-[80px] pt-10 ">
+      <section id="team" className="bg-[#313b2a] px-[240px] py-[80px] pt-10">
         <div className="grid grid-cols-2 ">
         <div className="flex items-center gap-3">
           <LeafIcon className="w-[12px] h-[12px]" />
@@ -289,6 +289,25 @@ export default function Contacts() {
         </div>
       </div>
     </div>
+    </section>
+
+    <section className="bg-[#F7F5EF] px-[240px] py-[80px] pt-10 ">
+      <h2 className="text-[44px] text-[#313C2B] text-center py-[55px]" style={{ fontFamily: "sogo-light, sans-serif" }}>Contact us or become a reseller</h2>
+
+      <div className="bg-[#EDE9DF] rounded-[8px] p-[8px] w-fit mx-auto mt-8 mb-12">
+            <div className="flex justify-center">
+                {categories.map((category) => (
+                    <button
+                        key={category.id}
+                        onClick={() => setActiveCategory(category.id)}
+                        className={`cursor-pointer w-[200px] py-3 border-y border-l border-[#c6c0af] first:rounded-l-lg last:border-r last:rounded-r-lg ${activeCategory === category.id ? "bg-[#313C2B] text-[#F7F5F0]" : "bg-[#F7F5F0] text-[#313C2B]"}`}
+                        style={{ fontFamily: "noah-bold, sans-serif" }}
+                    >
+                        {category.name}
+                    </button>
+                ))}
+            </div>
+        </div>
     </section>
 
     </div>
