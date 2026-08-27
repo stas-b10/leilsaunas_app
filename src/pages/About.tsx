@@ -4,6 +4,11 @@ import Manufacture from "../assets/images/manufacture.png"
 import map from "../assets/images/worldmap.png"
 import AnimatedCounter from "../components/AnimatedCounter";
 import aboutCertificate from "../assets/images/aboutCertificate.png"
+import saunasell from "../assets/images/saunasell.png"
+import coho from "../assets/images/coho.png"
+import huum from "../assets/images/huum.png"
+import decnord from "../assets/images/decnord.png"
+import lunawood from "../assets/images/lunawood.png"
 
 export default function About() {
   return (
@@ -94,7 +99,7 @@ export default function About() {
             </div>
             </div>
       
-          <div className="grid grid-cols-[1.1fr_1.05fr] gap-24 px-[130px] pt-[250px] pb-[200px]">
+          <div className="grid grid-cols-[1.1fr_1.05fr] gap-24 px-[130px] pt-[250px] pb-[150px]">
 
             <div className="max-w-[690px] px-[50px]">
               <h2 className="text-[44px] leading-[1.2] text-[#313C2B]" style={{ fontFamily: "sogo-light, sans-serif" }}>
@@ -107,6 +112,26 @@ export default function About() {
             </div>
 
             <img src={aboutCertificate} alt="aboutCertificate" className="w-full h-[460px] object-cover rounded-tl-[220px] rounded-[2px]" />
+
+          </div>
+
+          <div className="flex items-center justify-center gap-40">
+                <div className="flex items-center justify-center">
+                 <img src={saunasell} alt="saunasell" className="mx-auto w-auto h-4" />
+                </div>
+                <div className="flex items-center justify-center">
+                 <img src={coho} alt="coho" className="mx-auto w-auto h-12" />
+                </div>
+                <div className="flex items-center justify-center">
+                 <img src={huum} alt="huum" className="mx-auto w-auto h-12" />
+                </div>
+                <div className="flex items-center justify-center">
+                 <img src={decnord} alt="decnord" className="mx-auto w-auto h-12" />
+                </div>
+                <div className="flex items-center justify-center">
+                 <img src={lunawood} alt="lunawood" className="mx-auto w-auto h-12" />
+                </div>
+                
 
           </div>
          </div>
