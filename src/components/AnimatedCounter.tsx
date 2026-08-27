@@ -52,5 +52,5 @@ export default function AnimatedCounter({
     requestAnimationFrame(animate);
   }, [started, target, duration]);
 
-  return <div ref={ref}>{count}+</div>;
+  return <div ref={ref}>{count.toLocaleString("fr-FR")}+</div>;
 }

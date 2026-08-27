@@ -3,6 +3,7 @@ import LeafIcon from "../components/LeafIcon";
 import Manufacture from "../assets/images/manufacture.png"
 import map from "../assets/images/worldmap.png"
 import AnimatedCounter from "../components/AnimatedCounter";
+import aboutCertificate from "../assets/images/aboutCertificate.png"
 
 export default function About() {
   return (
@@ -67,14 +68,50 @@ export default function About() {
                 </ul>
               </div>
           </div>
+        </div>
+         <div className="relative px-[100px]">
+            <img src={map} alt="map" className="absolute top-0 left-1/2 -translate-x-1/2 w-[1500px] h-auto object-contain" />
+             <div className="relative z-10">
+             <div className="grid grid-cols-4 gap-8 px-[80px] pt-[290px]">
+             <div className="text-center whitespace-nowrap leading-none">
+              <div className="text-[64px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}><AnimatedCounter target={18} duration={700}/></div>
+              <p className="text-[#313C2B] mt-1 text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Years of experience</p>
+            </div>
 
-        <div className="relative w-full h-[730px]">
-          <img src={map} alt="map" className="w-full h-full object-cover" />
-        </div>
-        </div>
-      </section>
+             <div className="text-center whitespace-nowrap leading-none">
+              <div className="text-[64px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}><AnimatedCounter target={35} duration={700}/></div>
+              <p className="text-[#313C2B] mt-1 text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Different countries</p>
+            </div>
+
+             <div className="text-center whitespace-nowrap leading-none">
+              <div className="text-[64px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}><AnimatedCounter target={17300} duration={700}/></div>
+              <p className="text-[#313C2B] mt-1 text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Saunas manufactured</p>
+            </div>
+
+            <div className="text-center whitespace-nowrap leading-none" >
+              <div className="text-[64px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}><AnimatedCounter target={80} duration={700}/></div>
+              <p className="text-[#313C2B] mt-1 text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>Leil professionals</p>
+            </div>
+            </div>
       
+          <div className="grid grid-cols-[1.1fr_1.05fr] gap-24 px-[130px] pt-[250px] pb-[200px]">
 
+            <div className="max-w-[690px] px-[50px]">
+              <h2 className="text-[44px] leading-[1.2] text-[#313C2B]" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                Recognized worldwide.
+              </h2>
+
+              <p className="text-[20px] text-[#313C2B] mt-6" style={{ fontFamily: "noah-regular, sans-serif" }} >
+                Our design comes from the Nordics at heart: clear lines, natural materials, and details that work every day. We build for real life, then test with real people, and keep improving based on their feedback. That mindset has earned recognition from international juries and from the people who use our saunas daily. In 2024 we received  <strong>Red Dot: Best of the Best</strong> design award, which reflects both design quality and practical performance. Partners choose us because our saunas look modern, hold up to heavy use, and are straightforward to install and maintain. <br/><br/>Good design should feel easy, yet timeless.<br/>Ours is made to stay that way.
+              </p>
+            </div>
+
+            <img src={aboutCertificate} alt="aboutCertificate" className="w-full h-[460px] object-cover rounded-tl-[220px] rounded-[2px]" />
+
+          </div>
+         </div>
+       </div>
+      </section>
     </div>
   );
 }
