@@ -10,53 +10,47 @@ export default function AnimatedCounter({
   duration = 2000,
 }: AnimatedCounterProps) {
   const [count, setCount] = useState(1);
-  const [hasStarted, setHasStarted] = useState(false);
+  const [started, setStarted] = useState(false);
+
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasStarted) {
-          setHasStarted(true);
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
         }
       },
       {
         threshold: 0.5,
       }
     );
-
     if (ref.current) {
       observer.observe(ref.current);
     }
-
     return () => observer.disconnect();
-  }, [hasStarted]);
+  }, []);
 
   useEffect(() => {
-    if (!hasStarted) return;
-
-    const start = 1;
+    if (!started) return;
     const startTime = performance.now();
-
     const animate = (currentTime: number) => {
       const progress = Math.min(
         (currentTime - startTime) / duration,
         1
       );
-
-      const currentValue = Math.floor(
-        start + (target - start) * progress
-      );
-
-      setCount(currentValue);
-
+      const value = Math.floor(1 + (target - 1) * progress);
+      setCount(value);
       if (progress < 1) {
         requestAnimationFrame(animate);
+      } else {
+        setCount(target);
       }
     };
 
     requestAnimationFrame(animate);
-  }, [hasStarted, target, duration]);
+  }, [started, target, duration]);
 
   return <div ref={ref}>{count}+</div>;
 }

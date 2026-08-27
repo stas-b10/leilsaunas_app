@@ -2,6 +2,7 @@ import aboutImg from "../assets/images/about.png"
 import LeafIcon from "../components/LeafIcon";
 import Manufacture from "../assets/images/manufacture.png"
 import map from "../assets/images/worldmap.png"
+import AnimatedCounter from "../components/AnimatedCounter";
 
 export default function About() {
   return (
