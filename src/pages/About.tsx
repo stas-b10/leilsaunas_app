@@ -119,22 +119,33 @@ export default function About() {
                 <div className="flex items-center justify-center">
                  <img src={saunasell} alt="saunasell" className="mx-auto w-auto h-4" />
                 </div>
+
                 <div className="flex items-center justify-center">
                  <img src={coho} alt="coho" className="mx-auto w-auto h-12" />
                 </div>
+
                 <div className="flex items-center justify-center">
                  <img src={huum} alt="huum" className="mx-auto w-auto h-12" />
                 </div>
+
                 <div className="flex items-center justify-center">
                  <img src={decnord} alt="decnord" className="mx-auto w-auto h-12" />
                 </div>
+
                 <div className="flex items-center justify-center">
                  <img src={lunawood} alt="lunawood" className="mx-auto w-auto h-12" />
                 </div>
-                
-
           </div>
          </div>
+         <div className="px-[150px] mt-[70px] ">
+         <div className="flex items-center gap-2 text-[#313C2B] text-[16px]">
+           <LeafIcon className="w-[12px] h-[12px]" />
+            <p style={{ fontFamily: "noah-bold, sans-serif" }}>
+               why partners choose us
+            </p>
+          </div>
+          
+          </div>
        </div>
       </section>
     </div>
