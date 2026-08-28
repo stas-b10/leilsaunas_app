@@ -9,6 +9,7 @@ import coho from "../assets/images/coho.png"
 import huum from "../assets/images/huum.png"
 import decnord from "../assets/images/decnord.png"
 import lunawood from "../assets/images/lunawood.png"
+import AboutSlider from "../components/AboutSlider";
 
 export default function About() {
   return (
@@ -143,10 +144,15 @@ export default function About() {
             <p style={{ fontFamily: "noah-bold, sans-serif" }}>
                why partners choose us
             </p>
+            
           </div>
           
           </div>
+          
        </div>
+       <div>
+            <AboutSlider />
+          </div>
       </section>
     </div>
   );
