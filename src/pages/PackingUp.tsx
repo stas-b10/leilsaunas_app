@@ -5,7 +5,7 @@ import { useState } from "react";
 import { supabase } from "../utils/supabase";
 import ComeMeetUsFooter from "../components/ComeMeetUsFooter";
 
-export default function ComeMeetUs() {
+export default function PackingUp() {
 
    const [email, setEmail] = useState("");
     
