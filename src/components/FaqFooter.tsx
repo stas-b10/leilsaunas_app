@@ -45,7 +45,7 @@ export default function FaqFooter() {
   const selectedCategory = categories.find((category) => category.id === activeCategory);
 
   return (
-    <section className="bg-[#F7F5F0] pt-20 pb-[200px] relative overflow-hidden select-none">
+    <section className="bg-[#F7F5F0] pt-20 pb-[100px] relative overflow-hidden select-none">
         <div className="max-w-[1400px] mx-auto px-8 text-center">
             <div className="justify-center mt-8 mb-6 flex items-center gap-3 text-[#313C2B] text-[16px]">
                <LeafIcon className="w-[12px] h-[12px]" />

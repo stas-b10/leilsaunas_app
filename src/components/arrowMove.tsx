@@ -5,7 +5,7 @@ export default function ArrowMove() {
   return (
     <div className="relative w-14 h-14 rounded-full bg-white overflow-hidden flex items-center justify-center">
       <motion.div
-              className="absolute inset-0 flex items-center justify-center bg-[#edf5e8]"
+              className="absolute inset-0 flex items-center justify-center bg-[#EDF5E8]"
               variants={{
                 hover: { rotate: 90, scale: 1.08 },
                 initial: { rotate: 0, scale: 1 },
