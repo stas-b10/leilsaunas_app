@@ -2,7 +2,6 @@ import comeMeetUs from "../assets/images/ComeMeetUs.png"
 import { HiArrowRight } from "react-icons/hi";
 import { useState } from "react";
 import { supabase } from "../utils/supabase";
-import AboutFooter from "../components/AboutFooter";
 import ComeMeetUsFooter from "../components/ComeMeetUsFooter";
 
 export default function ComeMeetUs() {
