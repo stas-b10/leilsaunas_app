@@ -1,12 +1,10 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 export default function AboutUsButton() {
-  const navigate = useNavigate();
 
   return (
     <motion.button
-      onClick={() => navigate("/about")}
+      onClick={() => window.location.href = "https://leil.ee/"}
       initial="rest"
       whileHover="hover"
       animate="rest"
