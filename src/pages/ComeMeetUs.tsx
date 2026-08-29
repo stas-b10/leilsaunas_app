@@ -2,6 +2,8 @@ import comeMeetUs from "../assets/images/ComeMeetUs.png"
 import { HiArrowRight } from "react-icons/hi";
 import { useState } from "react";
 import { supabase } from "../utils/supabase";
+import AboutFooter from "../components/AboutFooter";
+import ComeMeetUsFooter from "../components/ComeMeetUsFooter";
 
 export default function ComeMeetUs() {
 
@@ -46,9 +48,9 @@ export default function ComeMeetUs() {
           </div>
         </section>
 
-        <section className="pb-[100px]">
+        <section className="pb-[250px]">
          <div className="mt-[100px] grid grid-cols-[1.1fr_0.9fr]">
-          <div className="pl-[270px] pr-[100px] flex flex-col space-y-6">
+          <div className="pl-[270px] pr-[50px] flex flex-col space-y-6">
             <h2 className="text-[20px] text-[#778658]" style={{ fontFamily: "noah-bold, sans-serif" }}>
              Published on May 7, 2026
             </h2>
@@ -57,9 +59,12 @@ export default function ComeMeetUs() {
             <p className="text-[20px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>🇳🇴 <strong>Sauna Congress 2026</strong> 24.09–26.09.26 Oslo, Norway</p>
             <p className="text-[20px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>🇩🇪 <strong>Interbad Spa & Wellness</strong> 6.10–8.10.26 Stuttgart, Germany (Stand: 1C32)</p>
             <p className="text-[20px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>🇺🇸 <strong>Pool Spa Patio Expo</strong> 17.11–19.11.26 Louisiana, United States (Stand: PSP 1st Floor Exhibit Hall, Booth 2019)</p>
+            <img src={comeMeetUs} alt="comeMeetUsImg" className="w-full h-full rounded-xl" />
+            <p className="text-[20px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>Stop by to talk about design, Leil®, sauna rituals and connect with the people behind it all.</p>
+            <p className="text-[20px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>For more information, contact us at <strong>info@leilsaunas.com</strong></p>
           </div>
         
-        <div className="border-l border-[#C6C0AF] pl-[20px]">
+        <div className="border-l border-[#C6C0AF] pl-[30px]">
          <div className="bg-[#1B2017] rounded-[8px] p-[30px] w-[580px] h-[230px]">
             <h3 className="mb-2 text-[20px] whitespace-nowrap text-white" style={{fontFamily: "noah-bold, sans-serif"}}>
               Subscribe to the newsletter
@@ -79,7 +84,7 @@ export default function ComeMeetUs() {
         </div>
          </div>
         </section>
-
+    <ComeMeetUsFooter/>
     </div>
   )
 }
