@@ -6,7 +6,7 @@ export default function ReadMoreButton() {
 
   return (
     <motion.button
-      onClick={() => navigate("/about")}
+      onClick={() => navigate("/come-meet-us-at-upcoming-expos-sauna-events-in-2026")}
       initial="rest"
       whileHover="hover"
       animate="rest"
