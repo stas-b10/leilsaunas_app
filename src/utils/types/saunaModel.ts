@@ -23,4 +23,5 @@ export interface SaunaModel {
   product_sheet_url: string | null;
 
   created_at: string;
+  display_order: number;
 }

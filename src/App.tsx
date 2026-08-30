@@ -19,6 +19,7 @@ import ColdFirst from "./pages/ColdFirst";
 import PackingUp from "./pages/PackingUp";
 import PageTransition from "./components/PageTransition";
 import ComeMeetUs from "./pages/ComeMeetUs"
+import SaunaModels from "./pages/SaunaModels";
 
 function App() {
   const location = useLocation();
@@ -45,8 +46,9 @@ function App() {
             <Route path="/cold-first-then-heat" element={<ColdFirst />} />
             <Route path="/sauna-culture" element={<SaunaCulture />} />
             <Route path="/were-packing-up-our-saunas" element={<PackingUp />} />
-            <Route path="/come-meet-us-at-upcoming-expos-sauna-events-in-2026" element={<ComeMeetUs/>} />
-          </Routes>
+            <Route path="/model/:model_name" element={<SaunaModels/>} />
+            <Route path="/come-meet-us-at-upcoming-expos-sauna-events-in-2026" element={<ComeMeetUs/>} />         
+         </Routes>
         </PageTransition>
       </main>
       <Footer />

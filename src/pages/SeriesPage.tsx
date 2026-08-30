@@ -1,21 +1,27 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabase";
 
 import type { SaunaModel } from "../utils/types/saunaModel";
 import type { Series } from "../utils/types/series";
 import LeafIcon from "../components/LeafIcon";
+import { FaWrench } from "react-icons/fa6";
+import FooterSlide from "../components/FooterSlide";
+import FaqFooter from "../components/FaqFooter";
 
 export default function SeriesPage() {
   const { slug } = useParams<{ slug: string }>();
 
   const [series, setSeries] = useState<Series | null>(null);
   const [models, setModels] = useState<SaunaModel[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
-
     const fetchData = async () => {
+     setLoading(true);
+
+    try {
       const { data: seriesData, error: seriesError } = await supabase
         .from("series")
         .select("*")
@@ -32,21 +38,26 @@ export default function SeriesPage() {
       const { data: saunaData, error: saunaError } = await supabase
         .from("sauna_models")
         .select("*")
-        .eq("series_id", seriesData.id);
+        .eq("series_id", seriesData.id)
+        .order("display_order", { ascending: true });
+        
 
       if (saunaError) {
         console.error("Sauna models error:", saunaError);
         return;
       }
-
+      
       setModels(saunaData || []);
+    } finally {
+       setLoading(false);
+    }
     };
 
     fetchData();
   }, [slug]);
 
   return (
-    <div className="min-h-screen bg-[#EDE9DF]">
+    <section className="min-h-screen bg-[#EDE9DF]">
       {series && (
         <section className="w-full mb-16">
 
@@ -95,16 +106,44 @@ export default function SeriesPage() {
         </section>
       )}
 
-      {series && models && (
-        <section className="px-[260px] py-[240px] -mt-24">
+      {series && (
+        <section className="px-[260px] py-[100px] -mt-24">
         <div className="flex items-center gap-2 mb-12 opacity-90 text-[16px]"
              style={{ fontFamily: "noah-bold, sans-serif" }}
         >
           <LeafIcon className="w-[12px] h-[12px]" />
             <span>choose what suits you the best.</span>
         </div>
+        <div className="grid grid-cols-3 gap-6 space-y-8">
+        {models.map((model) => (
+        <div key={model.id} className="w-full px-[70px] flex flex-col items-center">
+          <Link to={`/model/${model.model_name}`} className="group">
+          <img src={model.product_sheet_url} alt={model.model_name} className="w-[300px] h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+          </Link>
+          <h2 className="mt-10 text-[26px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+            {model.model_name}
+          </h2>
+        <Link to={`/model/${model.model_name}`}>
+        <button className="mt-6 px-4 py-1.5 rounded-md border border-[#C7BEAB] hover:border-[#313C2B] hover:bg-[#313C2B] hover:text-white transition cursor-pointer flex flex-row items-center justify-center gap-2">
+          <FaWrench />
+          <span style={{ fontFamily: "noah-bold, sans-serif" }}>Configure & Get a quote </span>
+        </button>
+        </Link>
+          </div>
+        ))}
+        </div>
         </section>
       )}
-    </div>
+      {!loading && models.length === 0 && (
+        <div
+          className="py-24 text-center text-[#313C2B]"
+          style={{ fontFamily: "noah-regular, sans-serif" }}
+        >
+          No sauna series found in this category.
+        </div>
+      )}
+      <FooterSlide />
+      <FaqFooter />
+    </section>
   );
 }
