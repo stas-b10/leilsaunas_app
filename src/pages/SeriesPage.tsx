@@ -4,6 +4,7 @@ import { supabase } from "../utils/supabase";
 
 import type { SaunaModel } from "../utils/types/saunaModel";
 import type { Series } from "../utils/types/series";
+import LeafIcon from "../components/LeafIcon";
 
 export default function SeriesPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -91,6 +92,17 @@ export default function SeriesPage() {
             <img src={series.img_no_wall} alt={series.series_name} className="w-full h-auto" />
           </div>
           </div>
+        </section>
+      )}
+
+      {series && models && (
+        <section className="px-[260px] py-[240px] -mt-24">
+        <div className="flex items-center gap-2 mb-12 opacity-90 text-[16px]"
+             style={{ fontFamily: "noah-bold, sans-serif" }}
+        >
+          <LeafIcon className="w-[12px] h-[12px]" />
+            <span>choose what suits you the best.</span>
+        </div>
         </section>
       )}
     </div>
