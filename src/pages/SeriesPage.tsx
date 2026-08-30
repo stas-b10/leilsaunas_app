@@ -45,53 +45,54 @@ export default function SeriesPage() {
   }, [slug]);
 
   return (
-    <section className="bg-[#F7F5F0] min-h-screen py-[140px]">
-      <div className="max-w-[1400px] mx-auto px-[80px]">
-        <h1
-          className="text-[64px] text-[#313C2B]"
-          style={{ fontFamily: "sogo-light, sans-serif" }}
-        >
-          {series?.series_name}
-        </h1>
+    <div className="min-h-screen bg-[#EDE9DF]">
+      {series && (
+        <section className="w-full mb-16">
 
-        <p
-          className="mt-6 text-[#666]"
-          style={{ fontFamily: "noah-regular, sans-serif" }}
-        >
-          {series?.series_description}
-        </p>
+          <div className="relative w-full h-[520px] overflow-hidden">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-          {models.map((model) => (
-            <div
-              key={model.id}
-              className="rounded-xl bg-white overflow-hidden shadow-sm hover:shadow-lg transition"
-            >
-              <img
-                src={model.image_url || "/placeholder.jpg"}
-                alt={model.model_name}
-                className="h-[380px] w-full object-cover"
-              />
+            <img
+              src={series.image_url}
+              alt={series.series_name}
+              className="w-full h-full object-cover"
+            />
 
-              <div className="p-6">
-                <h3
-                  className="text-[26px]"
-                  style={{ fontFamily: "sogo-light, sans-serif" }}
-                >
-                  {model.model_name}
-                </h3>
+            <div className="absolute inset-0 bg-black/20" />
 
-                <p
-                  className="mt-2 text-[#666]"
-                  style={{ fontFamily: "noah-regular, sans-serif" }}
-                >
-                  {model.people} people • {model.area_m2} m²
+            <div className="absolute bottom-8 left-10 md:left-64 text-white">
+              <div className="flex items-end gap-16 max-w-[1400px]">
+                <p className="w-[650px] text-[64px] leading-[0.95]" style={{ fontFamily: "sogo-light, sans-serif" }}>
+                  {series.series_name}
                 </p>
               </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
+          </div>
+        </section>
+      )}  
+
+      {series && (
+        <section className="pl-6 md:pl-64 pr-6 pt-[30px]">
+          <div className="flex items-start gap-8">
+            <div className="w-[920px] space-y-4">
+          <h1
+            className="text-[20px] text-[#313C2B]  max-w-[900px]"
+            style={{ fontFamily: "noah-bold, sans-serif" }}
+          >
+            {series.series_description}
+          </h1>
+          <p
+            className="text-[20px] text-[#313C2B] max-w-[880px]"
+            style={{ fontFamily: "noah-regular, sans-serif" }}
+            >
+            {series.description}
+          </p>
+          </div>
+          <div className="w-[420px] shrink-0">
+            <img src={series.img_no_wall} alt={series.series_name} className="w-full h-auto" />
+          </div>
+          </div>
+        </section>
+      )}
+    </div>
   );
 }
