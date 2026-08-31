@@ -6,4 +6,7 @@ export interface Series {
   slug: string;
   series_description: string | null;
   created_at: string;
+  image_url: string;
+  description: string;
+  img_no_wall: string;
 }

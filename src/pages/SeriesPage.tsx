@@ -107,7 +107,7 @@ export default function SeriesPage() {
       )}
 
       {series && (
-        <section className="px-[260px] py-[100px] -mt-24">
+        <section className="px-[260px] py-[100px] pt-[180px]">
         <div className="flex items-center gap-2 mb-12 opacity-90 text-[16px]"
              style={{ fontFamily: "noah-bold, sans-serif" }}
         >
