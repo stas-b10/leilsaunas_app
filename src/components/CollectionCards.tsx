@@ -3,14 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabase";
 import { motion } from "framer-motion";
 import { FiPlus } from "react-icons/fi";
-
-interface Collection {
-  id: number;
-  collection_name: string;
-  description: string;
-  image_url: string;
-  sort_order: number;
-}
+import type { Collection } from "../utils/types/collection";
 
 export default function CollectionCards() {
   const [collections, setCollections] = useState<Collection[]>([]);
@@ -46,7 +39,7 @@ export default function CollectionCards() {
           whileHover="hover"
         >
           <img
-            src={collection.image_url}
+            src={collection.img_card_url}
             alt={collection.collection_name}
             className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
           />

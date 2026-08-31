@@ -4,6 +4,7 @@ export interface Collection {
   slug: string;
   description: string | null;
   image_url: string | null;
+  img_card_url: string;
   sort_order: number | null;
   created_at: string;
 }
