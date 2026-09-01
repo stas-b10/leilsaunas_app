@@ -75,9 +75,7 @@ export default function FooterSlide() {
   };
 
   return (
-    <section
-      className="bg-[#2b3527] text-[#f7f5f0] py-26 px-8 relative overflow-hidden select-none"
-    >
+    <section className="bg-[#2b3527] text-[#f7f5f0] py-26 px-8 relative overflow-hidden select-none">
       <motion.div
         animate={isHovering ? "hover" : "rest"}
         initial="rest"

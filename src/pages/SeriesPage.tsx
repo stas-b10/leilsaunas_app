@@ -8,6 +8,7 @@ import LeafIcon from "../components/LeafIcon";
 import { FaWrench } from "react-icons/fa6";
 import FooterSlide from "../components/FooterSlide";
 import FaqFooter from "../components/FaqFooter";
+import RoundCubeFooter from "../components/RoundCubeFooter";
 
 export default function SeriesPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -117,13 +118,13 @@ export default function SeriesPage() {
         <div className="grid grid-cols-3 gap-6 space-y-8">
         {models.map((model) => (
         <div key={model.id} className="w-full px-[70px] flex flex-col items-center">
-          <Link to={`/model/${model.model_name}`} className="group">
+          <Link to={`/sauna/${model.model_name.toLowerCase().replace(/\s+/g, "-")}`} className="group">
           <img src={model.product_sheet_url} alt={model.model_name} className="w-[300px] h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
           </Link>
           <h2 className="mt-10 text-[26px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
             {model.model_name}
           </h2>
-        <Link to={`/model/${model.model_name}`}>
+        <Link to={`/sauna/${model.model_name.toLowerCase().replace(/\s+/g, "-")}`}>
         <button className="mt-6 px-4 py-1.5 rounded-md border border-[#C7BEAB] hover:border-[#313C2B] hover:bg-[#313C2B] hover:text-white transition cursor-pointer flex flex-row items-center justify-center gap-2">
           <FaWrench />
           <span style={{ fontFamily: "noah-bold, sans-serif" }}>Configure & Get a quote </span>
@@ -142,6 +143,7 @@ export default function SeriesPage() {
           No sauna series found in this category.
         </div>
       )}
+      {series?.series_name === "Round Cube® Saunas" && <RoundCubeFooter />}
       <FooterSlide />
       <FaqFooter />
     </section>

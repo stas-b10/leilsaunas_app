@@ -46,7 +46,7 @@ function App() {
             <Route path="/cold-first-then-heat" element={<ColdFirst />} />
             <Route path="/sauna-culture" element={<SaunaCulture />} />
             <Route path="/were-packing-up-our-saunas" element={<PackingUp />} />
-            <Route path="/model/:model_name" element={<SaunaModels/>} />
+            <Route path="/sauna/:model_slug" element={<SaunaModels />} />
             <Route path="/come-meet-us-at-upcoming-expos-sauna-events-in-2026" element={<ComeMeetUs/>} />         
          </Routes>
         </PageTransition>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import navLogo from "../assets/navLogo.png";
 import MenuButton from "./MenuButton";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import OpenedMenu from "../components/OpenedMenu";
 
 export default function Navbar() {
