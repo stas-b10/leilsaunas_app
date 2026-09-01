@@ -52,27 +52,17 @@ export default function Navbar() {
       <div className="container mx-auto px-4 relative flex items-center justify-between">
   
 
-  <a href="/" className="relative top-3 -left-2">
-            <img
-              src={navLogo}
-              alt="Leil Saunas"
-              className="w-auto h-12 lg:h-auto"
-            />
-          </a>
+    <a href="/" className="relative top-3 -left-2">
+      <img src={navLogo} alt="Leil Saunas" className="w-auto h-12 lg:h-auto" />
+    </a>
 
-  <div className="relative top-3 -left-2">
-            <MenuButton
-              menuOpen={menuOpen}
-              onClick={() => setMenuOpen((prev) => !prev)}
-            />
-          </div>
+    <div className="relative top-3 -left-2">
+     <MenuButton menuOpen={menuOpen} onClick={() => setMenuOpen((prev) => !prev)}/>
+    </div>
 
-</div>
-    </nav>
-    <OpenedMenu
-        isOpen={menuOpen}
-        onClose={() => setMenuOpen(false)}
-      />
+    </div>
+   </nav>
+      <OpenedMenu isOpen={menuOpen} onClose={() => setMenuOpen(false)}/>
     </>
   );
 }

@@ -6,12 +6,15 @@ import FilterSaunas from "../components/FilterSaunas";
 import { LuSettings2 } from "react-icons/lu";
 import FooterSlide from "../components/FooterSlide";
 import FaqFooter from "../components/FaqFooter";
+import type { Series } from "../utils/types/series";
+import type { Category } from "../utils/types/categories";
 
 export default function Saunas() {
   const { categorySlug } = useParams();
 
-  const [category, setCategory] = useState<any>(null);
-  const [saunas, setSaunas] = useState<any[]>([]);
+  const [category, setCategory] = useState<Category | null>(null);
+  const [saunas, setSaunas] = useState<Series[]>([]);
+  const [filteredResults, setFilteredResults] = useState<Series[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
@@ -19,6 +22,7 @@ export default function Saunas() {
   const fetchSaunas = async () => {
     if (!categorySlug) return;
     setLoading(true);
+    setFilteredResults(null);
 
     try {
       const { data: categoryData, error: categoryError } = await supabase
@@ -62,7 +66,7 @@ export default function Saunas() {
           <div className="relative w-full h-[530px] overflow-hidden">
 
             <img
-              src={category.image_url}
+              src={category.image_url ?? ""}
               alt={category.category_name}
               className="w-full h-full object-cover"
             />
@@ -140,12 +144,12 @@ export default function Saunas() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-16">
 
-          {saunas.map((item) => (
+          {(filteredResults ?? saunas).map((item) => (
             <div key={item.id}>
 
               <Link to={`/series/${item.slug}`}>
               <div className="relative overflow-hidden rounded-lg cursor-pointer">
-              <img src={item.image_url} alt={item.series_name} className="w-full h-[380px] object-cover" />
+              <img src={item.image_url ?? ""} alt={item.series_name} className="w-full h-[380px] object-cover" />
                 
                 <div className="absolute top-5 right-5 flex gap-3">
 
@@ -154,7 +158,7 @@ export default function Saunas() {
           </span>
 
           <span className="px-[27px] py-[12px] rounded-full bg-white/10 text-[19px] text-white backdrop-blur-sm border border-white/20" style={{ fontFamily: "noah-bold, sans-serif" }}>
-            {category.category_name}
+            {category?.category_name}
           </span>
 
         </div>
@@ -190,13 +194,11 @@ export default function Saunas() {
 
     </div>
   ))}
-
 </div>
+</section>
+)}
 
-        </section>
-      )}
-
-      {!loading && saunas.length === 0 && (
+      {!loading && (filteredResults ?? saunas).length === 0 && (
         <div
           className="py-24 text-center text-[#313C2B]"
           style={{ fontFamily: "noah-regular, sans-serif" }}

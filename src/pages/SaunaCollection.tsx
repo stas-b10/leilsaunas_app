@@ -56,7 +56,7 @@ export default function SaunaCollection() {
     <section className="w-full mb-16">
       <div className="relative w-full h-[530px] overflow-hidden">
 
-        <img src={collectionInfo.image_url} alt={collectionInfo.collection_name} className="w-full h-full object-cover"/>
+        <img src={collectionInfo.image_url ?? ""} alt={collectionInfo.collection_name} className="w-full h-full object-cover"/>
         <div className="absolute inset-0 bg-black/20" />
 
             <div className="absolute bottom-19 left-10 md:left-64 text-white">

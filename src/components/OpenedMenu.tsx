@@ -76,12 +76,10 @@ export default function OpenedMenu({
           overflow-hidden
         "
       >
-        <div className="flex items-center justify-between px-8 pt-4 pb-8">
-  <h2 style={{fontFamily: "sogo-light, sans-serif"}} className="text-[42px] text-white">
-    Our saunas, made to last
-  </h2>
-  <CloseMenuButton onClick={onClose} />
-</div>
+      <div className="flex items-center justify-between px-8 pt-4 pb-8">
+        <h2 style={{fontFamily: "sogo-light, sans-serif"}} className="text-[42px] text-white"> Our saunas, made to last</h2>
+        <CloseMenuButton onClick={onClose} />
+      </div>
 
         <div className="px-8 pb-12 ">
           <div className="grid grid-cols-[0.5fr_0.5fr_2fr]">

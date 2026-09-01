@@ -119,7 +119,7 @@ export default function SeriesPage() {
         {models.map((model) => (
         <div key={model.id} className="w-full px-[70px] flex flex-col items-center">
           <Link to={`/sauna/${model.model_name.toLowerCase().replace(/\s+/g, "-")}`} className="group">
-          <img src={model.product_sheet_url} alt={model.model_name} className="w-[300px] h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+          <img src={model.product_sheet_url ?? ""} alt={model.model_name} className="w-[300px] h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
           </Link>
           <h2 className="mt-10 text-[26px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
             {model.model_name}

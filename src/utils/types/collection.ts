@@ -1,10 +1,11 @@
 export interface Collection {
   id: string;
   collection_name: string;
-  slug: string;
+  created_at: string;
   description: string | null;
   image_url: string | null;
-  img_card_url: string;
-  sort_order: number | null;
-  created_at: string;
+  sort_order: number;
+  slug: string | null;
+  menu_image_url: string | null;
+  img_card_url: string | null;
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { GoArrowSwitch } from "react-icons/go";
 import { FaFire, FaTrophy } from "react-icons/fa";
 
@@ -45,9 +46,21 @@ export default function ValueSlider() {
   };
 
   useEffect(() => {
-    getSlides();
-    return () => toggleGlobalLeafCursor(true);
-  }, []);
+  const loadSlides = async () => {
+    const { data } = await supabase
+      .from("value_slides")
+      .select("*")
+      .order("sort_order");
+
+    if (data) {
+      setSlides(data);
+    }
+  };
+
+  loadSlides();
+
+  return () => toggleGlobalLeafCursor(true);
+}, []);
 
   const handleMouseEnter = () => {
     setIsHovering(true);
@@ -59,18 +72,10 @@ export default function ValueSlider() {
     toggleGlobalLeafCursor(true);
   };
 
-  async function getSlides() {
-    const { data } = await supabase
-      .from("value_slides")
-      .select("*")
-      .order("sort_order");
-
-    if (data) setSlides(data);
-  }
 
   const [trackProgress, setTrackProgress] = useState({ x: 0, width: 0 });
 
-  const handleProgress = (swiper: any) => {
+  const handleProgress = (swiper: SwiperType) => {
     if (!slides.length) return;
 
     const clamped = Math.max(0, Math.min(1, swiper.progress));
