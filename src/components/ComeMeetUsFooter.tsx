@@ -1,4 +1,3 @@
-import React from 'react'
 import ArrowMove from './arrowMove'
 import { motion } from 'framer-motion'
 import ReadMoreButton from './ReadMoreButton'

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperType } from "swiper";
 import { GoArrowSwitch } from "react-icons/go";
 
 import "swiper/css";
@@ -36,9 +37,22 @@ export default function FooterSlide() {
     }
   };
 
-  useEffect(() => {
-    getSlides();
-    return () => toggleGlobalLeafCursor(true);
+   useEffect(() => {
+    const fetchSlides = async () => {
+      const { data, error } = await supabase
+        .from("footer_slides")
+        .select("*")
+        .order("sort_order");
+      if (error) {
+        console.error("Error fetching footer slides:", error);
+        return;
+      }
+      if (data) {
+        setSlides(data);
+      }
+    };
+
+    fetchSlides();
   }, []);
 
   const handleMouseEnter = () => {
@@ -51,18 +65,9 @@ export default function FooterSlide() {
     toggleGlobalLeafCursor(true);
   };
 
-  async function getSlides() {
-    const { data } = await supabase
-      .from("footer_slides")
-      .select("*")
-      .order("sort_order");
-
-    if (data) setSlides(data);
-  }
-
   const [trackProgress, setTrackProgress] = useState({ x: 0, width: 0 });
 
-  const handleProgress = (swiper: any) => {
+  const handleProgress = (swiper: SwiperType) => {
     if (!slides.length) return;
 
     const clamped = Math.max(0, Math.min(1, swiper.progress));

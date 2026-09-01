@@ -1,13 +1,13 @@
 import { useEffect, useRef } from "react";
 
 export default function LeafCursor() {
-  const cursorRef = useRef(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    const moveCursor = (e) => {
+    const moveCursor = (e: MouseEvent) => {
       cursor.style.setProperty("--cursor-x", `${e.clientX - 8}px`);
       cursor.style.setProperty("--cursor-y", `${e.clientY - 8}px`);
     };

@@ -2,11 +2,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../utils/supabase";
 import { Link } from "react-router-dom";
+import type { Collection } from "../utils/types/collection";
+import type { Category } from "../utils/types/categories";
+import type { Series } from "../utils/types/series";
+
+interface FilterSeries extends Series {
+  category?: {
+    id: string;
+    category_name: string;
+  };
+  collection?: {
+    id: string;
+    collection_name: string;
+  };
+}
 
 interface FilterSaunasProps {
   isOpen: boolean;
   onClose: () => void;
-  onApplyFilter: (filteredResults: any[]) => void;
+  onApplyFilter: (filteredResults: FilterSeries[]) => void;
 }
 
 export default function FilterSaunas({
@@ -14,12 +28,12 @@ export default function FilterSaunas({
   onClose,
   onApplyFilter,
 }: FilterSaunasProps) {
-  const [categories, setCategories] = useState<any[]>([]);
-  const [collections, setCollections] = useState<any[]>([]);
-  const [series, setSeries] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [series, setSeries] = useState<FilterSeries[]>([]);
 
-  const [selectedCategory, setSelectedCategory] = useState<any | null>(null);
-  const [selectedCollection, setSelectedCollection] = useState<any | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+  const [selectedCollection, setSelectedCollection] = useState<Collection | null>(null);
 
 
   useEffect(() => {
