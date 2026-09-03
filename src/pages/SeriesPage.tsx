@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabase";
 
-import type { SaunaModel } from "../utils/types/saunaModel";
+import type { SaunaModel } from "../utils/types/sauna_models";
 import type { Series } from "../utils/types/series";
 import LeafIcon from "../components/LeafIcon";
 import { FaWrench } from "react-icons/fa6";
