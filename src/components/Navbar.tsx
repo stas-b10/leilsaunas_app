@@ -7,9 +7,11 @@ import OpenedMenu from "../components/OpenedMenu";
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  
 
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isSaunaModel = location.pathname.startsWith("/sauna/");
 
   useEffect(() => {
   if (!isHome) {
@@ -35,7 +37,9 @@ export default function Navbar() {
       className={`
         fixed top-0 left-0 w-full z-50
         transition-all duration-300 ease-in-out 
-        ${scrolled
+        ${isSaunaModel
+          ? "h-26 bg-[#1B2017]"
+          : scrolled
       ? "h-26 bg-gray/10 backdrop-blur-md border-white/50"
       : "h-26 bg-transparent backdrop-blur-0"
         }
@@ -45,18 +49,18 @@ export default function Navbar() {
         className={`
           absolute bottom-0 left-0 w-full h-[1px]
           transition-opacity duration-300 ease-in-out
-          ${scrolled ? "opacity-100 delay-150 bg-white/20" : "opacity-0"}
+          ${scrolled || isSaunaModel ? "opacity-100 delay-150 bg-white/20" : "opacity-0"}
         `}
       />
 
       <div className="container mx-auto px-4 relative flex items-center justify-between">
   
 
-    <a href="/" className="relative top-3 -left-2">
+    <a href="/" className="relative top-3 left-[50px]">
       <img src={navLogo} alt="Leil Saunas" className="w-auto h-12 lg:h-auto" />
     </a>
 
-    <div className="relative top-3 -left-2">
+    <div className="relative top-3 right-[50px]">
      <MenuButton menuOpen={menuOpen} onClick={() => setMenuOpen((prev) => !prev)}/>
     </div>
 
