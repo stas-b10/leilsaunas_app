@@ -6,17 +6,20 @@ import type { SaunaImages } from '../utils/types/sauna_images'
 import type { OptionValues } from '../utils/types/option_value'
 import type { OptionLayers } from '../utils/types/option_layers'
 import type { ModelOptionValues } from '../utils/types/model_option_values'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MdPeopleAlt } from "react-icons/md";
 import { HiMiniCube } from "react-icons/hi2";
 import { IoMdHome } from "react-icons/io";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { MdOutlineDone } from "react-icons/md";
 import { LuX } from "react-icons/lu";
+import type { countries } from "../utils/types/all_countries";
+import type { UserInput } from "../utils/types/user_input";
+
 
 export default function SaunaModels() {
   const { model_slug } = useParams<{ model_slug: string }>();
-
+  const navigate = useNavigate();
   const [saunaModel, setSaunaModel] = useState<SaunaModel | null>(null);
   const [optionGroups, setOptionGroups] = useState<OptionGroups[]>([]);
   const [optionValues, setOptionValues] = useState<OptionValues[]>([]);
@@ -26,6 +29,11 @@ export default function SaunaModels() {
   const [loading, setLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string[]>>({});
   const [sizeUnit, setSizeUnit] = useState<"EU" | "US">("EU");
+  const [country,setCountry] = useState<countries[]>([]);
+  const [userInput, setUserInput] = useState<UserInput>({name: "", email: "", country: "", phone: "", additionalComments: "",});
+
+  
+  const [errors, setErrors] = useState({name: false,email: false, country: false,additionalComments: false,});
 
   useEffect(() => {
     if (!model_slug) return;
@@ -47,12 +55,13 @@ export default function SaunaModels() {
 
         setSaunaModel(saunaModelData);
 
-        const[optionGroupsResult, optionValuesResult, optionLayersResult, modelOptionValuesResult, saunaImagesResult] = await Promise.all([
+        const[optionGroupsResult, optionValuesResult, optionLayersResult, modelOptionValuesResult, saunaImagesResult, countriesResult,] = await Promise.all([
           supabase.from("option_groups").select("*").order("display_order", { ascending: true }),
           supabase.from("option_values").select("*").order("display_order", { ascending: true }),
           supabase.from("option_layers").select("*").eq("model_id", saunaModelData.id).order("display_order", { ascending: true }),
           supabase.from("model_option_values").select("*").eq("model_id", saunaModelData.id),
           supabase.from("sauna_model_images").select("*").eq("model_id", saunaModelData.id).order("display_order", { ascending: true }),
+          supabase.from("all_countries").select("*").order("name", { ascending: true }),
         ]);
 
         if (optionGroupsResult.error) {
@@ -79,12 +88,17 @@ export default function SaunaModels() {
           console.error("Sauna images error:", saunaImagesResult.error);
           return;
         }
+        if (countriesResult.error) {
+          console.error("Countries error:", countriesResult.error);
+          return;
+        }
 
         setOptionGroups(optionGroupsResult.data || []);
         setOptionValues(optionValuesResult.data || []);
         setOptionLayers(optionLayersResult.data || []);
         setModelOptionValues(modelOptionValuesResult.data || []);
         setSaunaImages(saunaImagesResult.data || []);
+        setCountry(countriesResult.data || []);
       } finally {
         setLoading(false);
       }
@@ -259,6 +273,71 @@ const handleOptionClick = (
   return `D ${d} x W ${w} x H ${h}`;
   };
 
+  const selectedOptionValues = useMemo(() => {
+  const selectedIds = new Set(
+    Object.values(selectedOptions).flat()
+  );
+
+  const showFrontWallGroup = optionGroups.find(
+    (group) => group.slug === "show_front_wall"
+  );
+
+  return optionValues.filter(
+    (value) =>
+      selectedIds.has(value.id) &&
+      value.option_group_id !== showFrontWallGroup?.id
+  );
+}, [optionValues, optionGroups, selectedOptions]);
+
+  const getOptionPrice = (valueId: string) => {
+    const modelOption = modelOptionValues.find(
+     (item) => item.option_value_id === valueId
+    );
+
+    return Number(modelOption?.price || 0);
+  };
+
+  const basePrice = Number(saunaModel?.price || 0);
+  const optionsPrice = selectedOptionValues.reduce((total, value) => total + getOptionPrice(value.id),0);
+  const totalPrice = basePrice + optionsPrice;
+
+  const handleGoToCart = () => {
+    const newErrors = {
+      name: !userInput.name.trim(),
+      email: !userInput.email.trim(),
+      country: !userInput.country,
+      additionalComments: !userInput.additionalComments.trim(),
+    };
+    setErrors(newErrors);
+    if (newErrors.name || newErrors.email || newErrors.country || newErrors.additionalComments) return;
+    const cartData = {
+      userInput,
+      model: {
+        id: saunaModel?.id,
+        model_name: saunaModel?.model_name,
+        price: basePrice,
+      },
+      selectedOptions: selectedOptionValues.map((value) => ({
+        id: value.id,
+        name: value.name,
+        option_group_id: value.option_group_id,
+        price: getOptionPrice(value.id),
+      })),
+      optionsPrice,
+      totalPrice,
+    };
+      sessionStorage.setItem(
+      "saunaCartData",
+      JSON.stringify(cartData)
+    );
+
+    navigate("/cart");
+  }
+
+
+
+
+
   return (
     <div className="bg-[#F7F5EF] pt-20 pb-[100px]">
       <h2 className='flex px-[270px] py-[80px] pb-[20px] text-[20px] text-[#313C2B]' style={{ fontFamily: "noah-bold, sans-serif" }}>Configure & Get a quote</h2>
@@ -354,6 +433,122 @@ const handleOptionClick = (
             </div>
           </div>
         </div>
+        <div className="w-[calc(100%+90px)] h-[1px] bg-[#C6C0AF] mt-4"/>
+
+        <div className="pt-10">
+          <h3 className="text-[20px] text-[#313C2B] mb-4" style={{ fontFamily: "noah-bold, sans-serif" }}>
+            We’re here for you!
+          </h3>
+          <p className="text-[16px] text-[#313C2B] mb-8" style={{ fontFamily: "noah-regular, sans-serif" }}>
+            Send your specific wishes to us and we will reply to you as soon as possible.
+          </p>
+
+          <div className="space-y-5">
+            <div>
+              <label htmlFor="contact-name" className="text-[22px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>Name <span className="text-red-500 w-2 h-2 ml-[1px]">*</span></label>
+              <input id="name" type="text" value={userInput.name} onChange={(e) => setUserInput((prev) => ({
+                ...prev,name:e.target.value,
+              }))}
+              className={`w-full rounded-[6px] border ${errors.name ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200`}
+              />
+              {errors.name && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+            </div>
+
+            <div>
+              <label htmlFor="contact-email" className="text-[22px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>Email <span className="text-red-500 w-2 h-2 ml-[1px]">*</span></label>
+              <input id="email" type="email" value={userInput.email} onChange={(e) => setUserInput((prev) => ({
+                ...prev,email:e.target.value,
+              }))}
+              className={`w-full rounded-[6px] border ${errors.email ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200`}
+              />
+              {errors.email && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+            </div>
+
+            <div>
+              <label htmlFor="contact-country" className="text-[22px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>Country <span className="text-red-500 w-2 h-2 ml-[1px]">*</span></label>
+              <select id="country" value={userInput.country} onChange={(e) => setUserInput((prev) => ({
+                ...prev,country:e.target.value,
+              }))}
+              className={`w-full appearance-none rounded-[6px] border ${errors.country ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200`}>
+
+                <option value="">Select country</option>
+                {country.map((item) => (<option key={item.id} value={item.name}> {item.name} </option>))} 
+              </select>
+              {errors.country && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+            </div>
+
+            <div>
+              <label htmlFor="contact-phone"  className="block text-[22px] text-[#313C2B] mb-2" style={{ fontFamily: "noah-bold, sans-serif" }}>
+                 Phone/Mobile
+              </label>
+
+              <input id="contact-phone" placeholder="optional - for faster response on your quote" type="tel" value={userInput.phone} onChange={(e) => setUserInput((prev) => ({  ...prev, phone: e.target.value,}))}
+                  className="w-full rounded-[6px] border border-[#C6C0AF] bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200"
+               />
+            </div>
+
+            <div className="pt-2">
+               <h3 className="text-[20px] text-[#313C2B] mb-5" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                Requested Info
+               </h3>
+
+               <div className="w-full rounded-[6px] border border-[#C6C0AF] bg-[#F7F5EF] px-4 py-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                    Product: {saunaModel.model_name}
+                  </span>
+                  <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>
+                    ${basePrice.toLocaleString("en-US")}
+                  </span>
+                </div>
+                <div className="mt-3 space-y-2">
+                    {selectedOptionValues.map((value) => {
+                      const price = getOptionPrice(value.id);
+                      const group = optionGroups.find( (group) => group.id === value.option_group_id );
+                      
+                      return (
+                        <div key={value.id} className="flex items-center justify-between">
+                          <span className="text-[15px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                            {group?.name}: {value.name}
+                          </span>
+                          <span className="text-[15px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                            {price > 0 ? `+$${price.toLocaleString("en-US")}`: "$0"}
+                          </span>
+                        </div>
+                      );
+                    })}
+               </div>
+               <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#C6C0AF]">
+                <span className="text-[17px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                  Total
+                </span>
+                <span className="text-[19px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                  ${totalPrice.toLocaleString("en-US")}
+                </span>
+               </div>
+               </div>
+            </div>
+
+            <div>
+              <label htmlFor="additional-comments" className="block text-[22px] text-[#313C2B] mb-2" style={{ fontFamily: "noah-bold, sans-serif" }}>
+                 Additional comments <span className="text-red-500 w-2 h-2 ml-[1px]">*</span>
+              </label>
+
+              <textarea id="additional-comments" value={userInput.additionalComments} onChange={(e) => setUserInput((prev) => ({  ...prev, additionalComments: e.target.value,}))}
+                rows={4} className={`w-full rounded-[6px] border ${ errors.additionalComments ? "border-red-500" : "border-[#C6C0AF]"} bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200 resize-none`}
+               />
+               {errors.additionalComments && (<span className="text-red-500 text-[11px]">This field is required</span>)}
+            </div>
+
+            <div>
+             <button type="button" onClick={handleGoToCart} className="w-full py-4 rounded-[8px] bg-[#313C2B] text-[#F7F5EF] hover:bg-[#778658] transition-colors duration-300 cursor-pointer" style={{ fontFamily: "noah-bold, sans-serif" }}>
+                Go to Cart
+              </button>
+            </div>
+
+          </div>
+        </div>
+
        </div>
       <div className="relative z-0 w-[700px] h-[700px] sticky top-[101px] bg-[#EDE9DD] flex items-center justify-center overflow-hidden">
         <div className="relative w-full h-full">
