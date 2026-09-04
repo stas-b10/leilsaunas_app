@@ -153,6 +153,36 @@ const handleOptionClick = (
   setSelectedOptions((prev) => {
     const current = prev[group.id] || [];
 
+    if (group.slug === "front_wall") {
+      const showFrontWallGroup = optionGroups.find(
+        (group) => group.slug === "show_front_wall"
+      );
+
+      if (showFrontWallGroup) {
+        const showFrontWallValues =
+          groupedOptionValues[showFrontWallGroup.id] || [];
+
+        const yesValue = showFrontWallValues.find(
+          (value) => value.slug === "yes"
+        );
+
+        return {
+          ...prev,
+          [group.id]: [valueId],
+          ...(yesValue
+            ? {
+                [showFrontWallGroup.id]: [yesValue.id],
+              }
+            : {}),
+        };
+      }
+
+      return {
+        ...prev,
+        [group.id]: [valueId],
+      };
+    }
+
     if (group.input_type === "single") {
       if (current.includes(valueId)) {
         return prev;
@@ -174,9 +204,13 @@ const handleOptionClick = (
     }
 
     if (group.input_type === "toggle") {
+      const yesValue = groupedOptionValues[group.id]?.find((value) => value.slug === "yes");
+      const noValue = groupedOptionValues[group.id]?.find((value) => value.slug === "no");
+      const currentlyYes = current[0] === yesValue?.id;
+
       return {
         ...prev,
-        [group.id]: [valueId],
+        [group.id]: [currentlyYes ? noValue?.id : yesValue?.id].filter(Boolean) as string[],
       };
     }
 
@@ -185,6 +219,12 @@ const handleOptionClick = (
 };
   const selectedLayerImages = useMemo(() => {
     const selectedValueIds = new Set( Object.values(selectedOptions).flat());
+
+    const frontWallGroup = optionGroups.find((group) => group.slug === "front_wall");
+    const showFrontWallGroup = optionGroups.find((group) => group.slug === "show_front_wall");
+    const selectedShowFrontWallId = showFrontWallGroup ? selectedOptions[showFrontWallGroup.id]?.[0] : null;
+    const selectedShowFrontWallValue = optionValues.find((value) => value.id === selectedShowFrontWallId);
+    const showFrontWall = selectedShowFrontWallValue?.slug === "yes";
 
     return optionLayers.filter((layer) => {
     if (!selectedValueIds.has(layer.option_value_id)) {
@@ -195,13 +235,21 @@ const handleOptionClick = (
       (value) => value.id === layer.option_value_id
     );
 
-    if (optionValue?.slug === "no") {
+    if (!optionValue) {
       return false;
+    }
+
+    if (optionValue.slug === "no") {
+      return false;
+    }
+
+     if (frontWallGroup && optionValue.option_group_id === frontWallGroup.id) {
+      return showFrontWall;
     }
 
      return true;
     });
-  }, [optionLayers, optionValues, selectedOptions]);
+  }, [optionLayers, optionValues,optionGroups, selectedOptions]);
 
   return (
     <div className="bg-[#F7F5EF] pt-20">
@@ -266,18 +314,20 @@ const handleOptionClick = (
         </div>
         <div className="w-[calc(100%+40px)] h-[1px] bg-[#C6C0AF] mt-4"/>
        </div>
-       <div className="w-[700px] h-[700px] sticky top-[101px] bg-[#EDE9DD] flex items-center justify-center overflow-hidden">
+      <div className="w-[700px] h-[700px] sticky top-[101px] bg-[#EDE9DD] flex items-center justify-center overflow-hidden">
         <div className="relative w-full h-full">
           {saunaImages.length > 0 && (
             <img src={saunaImages[0].image_url} alt={saunaModel.model_name} className="absolute inset-0 w-full h-full object-contain"/>)}
 
           {selectedLayerImages.map((layer) => (
             <img key={layer.id} src={layer.image_url} alt={layer.layer_name ?? ""} className="absolute inset-0 w-full h-full object-contain pointer-events-none"/>
-        ))}
-
-  </div>
-</div>
+          ))}
+        </div>
        </div>
+
+
+       
+      </div>
       )}
     </div>
   )
