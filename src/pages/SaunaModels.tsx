@@ -25,6 +25,7 @@ export default function SaunaModels() {
   const [saunaImages, setSaunaImages] = useState<SaunaImages[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string[]>>({});
+  const [sizeUnit, setSizeUnit] = useState<"EU" | "US">("EU");
 
   useEffect(() => {
     if (!model_slug) return;
@@ -251,13 +252,22 @@ const handleOptionClick = (
     });
   }, [optionLayers, optionValues,optionGroups, selectedOptions]);
 
+  const formatDimensions = (dimensions: string | null) => {
+  if (!dimensions) return "-";
+  const [d, w, h] = dimensions.split("x");
+
+  return `D ${d} x W ${w} x H ${h}`;
+  };
+
   return (
-    <div className="bg-[#F7F5EF] pt-20">
+    <div className="bg-[#F7F5EF] pt-20 pb-[100px]">
       <h2 className='flex px-[270px] py-[80px] pb-[20px] text-[20px] text-[#313C2B]' style={{ fontFamily: "noah-bold, sans-serif" }}>Configure & Get a quote</h2>
       <div className="w-full h-[1px] bg-[#C6C0AF]" />
+      
       {saunaModel && (
-        <div className="flex w-full">
-       <div className="pl-[270px] pr-[60px] pt-[40px] flex flex-col text-[#313C2B] space-y-6 w-1/2">
+        <div className="relative flex w-full">
+          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#C6C0AF] z-10" />
+       <div className="pl-[270px] pr-[90px] pt-[40px] flex flex-col text-[#313C2B] space-y-6 w-1/2">
         <span className="text-[36px]" style={{ fontFamily: "sogo-light, sans-serif" }}>{saunaModel.model_name}</span>
         <span className="text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>{saunaModel.model_description}</span>
         <ul className="flex gap-5 mt-2">
@@ -278,11 +288,11 @@ const handleOptionClick = (
           <MdOutlineFileDownload className="inline mr-2 mb-[2px] w-6 h-6" />
           Download product sheet
         </a>
-        <div className="w-[calc(100%+40px)] h-[1px] bg-[#C6C0AF] mt-4"/>
-        <div className="space-y-6">
+        <div className="w-[calc(100%+90px)] h-[1px] bg-[#C6C0AF] mt-4"/>
+        <div className="space-y-6 ">
           {optionGroups.filter((group) => groupedOptionValues[group.id]?.length > 0).map((group) => (
-            <div key={group.id} className={`pb-6 w-[calc(100%+40px)] ${group.slug !== "front_wall" ? "border-b border-[#C6C0AF]" : ""}`}>
-              <div className={ group.input_type === "toggle" ? "flex items-center justify-between" : ""}>
+            <div key={group.id} className={`pb-6  w-[calc(100%+90px)] ${group.slug !== "front_wall" ? "border-b border-[#C6C0AF]" : ""}`}>
+              <div className={ group.input_type === "toggle" ? "flex items-center justify-between pr-[40px]" : ""}>
               <h3 className="text-[16px] mb-2" style={{ fontFamily: "noah-bold, sans-serif" }}>{group.name}</h3>
               <div className="flex flex-wrap gap-4">
                 {group.input_type === "toggle" ? (
@@ -297,9 +307,9 @@ const handleOptionClick = (
                             <LuX className="w-6 h-6 text-[#8E573D]" />
                           )}
                         </button>
-                      );
-                    })}
-                  </div>          
+                    );
+                  })}
+              </div>          
                 ) : (
                 groupedOptionValues[group.id].map((value) => (
                   <button key={value.id} onClick={() => handleOptionClick(group, value.id)} className={`px-4.5 py-2 rounded-[10px] border transition cursor-pointer flex flex-row items-center justify-center gap-2 ${ isSelected(value.id) ? "bg-[#313C2B] text-white border-[#313C2B]" : "bg-[#F7F5EF] text-[#313C2B] border-[#C6C0AF] hover:bg-[#C6C0AF]" }`} style={{ fontFamily: "noah-bold, sans-serif" }}>
@@ -312,9 +322,40 @@ const handleOptionClick = (
             </div>
           ))}
         </div>
-        <div className="w-[calc(100%+40px)] h-[1px] bg-[#C6C0AF] mt-4"/>
+        {/* size */}
+        <div>
+          <h3 className="text-[16px] mb-2" style={{ fontFamily: "noah-bold, sans-serif" }}>Size</h3>
+          <div className="flex items-center gap-1 bg-[#313C2B] border border-[#C6C0AF] rounded-[10px] p-1 w-fit">
+            <button onClick={() => setSizeUnit("EU")} className={`w-[44px] h-[36px] flex items-center justify-center rounded-[6px] transition-colors duration-300 cursor-pointer ${sizeUnit === "EU" ? "bg-[#F7F5EF] text-[#92988F]" : "bg-transparent text-[#92988F]" }`} style={{ fontFamily: "noah-bold, sans-serif" }}>
+              EU
+            </button>
+            <button onClick={() => setSizeUnit("US")} className={`w-[44px] h-[36px] flex items-center justify-center rounded-[6px] transition-colors duration-300 cursor-pointer ${sizeUnit === "US" ? "bg-[#F7F5EF] text-[#92988F]" : "bg-transparent text-[#92988F]" }`} style={{ fontFamily: "noah-bold, sans-serif" }}>
+              US
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-6 pt-6">
+            <div className="flex flex-col ">
+              <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>{sizeUnit === "EU" ? "Exterior (mm)" : "Exterior (in)"}:</span>
+              <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                {formatDimensions(sizeUnit === "EU" ? saunaModel.exterior_mm : saunaModel.exterior_in)}
+              </span>
+            </div>
+            <div className="flex flex-col ">
+              <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>{sizeUnit === "EU" ? "Interior (mm)" : "Interior (in)"}:</span>
+              <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                {formatDimensions(sizeUnit === "EU" ? saunaModel.interior_mm : saunaModel.interior_in)}
+              </span>
+            </div>
+            <div className="flex flex-col ">
+              <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif" }}>{sizeUnit === "EU" ? "Weight (kg)" : "Weight (lbs)"}:</span>
+              <span className="text-[16px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+                {sizeUnit === "EU" ? saunaModel.weight_kg : saunaModel.weight_lbs}
+              </span>
+            </div>
+          </div>
+        </div>
        </div>
-      <div className="w-[700px] h-[700px] sticky top-[101px] bg-[#EDE9DD] flex items-center justify-center overflow-hidden">
+      <div className="relative z-0 w-[700px] h-[700px] sticky top-[101px] bg-[#EDE9DD] flex items-center justify-center overflow-hidden">
         <div className="relative w-full h-full">
           {saunaImages.length > 0 && (
             <img src={saunaImages[0].image_url} alt={saunaModel.model_name} className="absolute inset-0 w-full h-full object-contain"/>)}
@@ -324,9 +365,6 @@ const handleOptionClick = (
           ))}
         </div>
        </div>
-
-
-       
       </div>
       )}
     </div>
