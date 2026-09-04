@@ -333,11 +333,7 @@ const handleOptionClick = (
 
     navigate("/cart");
   }
-
-
-
-
-
+  
   return (
     <div className="bg-[#F7F5EF] pt-20 pb-[100px]">
       <h2 className='flex px-[270px] py-[80px] pb-[20px] text-[20px] text-[#313C2B]' style={{ fontFamily: "noah-bold, sans-serif" }}>Configure & Get a quote</h2>
