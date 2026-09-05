@@ -5,7 +5,7 @@ import type { OrderItemOptions } from "../utils/types/order_item_options";
 import type { OrderItems } from "../utils/types/order_items";
 import type { CustomerOrder } from "../utils/types/customer_orders";
 
-type PaymentMethod = "cash_on_delivery" | "card" | "";
+type PaymentMethod = "pay_on_delivery" | "online_card" | "";
 
 interface PaymentChooseProps {
   paymentMethod: PaymentMethod;
@@ -51,9 +51,9 @@ export default function PaymentChoose({
 
         <button
           type="button"
-          onClick={() => setPaymentMethod("cash_on_delivery")}
+          onClick={() => setPaymentMethod("pay_on_delivery")}
           className={`text-left rounded-[8px] border-2 p-5 transition-all duration-200 cursor-pointer ${
-            paymentMethod === "cash_on_delivery"
+            paymentMethod === "pay_on_delivery"
               ? "border-[#313C2B] bg-[#F7F5F0]"
               : "border-[#C6C0AF] bg-[#F7F5EF]"
           }`}
@@ -75,9 +75,9 @@ export default function PaymentChoose({
 
         <button
           type="button"
-          onClick={() => setPaymentMethod("card")}
+          onClick={() => setPaymentMethod("online_card")}
           className={`text-left rounded-[8px] border-2 p-5 transition-all duration-200 cursor-pointer ${
-            paymentMethod === "card"
+            paymentMethod === "online_card"
               ? "border-[#313C2B] bg-[#F7F5F0]"
               : "border-[#C6C0AF] bg-[#F7F5EF]"
           }`}
@@ -97,8 +97,8 @@ export default function PaymentChoose({
           </p>
         </button>
 
-        {/* TEST CARD FORM */}
-        {paymentMethod === "card" && (
+
+        {paymentMethod === "online_card" && (
           <div className="col-span-2 border-t border-[#C6C0AF] pt-6 mt-2">
             <div className="grid grid-cols-2 gap-5">
 
@@ -114,11 +114,7 @@ export default function PaymentChoose({
                   type="text"
                   value={testPayment.cardholder_name}
                   onChange={(e) =>
-                    setTestPayment((prev) => ({
-                      ...prev,
-                      cardholder_name: e.target.value,
-                    }))
-                  }
+                    setTestPayment((prev) => ({...prev,cardholder_name: e.target.value, }))}
                   className="w-full rounded-[6px] border border-[#C6C0AF] bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200"
                 />
               </div>
@@ -136,13 +132,16 @@ export default function PaymentChoose({
                   inputMode="numeric"
                   maxLength={19}
                   placeholder="1234 5678 9012 3456"
-                  value={testPayment.card_number}
-                  onChange={(e) =>
+                  value={testPayment.card_number.replace(/\D/g, "").replace(/(\d{4})(?=\d)/g, "$1 ")}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "").slice(0, 16);
+
                     setTestPayment((prev) => ({
                       ...prev,
-                      card_number: e.target.value,
+                      card_number: digits,
                     }))
                   }
+                }
                   className="w-full rounded-[6px] border border-[#C6C0AF] bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200"
                 />
               </div>
@@ -157,15 +156,16 @@ export default function PaymentChoose({
 
                 <input
                   type="text"
+                  inputMode="numeric"
                   placeholder="MM/YY"
                   maxLength={5}
                   value={testPayment.expire_date}
-                  onChange={(e) =>
-                    setTestPayment((prev) => ({
-                      ...prev,
-                      expire_date: e.target.value,
-                    }))
-                  }
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "").slice(0, 4);
+                    let formattedDigits = digits;
+                    if (digits.length >= 2) { const month = Number(digits.slice(0, 2));  if (month === 0) { formattedDigits = `01${digits.slice(2)}`; } else if (month > 12) {formattedDigits = `12${digits.slice(2)}`;}}
+                    const formatted = formattedDigits.length > 2 ? `${formattedDigits.slice(0, 2)}/${formattedDigits.slice(2)}` : formattedDigits;
+                    setTestPayment((prev) => ({...prev,expire_date: formatted,}));}}
                   className="w-full rounded-[6px] border border-[#C6C0AF] bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200"
                 />
               </div>
@@ -181,15 +181,15 @@ export default function PaymentChoose({
                 <input
                   type="text"
                   inputMode="numeric"
-                  maxLength={4}
+                  maxLength={3}
                   placeholder="123"
                   value={testPayment.cvv}
                   onChange={(e) =>
                     setTestPayment((prev) => ({
-                      ...prev,
-                      cvv: e.target.value,
-                    }))
-                  }
+                    ...prev,
+                    cvv: e.target.value.replace(/\D/g, "").slice(0, 3),
+                  }))
+                } 
                   className="w-full rounded-[6px] border border-[#C6C0AF] bg-[#F7F5EF] px-4 py-3 outline-none text-[#313C2B] focus:bg-white transition-all duration-200"
                 />
               </div>
@@ -548,7 +548,7 @@ export default function PaymentChoose({
                 className="text-[13px] text-[#6D6A63] mt-1"
                 style={{ fontFamily: "noah-regular, sans-serif" }}
               >
-                {paymentMethod === "cash_on_delivery"
+                {paymentMethod === "pay_on_delivery"
                   ? "Pay at home when the sauna is delivered."
                   : "Test card payment."}
               </p>
@@ -560,7 +560,7 @@ export default function PaymentChoose({
             </button>
 
             <button type="button" onClick={onPay} disabled={isSubmitting} className="w-full py-4 rounded-[8px] bg-[#313C2B] text-[#F7F5EF] hover:bg-[#778658] transition-colors duration-300 cursor-pointer mt-4" style={{ fontFamily: "noah-bold, sans-serif" }}>
-              {isSubmitting ? "Processing..." : paymentMethod === "card" ? "Pay Now" : "Place Order"}
+              {isSubmitting ? "Processing..." : paymentMethod === "online_card" ? "Pay Now" : "Place Order"}
             </button>
             </div>
           </div>

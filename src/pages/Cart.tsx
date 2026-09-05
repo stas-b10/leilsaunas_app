@@ -23,7 +23,7 @@ export default function Cart() {
     const [country,setCountry] = useState<countries[]>([]);
     const [galleryImages, setGalleryImages] = useState<SaunaModelGalleryImage[]>([]);
     const [selectedImage, setSelectedImage] = useState(0);
-    const [paymentMethod, setPaymentMethod] = useState<"cash_on_delivery" | "card" | "">("");
+    const [paymentMethod, setPaymentMethod] =  useState<"pay_on_delivery" | "online_card" | "">("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     
   useEffect(() => {
@@ -118,7 +118,7 @@ const handlePlaceOrder = async () => {
     return;
   }
 
-  if (paymentMethod === "card") {
+  if (paymentMethod === "online_card") {
   if (!testPayment.cardholder_name.trim()) {
     alert("Please enter the cardholder name.");
     return;
@@ -183,7 +183,10 @@ const handlePlaceOrder = async () => {
       .single();
 
     if (orderError) {
-      console.error("Error creating customer order:", orderError);
+      console.error("Order error message:", orderError?.message);
+console.error("Order error code:", orderError?.code);
+console.error("Order error details:", orderError?.details);
+console.error("Order error hint:", orderError?.hint);
       alert("Could not create your order.");
       return;
     }
@@ -232,7 +235,7 @@ const handlePlaceOrder = async () => {
       }
     }
 
-    if (paymentMethod === "card") {
+    if (paymentMethod === "online_card") {
       const { error: paymentError } = await supabase
         .from("test_payments")
         .insert({
