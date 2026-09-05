@@ -36,8 +36,6 @@ export default function PaymentChoose({
   return (
     <div className="bg-[#EFECE1] rounded-[8px] p-8">
       <div className="grid grid-cols-2 gap-x-5 gap-y-6">
-
-        {/* TITLE */}
         <div className="col-span-2">
           <h2
             className="text-[28px] text-[#313C2B] mb-6"
@@ -64,7 +62,7 @@ export default function PaymentChoose({
           </h2>
 
           <p
-            className="text-[14px] text-[#6D6A63] mt-2"
+            className="text-[16px] text-[#6D6A63] mt-2"
             style={{ fontFamily: "noah-regular, sans-serif" }}
           >
             Pay when the sauna arrives.
@@ -88,7 +86,7 @@ export default function PaymentChoose({
           </h2>
 
           <p
-            className="text-[14px] text-[#6D6A63] mt-2"
+            className="text-[16px] text-[#6D6A63] mt-2"
             style={{ fontFamily: "noah-regular, sans-serif" }}
           >
             Pay with test card.
@@ -217,7 +215,7 @@ export default function PaymentChoose({
                   </p>
 
                   <p
-                    className="text-[13px] text-[#6D6A63] mt-1"
+                    className="text-[16px] text-[#6D6A63] mt-1"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     Quantity: {orderItem.quantity}
@@ -249,29 +247,20 @@ export default function PaymentChoose({
                       className="flex justify-between items-start gap-6"
                     >
                       <div>
-                        <p
-                          className="text-[14px] text-[#313C2B]"
-                          style={{
-                            fontFamily: "noah-bold, sans-serif",
-                          }}
-                        >
-                          {option.option_name}
-                        </p>
-
                         {option.option_group_name && (
                           <p
-                            className="text-[12px] text-[#6D6A63] mt-1"
+                            className="text-[16px] text-[#6D6A63]"
                             style={{
                               fontFamily: "noah-regular, sans-serif",
                             }}
                           >
-                            {option.option_group_name}
+                            {option.option_group_name} : <span className="text-[15px] text-[#313C2B]" style={{ fontFamily: "noah-bold, sans-serif"}}>{option.option_name}</span>
                           </p>
                         )}
                       </div>
 
                       <p
-                        className="text-[14px] text-[#313C2B] shrink-0"
+                        className="text-[16px] text-[#313C2B] shrink-0"
                         style={{
                           fontFamily: "noah-bold, sans-serif",
                         }}
@@ -285,7 +274,7 @@ export default function PaymentChoose({
                 </div>
               ) : (
                 <p
-                  className="text-[13px] text-[#6D6A63]"
+                  className="text-[16px] text-[#6D6A63]"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
                 >
                   No additional options selected.
@@ -305,14 +294,14 @@ export default function PaymentChoose({
 
                 <div className="flex justify-between gap-6">
                   <span
-                    className="text-[13px] text-[#6D6A63]"
+                    className="text-[16px] text-[#6D6A63]"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     Name
                   </span>
 
                   <span
-                    className="text-[13px] text-[#313C2B] text-right"
+                    className="text-[16px] text-[#313C2B] text-right"
                     style={{ fontFamily: "noah-bold, sans-serif" }}
                   >
                     {customerOrder.name}
@@ -321,14 +310,14 @@ export default function PaymentChoose({
 
                 <div className="flex justify-between gap-6">
                   <span
-                    className="text-[13px] text-[#6D6A63]"
+                    className="text-[16px] text-[#6D6A63]"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     Email
                   </span>
 
                   <span
-                    className="text-[13px] text-[#313C2B] text-right"
+                    className="text-[16px] text-[#313C2B] text-right"
                     style={{ fontFamily: "noah-bold, sans-serif" }}
                   >
                     {customerOrder.email}
@@ -338,14 +327,14 @@ export default function PaymentChoose({
                 {customerOrder.phone && (
                   <div className="flex justify-between gap-6">
                     <span
-                      className="text-[13px] text-[#6D6A63]"
+                      className="text-[16px] text-[#6D6A63]"
                       style={{ fontFamily: "noah-regular, sans-serif" }}
                     >
                       Phone
                     </span>
 
                     <span
-                      className="text-[13px] text-[#313C2B] text-right"
+                      className="text-[16px] text-[#313C2B] text-right"
                       style={{ fontFamily: "noah-bold, sans-serif" }}
                     >
                       {customerOrder.phone}
@@ -355,14 +344,14 @@ export default function PaymentChoose({
 
                 <div className="flex justify-between gap-6">
                   <span
-                    className="text-[13px] text-[#6D6A63]"
+                    className="text-[16px] text-[#6D6A63]"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     Country
                   </span>
 
                   <span
-                    className="text-[13px] text-[#313C2B] text-right"
+                    className="text-[16px] text-[#313C2B] text-right"
                     style={{ fontFamily: "noah-bold, sans-serif" }}
                   >
                     {customerOrder.country}
@@ -371,14 +360,14 @@ export default function PaymentChoose({
 
                 <div className="flex justify-between gap-6">
                   <span
-                    className="text-[13px] text-[#6D6A63]"
+                    className="text-[16px] text-[#6D6A63]"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     City
                   </span>
 
                   <span
-                    className="text-[13px] text-[#313C2B] text-right"
+                    className="text-[16px] text-[#313C2B] text-right"
                     style={{ fontFamily: "noah-bold, sans-serif" }}
                   >
                     {customerOrder.city}
@@ -387,14 +376,14 @@ export default function PaymentChoose({
 
                 <div className="flex justify-between gap-6">
                   <span
-                    className="text-[13px] text-[#6D6A63]"
+                    className="text-[16px] text-[#6D6A63]"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     Postal Code
                   </span>
 
                   <span
-                    className="text-[13px] text-[#313C2B] text-right"
+                    className="text-[16px] text-[#313C2B] text-right"
                     style={{ fontFamily: "noah-bold, sans-serif" }}
                   >
                     {customerOrder.postalCode}
@@ -403,14 +392,14 @@ export default function PaymentChoose({
 
                 <div className="flex justify-between gap-6">
                   <span
-                    className="text-[13px] text-[#6D6A63]"
+                    className="text-[16px] text-[#6D6A63]"
                     style={{ fontFamily: "noah-regular, sans-serif" }}
                   >
                     Address
                   </span>
 
                   <span
-                    className="text-[13px] text-[#313C2B] text-right"
+                    className="text-[16px] text-[#313C2B] text-right"
                     style={{ fontFamily: "noah-bold, sans-serif" }}
                   >
                     {customerOrder.address}
@@ -420,14 +409,14 @@ export default function PaymentChoose({
                 {customerOrder.apartment && (
                   <div className="flex justify-between gap-6">
                     <span
-                      className="text-[13px] text-[#6D6A63]"
+                      className="text-[16px] text-[#6D6A63]"
                       style={{ fontFamily: "noah-regular, sans-serif" }}
                     >
                       Apartment
                     </span>
 
                     <span
-                      className="text-[13px] text-[#313C2B] text-right"
+                      className="text-[16px] text-[#313C2B] text-right"
                       style={{ fontFamily: "noah-bold, sans-serif" }}
                     >
                       {customerOrder.apartment}
@@ -436,16 +425,16 @@ export default function PaymentChoose({
                 )}
 
                 {customerOrder.deliveryNotes && (
-                  <div className="pt-2">
+                  <div className="flex justify-between items-start gap-6">
                     <p
-                      className="text-[13px] text-[#6D6A63]"
+                      className="text-[16px] text-[#6D6A63]"
                       style={{ fontFamily: "noah-regular, sans-serif" }}
                     >
                       Delivery Notes
                     </p>
 
                     <p
-                      className="text-[13px] text-[#313C2B] mt-1"
+                      className="text-[16px] text-[#313C2B] mt-1"
                       style={{ fontFamily: "noah-bold, sans-serif" }}
                     >
                       {customerOrder.deliveryNotes}
@@ -460,14 +449,14 @@ export default function PaymentChoose({
 
               <div className="flex justify-between">
                 <span
-                  className="text-[14px] text-[#6D6A63]"
+                  className="text-[16px] text-[#6D6A63]"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
                 >
                   Sauna
                 </span>
 
                 <span
-                  className="text-[14px] text-[#313C2B]"
+                  className="text-[16px] text-[#313C2B]"
                   style={{ fontFamily: "noah-bold, sans-serif" }}
                 >
                   ${Number(orderItem.base_price).toLocaleString()}
@@ -476,14 +465,14 @@ export default function PaymentChoose({
 
               <div className="flex justify-between">
                 <span
-                  className="text-[14px] text-[#6D6A63]"
+                  className="text-[16px] text-[#6D6A63]"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
                 >
                   Options
                 </span>
 
                 <span
-                  className="text-[14px] text-[#313C2B]"
+                  className="text-[16px] text-[#313C2B]"
                   style={{ fontFamily: "noah-bold, sans-serif" }}
                 >
                   ${Number(orderItem.options_price).toLocaleString()}
@@ -492,14 +481,14 @@ export default function PaymentChoose({
 
               <div className="flex justify-between">
                 <span
-                  className="text-[14px] text-[#6D6A63]"
+                  className="text-[16px] text-[#6D6A63]"
                   style={{ fontFamily: "noah-regular, sans-serif" }}
                 >
                   Delivery
                 </span>
 
                 <span
-                  className="text-[14px] text-[#313C2B]"
+                  className="text-[16px] text-[#313C2B]"
                   style={{ fontFamily: "noah-bold, sans-serif" }}
                 >
                   {Number(customerOrder.deliveryPrice) > 0
@@ -536,14 +525,14 @@ export default function PaymentChoose({
 
             <div className="mt-6 rounded-[8px] bg-[#F7F5F0] border border-[#C6C0AF] p-4">
               <p
-                className="text-[14px] text-[#313C2B]"
+                className="text-[16px] text-[#313C2B]"
                 style={{ fontFamily: "noah-bold, sans-serif" }}
               >
                 Payment method
               </p>
 
               <p
-                className="text-[13px] text-[#6D6A63] mt-1"
+                className="text-[16px] text-[#6D6A63] mt-1"
                 style={{ fontFamily: "noah-regular, sans-serif" }}
               >
                 {paymentMethod === "pay_on_delivery"

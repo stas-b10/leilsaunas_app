@@ -18,7 +18,7 @@ export default function Cart() {
     const cart = savedCart ? JSON.parse(savedCart) : null;
     const [customerOrder, setCustomerOrder] = useState<CustomerOrder>({ id: "", name: cart?.userInput?.name || "", email: cart?.userInput?.email || "", phone: cart?.userInput?.phone || "", country: cart?.userInput?.country || "", city: "", postalCode: "", address: "", apartment: "", deliveryNotes: "",additionalComments: cart?.userInput?.additionalComments || "",subtotal: cart?.model?.price || 0, deliveryPrice: 0, totalPrice: cart?.totalPrice || 0, currency: "USD", paymentMethod: "", paymentStatus: "", paymentProvider: null, paymentCustomerId: null, paymentIntentId: null, paymentSessionId: null, orderStatus: "", adminNotes: null, createdAt: "", updatedAt: "" });
     const [orderItem, setOrderItem] = useState<OrderItems>({ id: "", order_id: "", model_id: cart?.model?.id || "", model_name: cart?.model?.model_name || "", quantity: 1, base_price: cart?.model?.price || 0, options_price: cart?.optionsPrice || 0, unit_price: cart?.totalPrice || 0, total_price: cart?.totalPrice || 0, currency: "USD", created_at: "" });
-    const orderItemOption: OrderItemOptions[] = cart?.selectedOptions?.map( (option: { id: string; name: string; option_group_id: string; option_group_name?: string; group_name?: string; price: number;}) => ({ id: "", order_item_id: "", option_group_id: option.option_group_id, option_value_id: option.id, option_group_name: option.option_group_name || option.group_name || "", option_name: option.name, price: option.price, currency: "USD", createdAt: ""})) || [];
+    const [orderItemOption, setOrderItemOption] = useState<OrderItemOptions[]>([]);
     const [testPayment, setTestPayment] = useState<TestPayments>({ id: "", order_id: "", cardholder_name: "", card_number: "", expire_date: "", cvv: "", payment_status: "pending", created_at: ""});
     const [currentStep,setCurrentStep] = useState(1);
     const [errors, setErrors] = useState({ name: false, email: false, country: false, additionalComments: false, city: false, postalCode: false, address: false,});
@@ -29,6 +29,64 @@ export default function Cart() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
     const [showSuccess, setShowSuccess] = useState(false);
+
+useEffect(() => {
+  const fetchOptionGroups = async () => {
+    if (!cart?.selectedOptions?.length) {
+      setOrderItemOption([]);
+      return;
+    }
+
+    const groupIds = [
+      ...new Set(
+        cart.selectedOptions.map(
+          (option: { option_group_id: string }) => option.option_group_id
+        )
+      )
+    ];
+
+    const { data, error } = await supabase
+      .from("option_groups")
+      .select("id, name")
+      .in("id", groupIds);
+
+    if (error) {
+      console.error("Error fetching option groups:", error);
+      return;
+    }
+
+    const optionGroups = data || [];
+
+    const mappedOptions: OrderItemOptions[] = cart.selectedOptions.map(
+      (option: {
+        id: string;
+        name: string;
+        option_group_id: string;
+        price: number;
+      }) => {
+        const group = optionGroups.find(
+          (item) => item.id === option.option_group_id
+        );
+
+        return {
+          id: "",
+          order_item_id: "",
+          option_group_id: option.option_group_id,
+          option_value_id: option.id,
+          option_group_name: group?.name || "",
+          option_name: option.name,
+          price: option.price,
+          currency: "USD",
+          createdAt: ""
+        };
+      }
+    );
+
+    setOrderItemOption(mappedOptions);
+  };
+
+  fetchOptionGroups();
+}, [cart?.selectedOptions]);
 
   useEffect(() => {
     const fetchCountries = async () => {
