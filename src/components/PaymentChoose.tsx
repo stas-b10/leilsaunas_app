@@ -1,5 +1,3 @@
-// src/components/PaymentChoose.tsx
-
 import type { TestPayments } from "../utils/types/test_payments";
 import type { OrderItemOptions } from "../utils/types/order_item_options";
 import type { OrderItems } from "../utils/types/order_items";

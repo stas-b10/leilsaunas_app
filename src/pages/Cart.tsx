@@ -10,6 +10,8 @@ import { FaArrowLeft } from "react-icons/fa6"
 import { FaArrowRight } from "react-icons/fa6"
 import PaymentChoose from "../components/PaymentChoose"
 import type { SaunaModelGalleryImage } from "../utils/types/sauna_model_gallery_images";
+import { useNavigate } from "react-router-dom";
+import AlertCart from "../components/AlertCart"
 
 export default function Cart() {
     const savedCart = sessionStorage.getItem("saunaCartData");
@@ -25,7 +27,9 @@ export default function Cart() {
     const [selectedImage, setSelectedImage] = useState(0);
     const [paymentMethod, setPaymentMethod] =  useState<"pay_on_delivery" | "online_card" | "">("");
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+    const navigate = useNavigate();
+    const [showSuccess, setShowSuccess] = useState(false);
+
   useEffect(() => {
     const fetchCountries = async () => {
       const { data, error } = await supabase
@@ -184,9 +188,9 @@ const handlePlaceOrder = async () => {
 
     if (orderError) {
       console.error("Order error message:", orderError?.message);
-console.error("Order error code:", orderError?.code);
-console.error("Order error details:", orderError?.details);
-console.error("Order error hint:", orderError?.hint);
+      console.error("Order error code:", orderError?.code);
+      console.error("Order error details:", orderError?.details);
+      console.error("Order error hint:", orderError?.hint);
       alert("Could not create your order.");
       return;
     }
@@ -272,7 +276,8 @@ console.error("Order error hint:", orderError?.hint);
       total_price: itemSubtotal,
     }));
 
-    alert("Your order has been placed successfully!");
+    setShowSuccess(true);
+    
 
   } catch (error) {
     console.error("Unexpected error:", error);
@@ -539,6 +544,9 @@ return (
 
          </div>
         </section>
+        {showSuccess && (
+          <AlertCart onClose={() => { setShowSuccess(false); navigate("/");}}/>
+        )}
     </div>
   )
 }

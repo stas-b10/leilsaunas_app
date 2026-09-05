@@ -16,6 +16,7 @@ import type { contact_categories } from "../utils/types/contact_categories";
 import { TiLocation } from "react-icons/ti";
 import type { countries } from "../utils/types/all_countries";
 import { FaCheck } from "react-icons/fa";
+import Alert from "../components/Alert";
 
 export default function Contacts() {
   const [members, setMembers] = useState<team_members[]>([]);
@@ -28,6 +29,7 @@ export default function Contacts() {
 
     const [contactCategories, setContactCategories] = useState<contact_categories[]>([]);
     const [activeContactCategory, setActiveContactCategory] = useState<string | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
 
   const [contactForm, setContactForm] = useState({
     name: "",
@@ -173,7 +175,7 @@ export default function Contacts() {
         return;
       }
 
-      alert("Your request has been sent successfully!");
+      setShowSuccess(true);
 
       setResellerForm({
         country_id: "",
@@ -221,7 +223,7 @@ export default function Contacts() {
         return;
       }
 
-      alert("Your request has been sent successfully!");
+      setShowSuccess(true);
 
       setContactForm({
         name: "",
@@ -618,7 +620,9 @@ export default function Contacts() {
         </div>
       )}
     </section>
-
+      {showSuccess && (
+        <Alert onClose={() => setShowSuccess(false)} />
+      )}
     </div>
   );
 }
