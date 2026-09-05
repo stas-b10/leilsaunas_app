@@ -17,6 +17,10 @@ interface PaymentChooseProps {
   orderItem: OrderItems;
   orderItemOption: OrderItemOptions[];
   customerOrder: CustomerOrder;
+
+  onBack: () => void;
+  onPay: () => void;
+  isSubmitting: boolean;
 }
 
 export default function PaymentChoose({
@@ -27,6 +31,9 @@ export default function PaymentChoose({
   orderItem,
   orderItemOption,
   customerOrder,
+  onBack,
+  onPay,
+  isSubmitting,
 }: PaymentChooseProps) {
   return (
     <div className="bg-[#EFECE1] rounded-[8px] p-8">
@@ -547,9 +554,17 @@ export default function PaymentChoose({
               </p>
             </div>
 
+            <div className="flex gap-4 pt-6">
+            <button type="button" onClick={onBack} className="w-full py-4 rounded-[8px] bg-[#313C2B] text-[#F7F5EF] hover:bg-[#778658] transition-colors duration-300 cursor-pointer mt-4" style={{ fontFamily: "noah-bold, sans-serif" }}>
+              Back
+            </button>
+
+            <button type="button" onClick={onPay} disabled={isSubmitting} className="w-full py-4 rounded-[8px] bg-[#313C2B] text-[#F7F5EF] hover:bg-[#778658] transition-colors duration-300 cursor-pointer mt-4" style={{ fontFamily: "noah-bold, sans-serif" }}>
+              {isSubmitting ? "Processing..." : paymentMethod === "card" ? "Pay Now" : "Place Order"}
+            </button>
+            </div>
           </div>
         )}
-
       </div>
     </div>
   );

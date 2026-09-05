@@ -9,18 +9,19 @@ import type { countries } from "../utils/types/all_countries"
 import { FaArrowLeft } from "react-icons/fa6"
 import { FaArrowRight } from "react-icons/fa6"
 import PaymentChoose from "../components/PaymentChoose"
+import type { SaunaModelGalleryImage } from "../utils/types/sauna_model_gallery_images";
 
 export default function Cart() {
     const savedCart = sessionStorage.getItem("saunaCartData");
     const cart = savedCart ? JSON.parse(savedCart) : null;
     const [customerOrder, setCustomerOrder] = useState<CustomerOrder>({ id: "", name: cart?.userInput?.name || "", email: cart?.userInput?.email || "", phone: cart?.userInput?.phone || "", country: cart?.userInput?.country || "", city: "", postalCode: "", address: "", apartment: "", deliveryNotes: "",additionalComments: cart?.userInput?.additionalComments || "",subtotal: cart?.model?.price || 0, deliveryPrice: 0, totalPrice: cart?.totalPrice || 0, currency: "USD", paymentMethod: "", paymentStatus: "", paymentProvider: null, paymentCustomerId: null, paymentIntentId: null, paymentSessionId: null, orderStatus: "", adminNotes: null, createdAt: "", updatedAt: "" });
     const [orderItem, setOrderItem] = useState<OrderItems>({ id: "", order_id: "", model_id: cart?.model?.id || "", model_name: cart?.model?.model_name || "", quantity: 1, base_price: cart?.model?.price || 0, options_price: cart?.optionsPrice || 0, unit_price: cart?.totalPrice || 0, total_price: cart?.totalPrice || 0, currency: "USD", created_at: "" });
-    const [orderItemOption, setOrderItemOption] = useState<OrderItemOptions[]>( cart?.selectedOptions?.map( (option: { id: string; name: string; option_group_id: string; option_group_name?: string; group_name?: string; price: number;}) => ({ id: "", order_item_id: "", option_group_id: option.option_group_id, option_value_id: option.id, option_group_name: option.option_group_name || option.group_name || "", option_name: option.name, price: option.price, currency: "USD", createdAt: ""})) || []);
-    const [testPayment, setTestPayment] = useState<TestPayments>({ id: "", order_id: "", cardholder_name: "", card_number: "", expire_date: "", cvv: "", payment_status: "pending", created_at: "" });
+    const orderItemOption: OrderItemOptions[] = cart?.selectedOptions?.map( (option: { id: string; name: string; option_group_id: string; option_group_name?: string; group_name?: string; price: number;}) => ({ id: "", order_item_id: "", option_group_id: option.option_group_id, option_value_id: option.id, option_group_name: option.option_group_name || option.group_name || "", option_name: option.name, price: option.price, currency: "USD", createdAt: ""})) || [];
+    const [testPayment, setTestPayment] = useState<TestPayments>({ id: "", order_id: "", cardholder_name: "", card_number: "", expire_date: "", cvv: "", payment_status: "pending", created_at: ""});
     const [currentStep,setCurrentStep] = useState(1);
-    const [errors, setErrors] = useState({ name: false, email: false, country: false, additionalComments: false, city: false, postalCode: false, address: false, apartment: false, deliveryNotes: false,});
+    const [errors, setErrors] = useState({ name: false, email: false, country: false, additionalComments: false, city: false, postalCode: false, address: false,});
     const [country,setCountry] = useState<countries[]>([]);
-    const [galleryImages, setGalleryImages] = useState<any[]>([]);
+    const [galleryImages, setGalleryImages] = useState<SaunaModelGalleryImage[]>([]);
     const [selectedImage, setSelectedImage] = useState(0);
     const [paymentMethod, setPaymentMethod] = useState<"cash_on_delivery" | "card" | "">("");
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -100,8 +101,6 @@ const validateStep2 = () => {
     city: !customerOrder.city?.trim(),
     postalCode: !customerOrder.postalCode?.trim(),
     address: !customerOrder.address?.trim(),
-    apartment: false,
-    deliveryNotes: false,
   };
 
   setErrors(newErrors);
@@ -146,14 +145,10 @@ const handlePlaceOrder = async () => {
   setIsSubmitting(true);
 
   try {
-    const itemSubtotal =
-      Number(orderItem.base_price) + Number(orderItem.options_price);
-
+    const itemSubtotal = Number(orderItem.base_price) + Number(orderItem.options_price);
     const deliveryPrice = Number(customerOrder.deliveryPrice) || 0;
-
     const finalTotal = itemSubtotal + deliveryPrice;
 
-    // 1. CREATE CUSTOMER ORDER
     const { data: createdOrder, error: orderError } = await supabase
       .from("customer_orders")
       .insert({
@@ -193,7 +188,6 @@ const handlePlaceOrder = async () => {
       return;
     }
 
-    // 2. CREATE ORDER ITEM
     const { data: createdOrderItem, error: orderItemError } = await supabase
       .from("order_items")
       .insert({
@@ -216,7 +210,6 @@ const handlePlaceOrder = async () => {
       return;
     }
 
-    // 3. SAVE SELECTED OPTIONS
     if (orderItemOption.length > 0) {
       const optionsToInsert = orderItemOption.map((option) => ({
         order_item_id: createdOrderItem.id,
@@ -239,7 +232,6 @@ const handlePlaceOrder = async () => {
       }
     }
 
-    // 4. SAVE TEST CARD PAYMENT
     if (paymentMethod === "card") {
       const { error: paymentError } = await supabase
         .from("test_payments")
@@ -259,7 +251,6 @@ const handlePlaceOrder = async () => {
       }
     }
 
-    // 5. UPDATE LOCAL STATE
     setCustomerOrder((prev) => ({
       ...prev,
       id: createdOrder.id,
@@ -538,8 +529,7 @@ return (
                   </div>
                   )}
                </div>
-                <PaymentChoose paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} testPayment={testPayment} setTestPayment={setTestPayment} orderItem={orderItem} orderItemOption={orderItemOption} customerOrder={customerOrder}/>
-             
+                <PaymentChoose paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod} testPayment={testPayment} setTestPayment={setTestPayment} orderItem={orderItem} orderItemOption={orderItemOption} customerOrder={customerOrder} onBack={() => setCurrentStep(2)} onPay={handlePlaceOrder} isSubmitting={isSubmitting}/>   
              </div>
             </div>
           )}
