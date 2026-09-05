@@ -9,6 +9,7 @@ export interface CustomerOrder {
   address: string;
   apartment?: string | null;
   deliveryNotes?: string | null;
+  additionalComments?: string;
   subtotal: number;
   deliveryPrice: number;
   totalPrice: number;

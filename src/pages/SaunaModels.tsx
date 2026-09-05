@@ -31,6 +31,7 @@ export default function SaunaModels() {
   const [sizeUnit, setSizeUnit] = useState<"EU" | "US">("EU");
   const [country,setCountry] = useState<countries[]>([]);
   const [userInput, setUserInput] = useState<UserInput>({name: "", email: "", country: "", phone: "", additionalComments: "",});
+  const productSheetUrl = saunaModel?.product_sheet_url;
 
   
   const [errors, setErrors] = useState({name: false,email: false, country: false,additionalComments: false,});
@@ -316,6 +317,7 @@ const handleOptionClick = (
         id: saunaModel?.id,
         model_name: saunaModel?.model_name,
         price: basePrice,
+        product_sheet_url: saunaModel?.product_sheet_url || "",
       },
       selectedOptions: selectedOptionValues.map((value) => ({
         id: value.id,
@@ -556,8 +558,11 @@ const handleOptionClick = (
           ))}
         </div>
        </div>
+       <div>
+       </div>
       </div>
       )}
     </div>
+    
   )
 }
