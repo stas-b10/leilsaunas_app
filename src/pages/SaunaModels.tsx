@@ -108,6 +108,77 @@ export default function SaunaModels() {
     fetchData();
   }, [model_slug]);
 
+  useEffect(() => {
+  const frontWallTypeGroup = optionGroups.find(
+    (group) => group.slug === "front_wall_type"
+  );
+
+  const frontWallGroup = optionGroups.find(
+    (group) => group.slug === "front_wall"
+  );
+
+  if (!frontWallTypeGroup || !frontWallGroup) return;
+
+  const selectedTypeId =
+    selectedOptions[frontWallTypeGroup.id]?.[0];
+
+  if (!selectedTypeId) return;
+
+  const selectedType = optionValues.find(
+    (value) => value.id === selectedTypeId
+  );
+
+  if (!selectedType) return;
+
+  const currentFrontWallId =
+    selectedOptions[frontWallGroup.id]?.[0];
+
+  const currentFrontWall = optionValues.find(
+    (value) => value.id === currentFrontWallId
+  );
+
+  if (selectedType.slug === "glass") {
+    if (
+      currentFrontWall &&
+      ["mirror", "black", "Bronze"].includes(currentFrontWall.slug)
+    ) {
+      return;
+    }
+
+    const mirror = optionValues.find(
+      (value) =>
+        value.option_group_id === frontWallGroup.id &&
+        value.slug === "mirror"
+    );
+
+    if (mirror) {
+      setSelectedOptions((prev) => ({
+        ...prev,
+        [frontWallGroup.id]: [mirror.id],
+      }));
+    }
+  }
+
+  if (selectedType.slug === "wood") {
+    if (currentFrontWall?.slug === "wood") {
+      return;
+    }
+
+    const wood = optionValues.find(
+      (value) =>
+        value.option_group_id === frontWallGroup.id &&
+        value.slug === "wood"
+    );
+
+    if (wood) {
+      setSelectedOptions((prev) => ({
+        ...prev,
+        [frontWallGroup.id]: [wood.id],
+      }));
+    }
+  }
+}, [optionGroups, optionValues, selectedOptions]);
+
 const availableOptionValues = useMemo(() => {
   const allowedIds = new Set(
     modelOptionValues.map((modelValue) => modelValue.option_value_id)
@@ -119,7 +190,41 @@ const availableOptionValues = useMemo(() => {
 const groupedOptionValues = useMemo(() => {
   const groups: Record<string, OptionValues[]> = {};
 
+  const frontWallGroup = optionGroups.find(
+    (group) => group.slug === "front_wall"
+  );
+
+  const frontWallTypeGroup = optionGroups.find(
+    (group) => group.slug === "front_wall_type"
+  );
+
+  const selectedFrontWallTypeId = frontWallTypeGroup
+    ? selectedOptions[frontWallTypeGroup.id]?.[0]
+    : null;
+
+  const selectedFrontWallType = optionValues.find(
+    (value) => value.id === selectedFrontWallTypeId
+  );
+
   availableOptionValues.forEach((value) => {
+    if (
+      frontWallGroup &&
+      frontWallTypeGroup &&
+      value.option_group_id === frontWallGroup.id
+    ) {
+      if (selectedFrontWallType?.slug === "glass") {
+        const allowedGlassValues = ["mirror", "black", "Bronze"];
+
+        if (!allowedGlassValues.includes(value.slug)) {
+          return;
+        }
+      }
+      if (selectedFrontWallType?.slug === "wood") {
+        if (value.slug !== "wood") {
+          return;
+        }
+      }
+    }
     if (!groups[value.option_group_id]) {
       groups[value.option_group_id] = [];
     }
@@ -132,7 +237,12 @@ const groupedOptionValues = useMemo(() => {
   });
 
   return groups;
-}, [availableOptionValues]);
+}, [
+  availableOptionValues,
+  optionGroups,
+  optionValues,
+  selectedOptions,
+]);
 
 useEffect(() => {
   if (!optionGroups.length || !Object.keys(groupedOptionValues).length) return;
@@ -168,6 +278,72 @@ const handleOptionClick = (
 ) => {
   setSelectedOptions((prev) => {
     const current = prev[group.id] || [];
+
+    if (group.slug === "front_wall_type") {
+  const frontWallGroup = optionGroups.find(
+    (group) => group.slug === "front_wall"
+  );
+
+  if (!frontWallGroup) {
+    return {
+      ...prev,
+      [group.id]: [valueId],
+    };
+  }
+
+  const selectedType = optionValues.find(
+    (value) => value.id === valueId
+  );
+
+  const frontWallValues = availableOptionValues.filter(
+    (value) => value.option_group_id === frontWallGroup.id
+  );
+
+  let defaultFrontWall: OptionValues | undefined;
+
+  if (selectedType?.slug === "glass") {
+    defaultFrontWall = frontWallValues.find(
+      (value) => value.slug === "mirror"
+    );
+  }
+
+  if (selectedType?.slug === "wood") {
+    defaultFrontWall = frontWallValues.find(
+      (value) => value.slug === "wood"
+    );
+  }
+
+  const showFrontWallGroup = optionGroups.find(
+    (group) => group.slug === "show_front_wall"
+  );
+
+  const showFrontWallValues = showFrontWallGroup
+    ? availableOptionValues.filter(
+        (value) => value.option_group_id === showFrontWallGroup.id
+      )
+    : [];
+
+  const yesValue = showFrontWallValues.find(
+    (value) => value.slug === "yes"
+  );
+
+  return {
+    ...prev,
+    [group.id]: [valueId],
+
+    ...(defaultFrontWall
+      ? {
+          [frontWallGroup.id]: [defaultFrontWall.id],
+        }
+      : {}),
+
+    ...(yesValue && showFrontWallGroup
+      ? {
+          [showFrontWallGroup.id]: [yesValue.id],
+        }
+      : {}),
+  };
+}
 
     if (group.slug === "front_wall") {
       const showFrontWallGroup = optionGroups.find(
@@ -241,6 +417,11 @@ const handleOptionClick = (
     const selectedShowFrontWallId = showFrontWallGroup ? selectedOptions[showFrontWallGroup.id]?.[0] : null;
     const selectedShowFrontWallValue = optionValues.find((value) => value.id === selectedShowFrontWallId);
     const showFrontWall = selectedShowFrontWallValue?.slug === "yes";
+    const glassToneGroup = optionGroups.find((group) => group.slug === "glass_tone");
+    const showGlassToneGroup = optionGroups.find((group) => group.slug === "show_glass_tone");
+    const selectedShowGlassToneId = showGlassToneGroup ? selectedOptions[showGlassToneGroup.id]?.[0] : null;
+    const selectedShowGlassToneValue = optionValues.find((value) => value.id === selectedShowGlassToneId);
+    const showGlassTone = selectedShowGlassToneValue?.slug === "yes";
 
     return optionLayers.filter((layer) => {
     if (!selectedValueIds.has(layer.option_value_id)) {
@@ -261,6 +442,10 @@ const handleOptionClick = (
 
      if (frontWallGroup && optionValue.option_group_id === frontWallGroup.id) {
       return showFrontWall;
+    }
+
+    if (glassToneGroup && optionValue.option_group_id === glassToneGroup.id) {
+      return showGlassTone;
     }
 
      return true;
@@ -554,7 +739,7 @@ const handleOptionClick = (
             <img src={saunaImages[0].image_url} alt={saunaModel.model_name} className="absolute inset-0 w-full h-full object-contain"/>)}
 
           {selectedLayerImages.map((layer) => (
-            <img key={layer.id} src={layer.image_url} alt={layer.layer_name ?? ""} className="absolute inset-0 w-full h-full object-contain pointer-events-none"/>
+            <img key={layer.id} src={layer.image_url} alt={layer.layer_name ?? ""} className="absolute inset-0 w-full h-full object-contain pointer-events-none" />
           ))}
         </div>
        </div>
