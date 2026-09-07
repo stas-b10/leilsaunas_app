@@ -21,6 +21,7 @@ import PageTransition from "./components/PageTransition";
 import ComeMeetUs from "./pages/ComeMeetUs"
 import SaunaModels from "./pages/SaunaModels";
 import Cart from "./pages/Cart";
+import Compare from "./pages/Compare"
 
 function App() {
   const location = useLocation();
@@ -50,6 +51,7 @@ function App() {
             <Route path="/sauna/:model_slug" element={<SaunaModels />} />
             <Route path="/come-meet-us-at-upcoming-expos-sauna-events-in-2026" element={<ComeMeetUs/>} />  
             <Route path="/cart" element={<Cart />} />       
+            <Route path="/compare" element={<Compare />} />
          </Routes>
         </PageTransition>
       </main>

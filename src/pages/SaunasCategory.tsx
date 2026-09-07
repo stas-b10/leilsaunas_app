@@ -140,33 +140,25 @@ export default function Saunas() {
       )}
 
       {!loading && (
-        <section className="w-full max-w-[1440px] mx-auto px-6 pb-20">
-
+      <section className="w-full max-w-[1440px] mx-auto px-6 pb-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-16">
-
           {(filteredResults ?? saunas).map((item) => (
             <div key={item.id}>
-
-              <Link to={`/series/${item.slug}`}>
-              <div className="relative overflow-hidden rounded-lg cursor-pointer">
-              <img src={item.image_url ?? ""} alt={item.series_name} className="w-full h-[380px] object-cover" />
-                
-                <div className="absolute top-5 right-5 flex gap-3">
-
+      <Link to={`/series/${item.slug}`}>
+        <div className="relative overflow-hidden rounded-lg cursor-pointer">
+          <img src={item.image_url ?? ""} alt={item.series_name} className="w-full h-[380px] object-cover" />
+        <div className="absolute top-5 right-5 flex gap-3">
           <span className="px-[25px] py-[12px] rounded-full bg-white/10 text-[19px] text-white backdrop-blur-sm border border-white/20" style={{ fontFamily: "noah-bold, sans-serif" }} >
             {item.collection?.collection_name}
           </span>
-
           <span className="px-[27px] py-[12px] rounded-full bg-white/10 text-[19px] text-white backdrop-blur-sm border border-white/20" style={{ fontFamily: "noah-bold, sans-serif" }}>
             {category?.category_name}
           </span>
-
         </div>
       </div>
       </Link>
 
       <div className="mt-8">
-
         <h2
           className="text-[36px] text-[#313C2B]"
           style={{ fontFamily: "sogo-light, sans-serif" }}
@@ -188,15 +180,13 @@ export default function Saunas() {
         >
           More info
         </button>
-        </Link>
-
-      </div>
-
-    </div>
-  ))}
-</div>
-</section>
-)}
+          </Link>
+          </div>
+        </div>
+        ))}
+        </div>
+      </section>
+      )}
 
       {!loading && (filteredResults ?? saunas).length === 0 && (
         <div
