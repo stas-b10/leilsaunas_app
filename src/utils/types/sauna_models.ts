@@ -24,4 +24,6 @@ export interface SaunaModel {
 
   created_at: string;
   display_order: number;
+  slug: string | null;
+  price: number;
 }

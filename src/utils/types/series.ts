@@ -9,4 +9,7 @@ export interface Series {
   image_url: string;
   description: string;
   img_no_wall: string;
+  collection: { collection_name: string; } | null;
+
+  category: { category_name: string; } | null;
 }
