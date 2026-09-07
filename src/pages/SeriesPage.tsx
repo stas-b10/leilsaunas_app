@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../utils/supabase";
 
 import type { SaunaModel } from "../utils/types/sauna_models";
@@ -9,6 +9,8 @@ import { FaWrench } from "react-icons/fa6";
 import FooterSlide from "../components/FooterSlide";
 import FaqFooter from "../components/FaqFooter";
 import RoundCubeFooter from "../components/RoundCubeFooter";
+import {addToComparison,isInComparison} from "../utils/compare";
+import { MdOutlineBalance } from "react-icons/md";
 
 export default function SeriesPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -16,6 +18,7 @@ export default function SeriesPage() {
   const [series, setSeries] = useState<Series | null>(null);
   const [models, setModels] = useState<SaunaModel[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!slug) return;
@@ -121,7 +124,13 @@ export default function SeriesPage() {
           <Link to={`/sauna/${model.model_name.toLowerCase().replace(/\s+/g, "-")}`} className="group">
           <img src={model.product_sheet_url ?? ""} alt={model.model_name} className="w-[300px] h-auto object-contain transition-transform duration-300 group-hover:scale-105" />
           </Link>
-          <h2 className="mt-10 text-[26px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
+          <button type="button" onClick={(e) => { e.preventDefault(); const added = addToComparison(model.id); if (!added) { alert("You can compare only 2 saunas at a time."); return} navigate("/compare");}}
+              className={`mt-3 px-4 py-1.5 rounded-md border transition cursor-pointer flex items-center justify-center gap-2 ${isInComparison(model.id)? "bg-[#313C2B] text-white border-[#313C2B]": "border-[#C7BEAB] hover:border-[#313C2B] hover:bg-[#313C2B] hover:text-white"}`}
+              style={{ fontFamily: "noah-bold, sans-serif",}}>
+            <MdOutlineBalance className="w-4 h-4"/>
+            {isInComparison(model.id) ? "Added to comparison" : "Compare"}
+          </button>
+          <h2 className="mt-4 text-[26px] text-[#313C2B]" style={{ fontFamily: "noah-regular, sans-serif" }}>
             {model.model_name}
           </h2>
         <Link to={`/sauna/${model.model_name.toLowerCase().replace(/\s+/g, "-")}`}>

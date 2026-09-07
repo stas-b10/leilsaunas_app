@@ -7,7 +7,7 @@ import type { OptionValues } from '../utils/types/option_value'
 import type { OptionLayers } from '../utils/types/option_layers'
 import type { ModelOptionValues } from '../utils/types/model_option_values'
 import { useNavigate, useParams } from "react-router-dom";
-import { MdPeopleAlt } from "react-icons/md";
+import { MdOutlineBalance, MdPeopleAlt } from "react-icons/md";
 import { HiMiniCube } from "react-icons/hi2";
 import { IoMdHome } from "react-icons/io";
 import { MdOutlineFileDownload } from "react-icons/md";
@@ -15,6 +15,7 @@ import { MdOutlineDone } from "react-icons/md";
 import { LuX } from "react-icons/lu";
 import type { countries } from "../utils/types/all_countries";
 import type { UserInput } from "../utils/types/user_input";
+import { addToComparison, isInComparison } from "../utils/compare";
 
 
 export default function SaunaModels() {
@@ -557,6 +558,12 @@ const handleOptionClick = (
        <div className="pl-[270px] pr-[90px] pt-[40px] flex flex-col text-[#313C2B] space-y-6 w-1/2">
         <span className="text-[36px]" style={{ fontFamily: "sogo-light, sans-serif" }}>{saunaModel.model_name}</span>
         <span className="text-[20px]" style={{ fontFamily: "noah-regular, sans-serif" }}>{saunaModel.model_description}</span>
+        <button type="button" onClick={(e) => { e.preventDefault(); const added = addToComparison(saunaModel.id); if (!added) { alert("You can compare only 2 saunas at a time."); return} navigate("/compare");}}
+            className={`mt-3 px-4 py-2.5 rounded-md border transition cursor-pointer flex items-center justify-center gap-2 ${isInComparison(saunaModel.id)? "bg-[#313C2B] text-white border-[#313C2B]": "border-[#C7BEAB] hover:border-[#313C2B] hover:bg-[#313C2B] hover:text-white"}`}
+            style={{ fontFamily: "noah-bold, sans-serif",}}>
+          <MdOutlineBalance className="w-4 h-4"/>
+          {isInComparison(saunaModel.id) ? "Added to comparison" : "Compare"}
+        </button>
         <ul className="flex gap-5 mt-2">
           <li className="text-[16px]" style={{ fontFamily: "noah-bold, sans-serif" }}>
             <MdPeopleAlt className="inline mr-2 mb-1 w-5 h-5 text-[#778658]" />

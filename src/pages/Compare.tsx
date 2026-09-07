@@ -1,39 +1,17 @@
-
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../utils/supabase";
-
 import type { SaunaModel } from "../utils/types/sauna_models";
 import type { OptionGroups } from "../utils/types/option_groups";
 import type { OptionValues } from "../utils/types/option_value";
 import type { ModelOptionValues } from "../utils/types/model_option_values";
-
 import LeafIcon from "../components/LeafIcon";
-import {
-  clearComparison,
-  getComparisonIds,
-  removeFromComparison,
-  subscribeToComparison,
-} from "../utils/compare";
-
+import { clearComparison, getComparisonIds, removeFromComparison, subscribeToComparison,} from "../utils/compare";
 import { LuX, LuArrowRight, LuPlus } from "react-icons/lu";
 import { MdPeopleAlt } from "react-icons/md";
 import { HiMiniCube } from "react-icons/hi2";
 import { IoMdHome } from "react-icons/io";
-
-type ComparisonColumn = {
-  model: SaunaModel;
-  options: Record<
-    string,
-    {
-      group: OptionGroups;
-      values: Array<{
-        value: OptionValues;
-        price: number;
-      }>;
-    }
-  >;
-};
+type ComparisonColumn = { model: SaunaModel; options: Record< string, { group: OptionGroups; values: Array<{ value: OptionValues;  price: number;}>;}>;};
 
 export default function Comparasion() {
   const navigate = useNavigate();
@@ -42,9 +20,7 @@ export default function Comparasion() {
   const [models, setModels] = useState<SaunaModel[]>([]);
   const [optionGroups, setOptionGroups] = useState<OptionGroups[]>([]);
   const [optionValues, setOptionValues] = useState<OptionValues[]>([]);
-  const [modelOptionValues, setModelOptionValues] = useState<
-    ModelOptionValues[]
-  >([]);
+  const [modelOptionValues, setModelOptionValues] = useState<ModelOptionValues[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -301,7 +277,7 @@ export default function Comparasion() {
           </p>
 
           <Link
-            to="/saunas"
+            to="/series"
             className="inline-flex items-center gap-2 mt-12 px-6 py-3 rounded-[8px] bg-[#313C2B] text-[#F7F5F0] hover:bg-[#778658] transition-colors"
             style={{
               fontFamily:
@@ -319,7 +295,6 @@ export default function Comparasion() {
   return (
     <section className="min-h-screen bg-[#EDE9DF] text-[#313C2B]">
       <div className="max-w-[1500px] mx-auto px-6 md:px-16 xl:px-24 pt-[150px] pb-[140px]">
-        {/* HEADER */}
         <div className="flex items-end justify-between gap-10 mb-14">
           <div>
             <div
@@ -362,7 +337,7 @@ export default function Comparasion() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 ">
             {[0, 1].map((item) => (
               <div
                 key={item}
@@ -372,15 +347,13 @@ export default function Comparasion() {
           </div>
         ) : (
           <>
-            {/* TWO MAIN COLUMNS */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
               {comparisonColumns.map(
                 (column) => (
                   <article
                     key={column.model.id}
-                    className="bg-[#F7F5EF] rounded-[12px] overflow-hidden"
+                    className="bg-[#F7F5EF] rounded-[12px] overflow-hidden flex flex-col h-full"
                   >
-                    {/* IMAGE */}
                     <div className="relative h-[440px] bg-[#EDE9DD] flex items-center justify-center overflow-hidden">
                       <img
                         src={
@@ -408,12 +381,11 @@ export default function Comparasion() {
                       </button>
                     </div>
 
-                    {/* MODEL HEADER */}
-                    <div className="p-8">
-                      <div className="flex items-end justify-between gap-6">
+                    <div className="p-8 h-[260px] flex flex-col">
+                      <div className="flex items-start justify-between gap-6">
                         <div>
                           <h2
-                            className="text-[38px] leading-none"
+                            className="text-[38px] leading-none mb-4"
                             style={{
                               fontFamily:
                                 "sogo-light, sans-serif",
@@ -423,7 +395,7 @@ export default function Comparasion() {
                           </h2>
 
                           <p
-                            className="mt-3 text-[16px] max-w-[500px]"
+                            className="mb-4 text-[16px] max-w-[500px]"
                             style={{
                               fontFamily:
                                 "noah-regular, sans-serif",
@@ -456,7 +428,7 @@ export default function Comparasion() {
                         to={`/sauna/${column.model.slug || column.model.model_name
                           .toLowerCase()
                           .replace(/\s+/g, "-")}`}
-                        className="inline-flex items-center gap-2 mt-7 px-5 py-3 rounded-[8px] border border-[#C6C0AF] hover:bg-[#313C2B] hover:text-white transition-colors"
+                        className="inline-flex items-center gap-2 mt-auto w-fit px-5 py-3 rounded-[8px] border border-[#C6C0AF] hover:bg-[#313C2B] hover:text-white transition-colors "
                         style={{
                           fontFamily:
                             "noah-bold, sans-serif",
@@ -467,8 +439,7 @@ export default function Comparasion() {
                       </Link>
                     </div>
 
-                    {/* BASIC SPECS */}
-                    <div className="border-t border-[#C6C0AF]">
+                    <div className="border-t border-[#C6C0AF] min-h-[390px]">
                       <div
                         className="px-8 py-5 text-[18px]"
                         style={{
@@ -480,7 +451,7 @@ export default function Comparasion() {
                       </div>
 
                       <div className="divide-y divide-[#C6C0AF]">
-                        <div className="grid grid-cols-[1fr_auto] gap-4 px-8 py-4">
+                        <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-8 py-4 min-h-[58px]">
                           <span>Capacity</span>
                           <span className="font-semibold">
                             <MdPeopleAlt className="inline mr-2 text-[#778658]" />
@@ -489,7 +460,7 @@ export default function Comparasion() {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-[1fr_auto] gap-4 px-8 py-4">
+                        <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-8 py-4 min-h-[58px]">
                           <span>Area</span>
                           <span className="font-semibold">
                             <HiMiniCube className="inline mr-2 text-[#778658]" />
@@ -498,7 +469,7 @@ export default function Comparasion() {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-[1fr_auto] gap-4 px-8 py-4">
+                        <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-8 py-4 min-h-[58px]">
                           <span>Rooms</span>
                           <span className="font-semibold">
                             <IoMdHome className="inline mr-2 text-[#778658]" />
@@ -506,7 +477,7 @@ export default function Comparasion() {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-[1fr_auto] gap-4 px-8 py-4">
+                        <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-8 py-4 min-h-[58px]">
                           <span>Exterior</span>
                           <span className="font-semibold text-right">
                             {formatDimensions(
@@ -516,7 +487,7 @@ export default function Comparasion() {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-[1fr_auto] gap-4 px-8 py-4">
+                        <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-8 py-4 min-h-[58px]">
                           <span>Interior</span>
                           <span className="font-semibold text-right">
                             {formatDimensions(
@@ -526,7 +497,7 @@ export default function Comparasion() {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-[1fr_auto] gap-4 px-8 py-4">
+                        <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-8 py-4 min-h-[58px]">
                           <span>Weight</span>
                           <span className="font-semibold">
                             {column.model.weight_kg
@@ -537,7 +508,6 @@ export default function Comparasion() {
                       </div>
                     </div>
 
-                    {/* OPTIONS */}
                     <div className="border-t border-[#C6C0AF]">
                       <div
                         className="px-8 py-5 text-[18px]"
@@ -571,7 +541,7 @@ export default function Comparasion() {
                             return (
                               <div
                                 key={groupId}
-                                className="border-b border-[#C6C0AF] pb-5 last:border-b-0"
+                                className="border-b border-[#C6C0AF] pb-5 last:border-b-0 min-h-[110px] flex flex-col"
                               >
                                 <div
                                   className="text-[15px] mb-3"
@@ -646,12 +616,10 @@ export default function Comparasion() {
                   </article>
                 )
               )}
-
-              {/* EMPTY SECOND COLUMN */}
               {comparisonColumns.length === 1 && (
                 <div className="min-h-[700px] rounded-[12px] border border-dashed border-[#C6C0AF] flex items-center justify-center">
                   <Link
-                    to="/saunas"
+                    to="/series"
                     className="flex flex-col items-center text-center p-10"
                   >
                     <div className="w-14 h-14 rounded-full border border-[#C6C0AF] flex items-center justify-center">
@@ -683,7 +651,6 @@ export default function Comparasion() {
               )}
             </div>
 
-            {/* MOBILE NOTICE */}
             <p
               className="mt-8 text-center text-[14px] opacity-60 lg:hidden"
               style={{
@@ -694,124 +661,6 @@ export default function Comparasion() {
               Swipe down to compare all specifications
               and options.
             </p>
-
-            {/* DESKTOP COMPARISON MATRIX */}
-            {comparisonColumns.length === 2 && (
-              <div className="hidden xl:block mt-16">
-                <div
-                  className="mb-6 flex items-center gap-2"
-                  style={{
-                    fontFamily:
-                      "noah-bold, sans-serif",
-                  }}
-                >
-                  <LeafIcon className="w-[12px] h-[12px]" />
-                  <span>at a glance.</span>
-                </div>
-
-                <div className="grid grid-cols-[280px_1fr_1fr] border border-[#C6C0AF] rounded-[12px] overflow-hidden bg-[#F7F5EF]">
-                  <div className="bg-[#313C2B] text-[#F7F5F0] p-6">
-                    <span
-                      style={{
-                        fontFamily:
-                          "noah-bold, sans-serif",
-                      }}
-                    >
-                      Feature
-                    </span>
-                  </div>
-
-                  {comparisonColumns.map(
-                    (column) => (
-                      <div
-                        key={column.model.id}
-                        className="p-6 border-l border-[#C6C0AF]"
-                      >
-                        <span
-                          className="text-[22px]"
-                          style={{
-                            fontFamily:
-                              "sogo-light, sans-serif",
-                          }}
-                        >
-                          {column.model.model_name}
-                        </span>
-                      </div>
-                    )
-                  )}
-
-                  {[
-                    ["Price", (model: SaunaModel) =>
-                      `$${Number(
-                        model.price || 0
-                      ).toLocaleString("en-US")}`],
-
-                    ["People", (model: SaunaModel) =>
-                      `${model.people}`],
-
-                    ["Area", (model: SaunaModel) =>
-                      `${model.area_m2} m²`],
-
-                    ["Rooms", (model: SaunaModel) =>
-                      `${model.rooms}`],
-
-                    ["Exterior", (model: SaunaModel) =>
-                      formatDimensions(
-                        model.exterior_mm
-                      )],
-
-                    ["Interior", (model: SaunaModel) =>
-                      formatDimensions(
-                        model.interior_mm
-                      )],
-
-                    ["Weight", (model: SaunaModel) =>
-                      model.weight_kg
-                        ? `${model.weight_kg} kg`
-                        : "-"],
-                  ].map(
-                    ([label, formatter]) => (
-                      <div
-                        key={String(label)}
-                        className="contents"
-                      >
-                        <div className="p-5 border-t border-[#C6C0AF] bg-[#EDE9DF]">
-                          <span
-                            style={{
-                              fontFamily:
-                                "noah-bold, sans-serif",
-                            }}
-                          >
-                            {String(label)}
-                          </span>
-                        </div>
-
-                        {comparisonColumns.map(
-                          (column) => (
-                            <div
-                              key={`${column.model.id}-${String(
-                                label
-                              )}`}
-                              className="p-5 border-t border-l border-[#C6C0AF]"
-                              style={{
-                                fontFamily:
-                                  "noah-regular, sans-serif",
-                              }}
-                            >
-                              {(
-                                formatter as (
-                                  model: SaunaModel
-                                ) => string
-                              )(column.model)}
-                            </div>
-                          )
-                        )}
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-            )}
           </>
         )}
       </div>
