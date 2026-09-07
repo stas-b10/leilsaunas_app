@@ -245,24 +245,49 @@ const groupedOptionValues = useMemo(() => {
 ]);
 
 useEffect(() => {
-  if (!optionGroups.length || !Object.keys(groupedOptionValues).length) return;
+  if (!optionGroups.length || !Object.keys(groupedOptionValues).length) {
+    return;
+  }
 
   setSelectedOptions((prev) => {
     const newSelections = { ...prev };
+    let changed = false;
+
     optionGroups.forEach((group) => {
-      if (group.input_type !== "single" && group.input_type !== "toggle") return;
-      const values = groupedOptionValues[group.id];
-      if (!values || values.length === 0) return;
-      if (newSelections[group.id]?.length) return;
-      if (group.input_type === "single") {
-        newSelections[group.id] = [values[0].id];
+      if (
+        group.input_type !== "single" &&
+        group.input_type !== "toggle"
+      ) {
+        return;
       }
-     if (group.input_type === "toggle") {
-        newSelections[group.id] = [values[values.length - 1].id];
+
+      const values = groupedOptionValues[group.id];
+
+      if (!values || values.length === 0) {
+        return;
+      }
+
+      if (prev[group.id]?.length) {
+        return;
+      }
+
+      let defaultValueId: string | undefined;
+
+      if (group.input_type === "single") {
+        defaultValueId = values[0].id;
+      }
+
+      if (group.input_type === "toggle") {
+        defaultValueId = values[values.length - 1].id;
+      }
+
+      if (defaultValueId) {
+        newSelections[group.id] = [defaultValueId];
+        changed = true;
       }
     });
 
-    return newSelections;
+    return changed ? newSelections : prev;
   });
 }, [optionGroups, groupedOptionValues]);
 
